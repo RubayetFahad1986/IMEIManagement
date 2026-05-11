@@ -244,6 +244,7 @@ export default function ContactsPage() {
             totalCount={data.totalCount}
             onPageChange={(p) => fetchContacts(p, searchTerm)}
           />
+
         </CardContent>
       </Card>
 

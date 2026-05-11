@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Truck, Plus, Search, Phone, MapPin, Repeat } from "lucide-react";
 import { toast } from "sonner";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface Supplier {
   id: number;
@@ -28,30 +29,34 @@ interface Supplier {
 }
 
 export default function SuppliersPage() {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [data, setData] = useState({
+    items: [] as Supplier[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchSuppliers();
-  }, []);
-
-  const fetchSuppliers = async () => {
+  const fetchSuppliers = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const data = await apiFetch("/setup/suppliers");
-      setSuppliers(data.items || data);
+      // Use unified contacts endpoint with isSupplier=true
+      const result = await apiFetch(`/setup/contacts?page=${page}&pageSize=10&search=${search}&isSupplier=true`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to fetch suppliers: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filtered = suppliers.filter(
-    (s) =>
-      s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.phone.includes(searchTerm)
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchSuppliers(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchSuppliers]);
 
   return (
     <div className="p-6 space-y-6">
@@ -68,20 +73,10 @@ export default function SuppliersPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-blue-50 border-blue-200">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-blue-800">Total Active Suppliers</CardTitle>
+            <CardTitle className="text-sm font-medium text-blue-800">Active Suppliers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-900">{suppliers.length}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-red-50 border-red-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-red-800">Total Payable</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-900">
-              ৳{suppliers.reduce((acc, s) => acc + s.supplierBalance, 0).toLocaleString("en-US")}
-            </div>
+            <div className="text-2xl font-bold text-blue-900">{data.totalCount}</div>
           </CardContent>
         </Card>
       </div>
@@ -115,10 +110,10 @@ export default function SuppliersPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
+              ) : data.items.length === 0 ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No suppliers found.</TableCell></TableRow>
               ) : (
-                filtered.map((s) => (
+                data.items.map((s) => (
                   <TableRow key={s.id}>
                     <TableCell>
                        <div className="font-medium">{s.name}</div>
@@ -156,6 +151,13 @@ export default function SuppliersPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchSuppliers(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

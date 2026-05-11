@@ -140,7 +140,19 @@ namespace MobileERP.API.Controllers
         }
 
         // --- Employee CRUD ---
-        [HttpGet("staff")] public async Task<IActionResult> GetStaff() => Ok(await _employeeRepo.GetAllAsync());
+        [HttpGet("staff")]
+        public async Task<IActionResult> GetStaff(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<Employee> query = _context.Employees;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(e => e.Name.ToLower().Contains(search) || e.Phone.ToLower().Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(e => e.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
         [HttpPost("staff")] public async Task<IActionResult> CreateStaff(Employee emp) { emp.ComId = 1; await _employeeRepo.AddAsync(emp); return Ok(emp); }
         [HttpPut("staff")] public async Task<IActionResult> UpdateStaff(Employee emp) { _employeeRepo.Update(emp); return Ok(emp); }
         [HttpDelete("staff/{id}")] public async Task<IActionResult> DeleteStaff(int id) { var e = await _employeeRepo.GetByIdAsync(id); if (e != null) _employeeRepo.Delete(e); return Ok(); }

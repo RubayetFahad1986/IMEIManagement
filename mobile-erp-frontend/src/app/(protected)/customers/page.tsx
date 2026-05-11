@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Users, Plus, Search, Phone, Repeat, UserCheck } from "lucide-react";
 import { toast } from "sonner";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface Customer {
   id: number;
@@ -28,30 +29,34 @@ interface Customer {
 }
 
 export default function CustomersPage() {
-  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [data, setData] = useState({
+    items: [] as Customer[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
-
-  const fetchCustomers = async () => {
+  const fetchCustomers = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const data = await apiFetch("/setup/customers");
-      setCustomers(data);
+      // Use unified contacts endpoint with isCustomer=true
+      const result = await apiFetch(`/setup/contacts?page=${page}&pageSize=10&search=${search}&isCustomer=true`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to fetch customers: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filtered = customers.filter(
-    (c) =>
-      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.phone.includes(searchTerm)
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchCustomers(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchCustomers]);
 
   return (
     <div className="p-6 space-y-6">
@@ -69,21 +74,11 @@ export default function CustomersPage() {
         <Card className="bg-indigo-50 border-indigo-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-indigo-800 flex items-center">
-              <UserCheck className="mr-2 h-4 w-4" /> Total Customers
+              <UserCheck className="mr-2 h-4 w-4" /> Active Customers
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-indigo-900">{customers.length}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-green-50 border-green-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-green-800">Total Receivable</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-900">
-              ${customers.reduce((acc, c) => acc + c.customerBalance, 0).toLocaleString("en-US")}
-            </div>
+            <div className="text-2xl font-bold text-indigo-900">{data.totalCount}</div>
           </CardContent>
         </Card>
       </div>
@@ -117,22 +112,22 @@ export default function CustomersPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
+              ) : data.items.length === 0 ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No customers found.</TableCell></TableRow>
               ) : (
-                filtered.map((c) => (
+                data.items.map((c) => (
                   <TableRow key={c.id}>
                     <TableCell className="font-medium">{c.name}</TableCell>
                     <TableCell className="text-sm text-muted-foreground">{c.phone}</TableCell>
                     <TableCell className="text-right">
                        <Badge variant={c.customerBalance > 0 ? "default" : "secondary"}>
-                         ${c.customerBalance.toLocaleString("en-US")}
+                         ৳{c.customerBalance.toLocaleString("en-US")}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                        {c.isSupplier ? (
                          <Badge variant="destructive" className="bg-red-500">
-                           ${c.supplierBalance.toLocaleString("en-US")}
+                           ৳{c.supplierBalance.toLocaleString("en-US")}
                          </Badge>
                        ) : (
                          <span className="text-xs text-muted-foreground italic">N/A</span>
@@ -153,6 +148,13 @@ export default function CustomersPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchCustomers(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

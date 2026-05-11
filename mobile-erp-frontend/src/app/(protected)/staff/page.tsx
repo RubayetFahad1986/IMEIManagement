@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase, Edit, Trash2 } from "lucide-react";
+import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase, Edit, Trash2, Search } from "lucide-react";
 import { toast } from "sonner";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface Employee {
   id: number;
@@ -29,8 +30,14 @@ interface Employee {
 }
 
 export default function StaffPage() {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [data, setData] = useState({
+    items: [] as Employee[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
@@ -42,20 +49,24 @@ export default function StaffPage() {
     email: ""
   });
 
-  useEffect(() => {
-    fetchStaff();
-  }, []);
-
-  const fetchStaff = async () => {
+  const fetchStaff = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const data = await apiFetch("/setup/staff");
-      setEmployees(data);
+      const result = await apiFetch(`/setup/staff?page=${page}&pageSize=10&search=${search}`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to fetch staff: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchStaff(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchStaff]);
 
   const handleCreate = async () => {
     if (!newEmployee.name || !newEmployee.phone) {
@@ -70,7 +81,7 @@ export default function StaffPage() {
       toast.success("Employee added successfully!");
       setIsAddOpen(false);
       setNewEmployee({ name: "", designation: "", phone: "", email: "" });
-      fetchStaff();
+      fetchStaff(1, "");
     } catch (error: any) {
       toast.error("Failed to add employee: " + error.message);
     }
@@ -91,7 +102,7 @@ export default function StaffPage() {
       toast.success("Employee updated!");
       setIsEditOpen(false);
       setEditingEmployee(null);
-      fetchStaff();
+      fetchStaff(data.pageNumber, searchTerm);
     } catch (error: any) {
       toast.error("Update failed: " + error.message);
     }
@@ -104,7 +115,7 @@ export default function StaffPage() {
         method: "DELETE",
       });
       toast.success("Employee removed!");
-      fetchStaff();
+      fetchStaff(data.pageNumber, searchTerm);
     } catch (error: any) {
       toast.error("Delete failed: " + error.message);
     }
@@ -160,7 +171,7 @@ export default function StaffPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-900">{employees.length}</div>
+            <div className="text-2xl font-bold text-blue-900">{data.totalCount}</div>
           </CardContent>
         </Card>
         <Card className="bg-green-50 border-green-200 shadow-sm">
@@ -171,7 +182,7 @@ export default function StaffPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-900">
-              ৳{employees.reduce((acc, e) => acc + (e.totalCommissionEarned || 0), 0).toLocaleString("en-US")}
+              ৳{data.items.reduce((acc, e) => acc + (e.totalCommissionEarned || 0), 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -183,7 +194,7 @@ export default function StaffPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-900">
-              ৳{employees.reduce((acc, e) => acc + (e.commissionBalance || 0), 0).toLocaleString("en-US")}
+              ৳{data.items.reduce((acc, e) => acc + (e.commissionBalance || 0), 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -191,7 +202,13 @@ export default function StaffPage() {
 
       <Card className="shadow-sm">
         <CardHeader>
-          <CardTitle>Employee Directory</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Employee Directory</CardTitle>
+            <div className="relative w-72">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search name or phone..." className="pl-8" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -207,11 +224,11 @@ export default function StaffPage() {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading staff data...</TableCell></TableRow>
-              ) : employees.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No employees found. Register your first staff member.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading...</TableCell></TableRow>
+              ) : data.items.length === 0 ? (
+                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No employees found.</TableCell></TableRow>
               ) : (
-                employees.map((emp) => (
+                data.items.map((emp) => (
                   <TableRow key={emp.id} className="hover:bg-slate-50/50">
                     <TableCell className="pl-6">
                        <div className="flex items-center">
@@ -241,6 +258,13 @@ export default function StaffPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchStaff(p, searchTerm)}
+          />
         </CardContent>
       </Card>
 

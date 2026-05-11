@@ -57,6 +57,7 @@ namespace MobileERP.Domain.Entities
     {
         public int PurchaseInvoiceId { get; set; }
         public int MobileDeviceId { get; set; }
+        public MobileDevice? MobileDevice { get; set; }
         public string IMEI1 { get; set; } = string.Empty;
         public string? IMEI2 { get; set; }
         public string? SerialNumber { get; set; }
@@ -131,6 +132,7 @@ namespace MobileERP.Domain.Entities
     {
         public int SalesInvoiceId { get; set; }
         public int InventoryItemId { get; set; }
+        public InventoryItem? InventoryItem { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal CostPrice { get; set; }
         public decimal CommissionAmount { get; set; } // Actual commission earned for this item

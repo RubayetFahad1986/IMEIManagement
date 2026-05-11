@@ -140,6 +140,7 @@ export default function InventoryPage() {
             totalCount={data.totalCount}
             onPageChange={(p) => fetchInventory(p, searchTerm)}
           />
+
         </CardContent>
       </Card>
     </div>

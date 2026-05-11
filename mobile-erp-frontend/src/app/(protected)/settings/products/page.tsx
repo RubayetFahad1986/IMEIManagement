@@ -237,6 +237,7 @@ export default function ProductsPage() {
             totalCount={data.totalCount}
             onPageChange={(p) => fetchData(p, searchTerm)}
           />
+
         </CardContent>
       </Card>
 
