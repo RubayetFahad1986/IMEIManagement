@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Truck, Plus, Trash2, Save, UserPlus, Smartphone, Copy, ScanLine } from "lucide-react";
+import { Truck, Plus, Trash2, Save, UserPlus, Smartphone, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { QuickAddContact } from "@/components/ui/quick-add-contact";
@@ -66,34 +66,48 @@ export default function NewPurchasePage() {
   };
 
   const addItem = () => {
-    setFormData({
-      ...formData,
-      items: [...formData.items, { mobileDeviceId: "", imei1: "", imei2: "", costPrice: 0, salePrice: 0, commissionAmount: 0 }]
-    });
+    setFormData(prev => ({
+      ...prev,
+      items: [...prev.items, { mobileDeviceId: "", imei1: "", imei2: "", costPrice: 0, salePrice: 0, commissionAmount: 0 }]
+    }));
   };
 
   const duplicateItem = (item: any) => {
-    setFormData({
-      ...formData,
-      items: [...formData.items, { ...item, imei1: "", imei2: "" }]
-    });
-    toast.info("Model details copied to new row. Enter IMEI.");
+    setFormData(prev => ({
+      ...prev,
+      items: [...prev.items, { ...item, imei1: "", imei2: "" }]
+    }));
+    toast.info("Model details copied. Enter new IMEI.");
   };
 
   const removeItem = (idx: number) => {
-    setFormData({ ...formData, items: formData.items.filter((_, i) => i !== idx) });
+    setFormData(prev => ({
+      ...prev,
+      items: prev.items.filter((_, i) => i !== idx)
+    }));
+  };
+
+  const updateItem = (idx: number, field: string, value: any) => {
+    setFormData(prev => {
+        const newItems = [...prev.items];
+        newItems[idx] = { ...newItems[idx], [field]: value };
+        return { ...prev, items: newItems };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.supplierId || formData.items.length === 0) {
-      toast.error("Supplier and at least one item are required.");
+    
+    if (!formData.supplierId) {
+      toast.error("Please select a supplier.");
       return;
     }
-
-    // Validation for IMEIs
-    if (formData.items.some(i => !i.imei1)) {
-        toast.error("All items must have at least IMEI 1.");
+    if (formData.items.length === 0) {
+      toast.error("Please add at least one item to the purchase.");
+      return;
+    }
+    if (formData.items.some(i => !i.mobileDeviceId || !i.imei1 || !i.costPrice || !i.salePrice)) {
+        toast.error("Please fill all required fields (Model, IMEI, Prices) for all items.");
         return;
     }
 
@@ -108,7 +122,7 @@ export default function NewPurchasePage() {
             mobileDeviceId: parseInt(i.mobileDeviceId),
             costPrice: parseFloat(i.costPrice),
             salePrice: parseFloat(i.salePrice),
-            commissionAmount: parseFloat(i.commissionAmount)
+            commissionAmount: parseFloat(i.commissionAmount || 0)
           }))
         }),
       });
@@ -126,7 +140,7 @@ export default function NewPurchasePage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Record Purchase</h1>
-          <p className="text-muted-foreground">Multiple Products & Batch IMEIs Support.</p>
+          <p className="text-muted-foreground">Batch IMEI Entry & Multi-Product Support.</p>
         </div>
       </div>
 
@@ -146,17 +160,17 @@ export default function NewPurchasePage() {
               <SearchableSelect 
                 options={suppliers.map(s => ({ label: s.name, value: s.id }))}
                 value={formData.supplierId}
-                onChange={val => setFormData({...formData, supplierId: val})}
+                onChange={val => setFormData(prev => ({...prev, supplierId: val}))}
                 placeholder="Search Supplier..."
               />
             </div>
             <div className="space-y-2">
               <Label>Invoice / Ref No.</Label>
-              <Input placeholder="e.g. PUR-10023" value={formData.invoiceNo} onChange={e => setFormData({...formData, invoiceNo: e.target.value})} required />
+              <Input placeholder="e.g. PUR-10023" value={formData.invoiceNo} onChange={e => setFormData(prev => ({...prev, invoiceNo: e.target.value}))} required />
             </div>
             <div className="space-y-2">
               <Label>Amount Paid</Label>
-              <Input type="number" placeholder="0.00" value={formData.paidAmount} onChange={e => setFormData({...formData, paidAmount: parseFloat(e.target.value) || 0})} />
+              <Input type="number" placeholder="0.00" value={formData.paidAmount} onChange={e => setFormData(prev => ({...prev, paidAmount: parseFloat(e.target.value) || 0}))} />
             </div>
           </CardContent>
         </Card>
@@ -182,7 +196,7 @@ export default function NewPurchasePage() {
               </TableHeader>
               <TableBody>
                 {formData.items.length === 0 ? (
-                  <TableRow><TableCell colSpan={6} className="text-center py-20 text-muted-foreground italic">No products added. Click "Add New Row" to start scanning IMEIs.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={6} className="text-center py-20 text-muted-foreground italic">No products added. Click "Add New Row" to start.</TableCell></TableRow>
                 ) : (
                   formData.items.map((item, idx) => (
                     <TableRow key={idx} className="group hover:bg-slate-50/50">
@@ -191,21 +205,17 @@ export default function NewPurchasePage() {
                           className="h-9 text-xs"
                           options={devices.map(d => ({ label: `${d.brand} ${d.modelName}`, value: d.id }))}
                           value={item.mobileDeviceId}
-                          onChange={val => {
-                            const newItems = [...formData.items];
-                            newItems[idx].mobileDeviceId = val;
-                            setFormData({...formData, items: newItems});
-                          }}
+                          onChange={val => updateItem(idx, "mobileDeviceId", val)}
                           placeholder="Search Device..."
                         />
                       </TableCell>
-                      <TableCell><Input placeholder="Scan IMEI 1" className="h-9 font-mono bg-white" value={item.imei1} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei1 = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
-                      <TableCell><Input placeholder="IMEI 2" className="h-9 font-mono bg-white" value={item.imei2} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei2 = e.target.value; setFormData({...formData, items: newItems}); }} /></TableCell>
-                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.costPrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].costPrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
-                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.salePrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].salePrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Input placeholder="Scan IMEI 1" className="h-9 font-mono bg-white" value={item.imei1} onChange={e => updateItem(idx, "imei1", e.target.value)} required /></TableCell>
+                      <TableCell><Input placeholder="IMEI 2" className="h-9 font-mono bg-white" value={item.imei2} onChange={e => updateItem(idx, "imei2", e.target.value)} /></TableCell>
+                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.costPrice} onChange={e => updateItem(idx, "costPrice", e.target.value)} required /></TableCell>
+                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.salePrice} onChange={e => updateItem(idx, "salePrice", e.target.value)} required /></TableCell>
                       <TableCell className="pr-6">
                         <div className="flex justify-end gap-1 opacity-20 group-hover:opacity-100 transition-opacity">
-                          <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-blue-600" title="Duplicate row for same model" onClick={() => duplicateItem(item)}><Copy className="h-3.5 w-3.5" /></Button>
+                          <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-blue-600" title="Duplicate model" onClick={() => duplicateItem(item)}><Copy className="h-3.5 w-3.5" /></Button>
                           <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeItem(idx)}><Trash2 className="h-3.5 w-3.5" /></Button>
                         </div>
                       </TableCell>
@@ -230,8 +240,8 @@ export default function NewPurchasePage() {
         isOpen={isQuickAddOpen} 
         onClose={() => setIsQuickAddOpen(false)} 
         onSuccess={(c) => {
-          setSuppliers([...suppliers, c]);
-          setFormData({...formData, supplierId: c.id});
+          setSuppliers(prev => [...prev, c]);
+          setFormData(prev => ({...prev, supplierId: c.id}));
         }} 
         defaultRole="Supplier"
       />
