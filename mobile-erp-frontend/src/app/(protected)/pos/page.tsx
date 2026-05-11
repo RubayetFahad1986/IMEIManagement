@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Search, Trash2, CreditCard, User, UserPlus, Phone, MapPin, SearchCode } from "lucide-react";
 import { toast } from "sonner";
