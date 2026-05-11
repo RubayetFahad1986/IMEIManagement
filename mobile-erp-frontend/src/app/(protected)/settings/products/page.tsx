@@ -41,6 +41,8 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingDevice, setEditingDevice] = useState<MobileDevice | null>(null);
 
   const [newDevice, setNewDevice] = useState({
     brand: "",
@@ -87,6 +89,40 @@ export default function ProductsPage() {
       fetchData(1, "");
     } catch (error: any) {
       toast.error("Creation failed: " + error.message);
+    }
+  };
+
+  const handleEdit = (device: MobileDevice) => {
+    setEditingDevice(device);
+    setIsEditOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!editingDevice) return;
+    try {
+      await apiFetch(`/setup/mobile-devices`, {
+        method: "PUT",
+        body: JSON.stringify(editingDevice),
+      });
+      toast.success("Mobile model updated!");
+      setIsEditOpen(false);
+      setEditingDevice(null);
+      fetchData(data.pageNumber, searchTerm);
+    } catch (error: any) {
+      toast.error("Update failed: " + error.message);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this master model?")) return;
+    try {
+      await apiFetch(`/setup/mobile-devices/${id}`, {
+        method: "DELETE",
+      });
+      toast.success("Mobile model deleted!");
+      fetchData(data.pageNumber, searchTerm);
+    } catch (error: any) {
+      toast.error("Delete failed: " + error.message);
     }
   };
 
@@ -185,8 +221,8 @@ export default function ProductsPage() {
                     <TableCell className="text-right font-mono font-bold text-green-600">৳{d.defaultSalesPrice.toLocaleString()}</TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-3.5 w-3.5" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive"><Trash2 className="h-3.5 w-3.5" /></Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(d)}><Edit className="h-3.5 w-3.5" /></Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDelete(d.id)}><Trash2 className="h-3.5 w-3.5" /></Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -203,6 +239,51 @@ export default function ProductsPage() {
           />
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader><DialogTitle>Edit Master Model</DialogTitle></DialogHeader>
+          {editingDevice && (
+            <div className="grid grid-cols-2 gap-4 py-4">
+              <div className="space-y-2">
+                <Label>Brand</Label>
+                <Input value={editingDevice.brand} onChange={e => setEditingDevice({...editingDevice, brand: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Model Name</Label>
+                <Input value={editingDevice.modelName} onChange={e => setEditingDevice({...editingDevice, modelName: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Color</Label>
+                <Input value={editingDevice.color} onChange={e => setEditingDevice({...editingDevice, color: e.target.value})} />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                 <div className="space-y-1">
+                    <Label className="text-[10px]">RAM</Label>
+                    <Input value={editingDevice.ram} onChange={e => setEditingDevice({...editingDevice, ram: e.target.value})} />
+                 </div>
+                 <div className="space-y-1">
+                    <Label className="text-[10px]">Storage</Label>
+                    <Input value={editingDevice.storage} onChange={e => setEditingDevice({...editingDevice, storage: e.target.value})} />
+                 </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-blue-600 font-bold">Default Cost (BDT)</Label>
+                <Input type="number" value={editingDevice.defaultCostPrice} onChange={e => setEditingDevice({...editingDevice, defaultCostPrice: parseFloat(e.target.value) || 0})} />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-green-600 font-bold">Default Sale (BDT)</Label>
+                <Input type="number" value={editingDevice.defaultSalesPrice} onChange={e => setEditingDevice({...editingDevice, defaultSalesPrice: parseFloat(e.target.value) || 0})} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Update Model</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

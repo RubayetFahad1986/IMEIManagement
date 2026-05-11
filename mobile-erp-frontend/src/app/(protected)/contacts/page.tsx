@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Search, UserPlus, MapPin, Phone, Mail } from "lucide-react";
+import { Search, UserPlus, MapPin, Phone, Mail, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -43,6 +43,8 @@ export default function ContactsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingContact, setEditingContact] = useState<Contact | null>(null);
 
   const [newContact, setNewContact] = useState({
     name: "",
@@ -92,6 +94,40 @@ export default function ContactsPage() {
     }
   };
 
+  const handleEdit = (contact: Contact) => {
+    setEditingContact(contact);
+    setIsEditOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!editingContact) return;
+    try {
+      await apiFetch(`/setup/contacts`, {
+        method: "PUT",
+        body: JSON.stringify(editingContact),
+      });
+      toast.success("Contact updated successfully!");
+      setIsEditOpen(false);
+      setEditingContact(null);
+      fetchContacts(data.pageNumber, searchTerm);
+    } catch (error: any) {
+      toast.error("Update failed: " + error.message);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this contact?")) return;
+    try {
+      await apiFetch(`/setup/contacts/${id}`, {
+        method: "DELETE",
+      });
+      toast.success("Contact deleted!");
+      fetchContacts(data.pageNumber, searchTerm);
+    } catch (error: any) {
+      toast.error("Delete failed: " + error.message);
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -107,21 +143,21 @@ export default function ContactsPage() {
             <div className="space-y-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="cName">Full Name</Label>
-                <Input id="cName" name="name" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
+                <Input id="cName" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="cPhone">Phone Number</Label>
-                  <Input id="cPhone" name="phone" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
+                  <Input id="cPhone" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="cEmail">Email</Label>
-                  <Input id="cEmail" name="email" type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
+                  <Input id="cEmail" type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="cAddr">Full Address</Label>
-                <Input id="cAddr" name="address" value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
+                <Input id="cAddr" value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
               </div>
               <div className="p-4 bg-slate-50 rounded-lg space-y-3">
                 <div className="flex items-center space-x-6">
@@ -173,7 +209,7 @@ export default function ContactsPage() {
                 <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No contacts found.</TableCell></TableRow>
               ) : (
                 data.items.map((c) => (
-                  <TableRow key={c.id}>
+                  <TableRow key={c.id} className="hover:bg-slate-50/50">
                     <TableCell>
                       <div className="font-medium">{c.name}</div>
                       <div className="text-[10px] text-muted-foreground flex items-center mt-0.5"><MapPin className="mr-1 h-2 w-2" /> {c.address}</div>
@@ -191,7 +227,10 @@ export default function ContactsPage() {
                     <TableCell className="text-right font-medium text-green-600">৳{c.customerBalance.toLocaleString()}</TableCell>
                     <TableCell className="text-right font-medium text-red-600">৳{c.supplierBalance.toLocaleString()}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">History</Button>
+                      <div className="flex justify-end gap-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(c)}><Edit className="h-3.5 w-3.5" /></Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDelete(c.id)}><Trash2 className="h-3.5 w-3.5" /></Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -207,6 +246,51 @@ export default function ContactsPage() {
           />
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader><DialogTitle>Edit Contact</DialogTitle></DialogHeader>
+          {editingContact && (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Full Name</Label>
+                <Input value={editingContact.name} onChange={e => setEditingContact({...editingContact, name: e.target.value})} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Phone Number</Label>
+                  <Input value={editingContact.phone} onChange={e => setEditingContact({...editingContact, phone: e.target.value})} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Email</Label>
+                  <Input type="email" value={editingContact.email} onChange={e => setEditingContact({...editingContact, email: e.target.value})} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Full Address</Label>
+                <Input value={editingContact.address} onChange={e => setEditingContact({...editingContact, address: e.target.value})} />
+              </div>
+              <div className="p-4 bg-slate-50 rounded-lg space-y-3">
+                <div className="flex items-center space-x-6">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="eCust" checked={editingContact.isCustomer} onCheckedChange={(c) => setEditingContact({...editingContact, isCustomer: !!c})} />
+                    <label htmlFor="eCust" className="text-sm font-medium">Customer</label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="eSupp" checked={editingContact.isSupplier} onCheckedChange={(c) => setEditingContact({...editingContact, isSupplier: !!c})} />
+                    <label htmlFor="eSupp" className="text-sm font-medium">Supplier</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Update Contact</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

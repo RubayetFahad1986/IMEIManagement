@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase } from "lucide-react";
+import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Employee {
@@ -32,6 +32,8 @@ export default function StaffPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   
   const [newEmployee, setNewEmployee] = useState({
     name: "",
@@ -71,6 +73,40 @@ export default function StaffPage() {
       fetchStaff();
     } catch (error: any) {
       toast.error("Failed to add employee: " + error.message);
+    }
+  };
+
+  const handleEdit = (emp: Employee) => {
+    setEditingEmployee(emp);
+    setIsEditOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!editingEmployee) return;
+    try {
+      await apiFetch(`/setup/staff`, {
+        method: "PUT",
+        body: JSON.stringify(editingEmployee),
+      });
+      toast.success("Employee updated!");
+      setIsEditOpen(false);
+      setEditingEmployee(null);
+      fetchStaff();
+    } catch (error: any) {
+      toast.error("Update failed: " + error.message);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this employee?")) return;
+    try {
+      await apiFetch(`/setup/staff/${id}`, {
+        method: "DELETE",
+      });
+      toast.success("Employee removed!");
+      fetchStaff();
+    } catch (error: any) {
+      toast.error("Delete failed: " + error.message);
     }
   };
 
@@ -194,9 +230,11 @@ export default function StaffPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right pr-6">
-                      <Button variant="outline" size="sm" className="h-8 text-xs">
-                        <DollarSign className="mr-1 h-3 w-3" /> Pay
-                      </Button>
+                      <div className="flex justify-end gap-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(emp)}><Edit className="h-3.5 w-3.5" /></Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDelete(emp.id)}><Trash2 className="h-3.5 w-3.5" /></Button>
+                        <Button variant="outline" size="sm" className="h-8 text-xs"><DollarSign className="mr-1 h-3 w-3" /> Pay</Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -205,6 +243,33 @@ export default function StaffPage() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader><DialogTitle>Edit Employee Details</DialogTitle></DialogHeader>
+          {editingEmployee && (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Full Name</Label>
+                <Input value={editingEmployee.name} onChange={e => setEditingEmployee({...editingEmployee, name: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Designation</Label>
+                <Input value={editingEmployee.designation} onChange={e => setEditingEmployee({...editingEmployee, designation: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Phone Number</Label>
+                <Input value={editingEmployee.phone} onChange={e => setEditingEmployee({...editingEmployee, phone: e.target.value})} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Update Employee</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
