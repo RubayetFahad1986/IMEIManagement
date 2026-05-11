@@ -1,59 +1,55 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingCart, Package, Users, TrendingUp } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, TrendingUp } from "lucide-react";
 
 export default function DashboardPage() {
   const stats = [
-    { title: "Today's Sales", value: "৳ 124,500", icon: ShoppingCart, color: "text-blue-600", bg: "bg-blue-100" },
-    { title: "Items in Stock", value: "482", icon: Package, color: "text-green-600", bg: "bg-green-100" },
-    { title: "Total Customers", value: "1,204", icon: Users, color: "text-purple-600", bg: "bg-purple-100" },
-    { title: "Monthly Profit", value: "৳ 32,800", icon: TrendingUp, color: "text-orange-600", bg: "bg-orange-100" },
+    { title: "Today's Sales", value: "$12,450", icon: ShoppingCart, color: "text-green-600", bg: "bg-green-100" },
+    { title: "Stock Value", value: "$450,200", icon: Package, color: "text-blue-600", bg: "bg-blue-100" },
+    { title: "New Customers", value: "24", icon: Users, color: "text-purple-600", bg: "bg-purple-100" },
+    { title: "Profit Margin", value: "18.5%", icon: TrendingUp, color: "text-orange-600", bg: "bg-orange-100" },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="p-6 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard Overview</h1>
-        <p className="text-slate-500">Welcome back to your mobile store management system.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Welcome Back, Admin</h1>
+        <p className="text-muted-foreground">Here is what's happening in your shop today.</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title} className="shadow-sm">
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                <div className={`${stat.bg} p-2 rounded-md`}>
-                  <Icon className={`h-4 w-4 ${stat.color}`} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-slate-500 mt-1">
-                  +12.5% from last month
-                </p>
-              </CardContent>
-            </Card>
-          );
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+              <div className={`p-2 rounded-full ${stat.bg}`}>
+                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground mt-1">+4.5% from yesterday</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* Placeholder for charts/recent activity */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
           <CardHeader>
-            <CardTitle>Sales Analysis</CardTitle>
+            <CardTitle>Recent Sales</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px] flex items-center justify-center border-t border-dashed">
-            <span className="text-slate-400">Sales Chart Placeholder</span>
+          <CardContent>
+            <p className="text-sm text-muted-foreground py-10 text-center">Charts and detailed reports will appear here.</p>
           </CardContent>
         </Card>
-        <Card className="col-span-3 shadow-sm">
+        <Card>
           <CardHeader>
-            <CardTitle>Recent Transactions</CardTitle>
+            <CardTitle>Top Selling Models</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px] flex items-center justify-center border-t border-dashed">
-             <span className="text-slate-400">Activity Feed Placeholder</span>
+          <CardContent>
+            <p className="text-sm text-muted-foreground py-10 text-center">Real-time inventory analysis coming soon.</p>
           </CardContent>
         </Card>
       </div>
