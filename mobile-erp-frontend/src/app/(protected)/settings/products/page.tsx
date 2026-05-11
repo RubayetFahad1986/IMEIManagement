@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -10,15 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Package, Plus, Search, Smartphone, Tag, Trash2, Edit, Coins } from "lucide-react";
+import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface MobileDevice {
   id: number;
@@ -32,7 +31,12 @@ interface MobileDevice {
 }
 
 export default function ProductsPage() {
-  const [devices, setDevices] = useState<MobileDevice[]>([]);
+  const [data, setData] = useState({
+    items: [] as MobileDevice[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -47,20 +51,24 @@ export default function ProductsPage() {
     defaultSalesPrice: 0,
   });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const data = await apiFetch("/setup/mobile-devices");
-      setDevices(data);
+      const result = await apiFetch(`/setup/mobile-devices?page=${page}&pageSize=10&search=${search}`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to load products: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchData(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchData]);
 
   const handleCreate = async () => {
     if (!newDevice.brand || !newDevice.modelName) {
@@ -70,41 +78,29 @@ export default function ProductsPage() {
     try {
       await apiFetch("/setup/mobile-devices", {
         method: "POST",
-        body: JSON.stringify({
-          ...newDevice,
-          comId: 1
-        }),
+        body: JSON.stringify({ ...newDevice, comId: 1 }),
       });
-      toast.success("Mobile model added to master list!");
+      toast.success("Mobile model added!");
       setIsAddOpen(false);
       setNewDevice({ brand: "", modelName: "", color: "", ram: "", storage: "", defaultCostPrice: 0, defaultSalesPrice: 0 });
-      fetchData();
+      fetchData(1, "");
     } catch (error: any) {
       toast.error("Creation failed: " + error.message);
     }
   };
-
-  const filtered = devices.filter((d) =>
-    d.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    d.modelName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Master Product List</h1>
-          <p className="text-muted-foreground">Manage global mobile models and default BDT pricing.</p>
+          <p className="text-muted-foreground">Manage global mobile models with server-side pagination.</p>
         </div>
         
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogTrigger 
-            render={<Button><Plus className="mr-2 h-4 w-4" /> Add Master Model</Button>} 
-          />
+          <DialogTrigger render={<Button><Plus className="mr-2 h-4 w-4" /> Add Master Model</Button>} />
           <DialogContent className="max-w-xl">
-            <DialogHeader>
-              <DialogTitle>Insert Mobile to Master List</DialogTitle>
-            </DialogHeader>
+            <DialogHeader><DialogTitle>Insert Mobile to Master List</DialogTitle></DialogHeader>
             <div className="grid grid-cols-2 gap-4 py-4">
               <div className="space-y-2">
                 <Label>Brand</Label>
@@ -151,12 +147,7 @@ export default function ProductsPage() {
             <CardTitle>Global Catalog</CardTitle>
             <div className="relative w-72">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search Brand or Model..."
-                className="pl-8"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <Input placeholder="Search Brand or Model..." className="pl-8" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
           </div>
         </CardHeader>
@@ -168,17 +159,16 @@ export default function ProductsPage() {
                 <TableHead>Variant / Specs</TableHead>
                 <TableHead className="text-right">Def. Cost</TableHead>
                 <TableHead className="text-right">Def. Sale</TableHead>
-                <TableHead className="text-right">Margin</TableHead>
                 <TableHead className="text-right pr-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading master list...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No models defined.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
+              ) : data.items.length === 0 ? (
+                <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No models found.</TableCell></TableRow>
               ) : (
-                filtered.map((d) => (
+                data.items.map((d) => (
                   <TableRow key={d.id} className="hover:bg-slate-50/50">
                     <TableCell>
                       <div className="font-bold text-slate-900">{d.brand}</div>
@@ -190,15 +180,8 @@ export default function ProductsPage() {
                           <Badge variant="secondary" className="text-[10px] py-0">{d.ram}/{d.storage}</Badge>
                        </div>
                     </TableCell>
-                    <TableCell className="text-right font-mono text-xs text-slate-500">
-                      ৳{d.defaultCostPrice.toLocaleString()}
-                    </TableCell>
-                    <TableCell className="text-right font-mono font-bold text-green-600">
-                      ৳{d.defaultSalesPrice.toLocaleString()}
-                    </TableCell>
-                    <TableCell className="text-right text-[10px] font-bold text-orange-600">
-                      ৳{(d.defaultSalesPrice - d.defaultCostPrice).toLocaleString()}
-                    </TableCell>
+                    <TableCell className="text-right font-mono text-xs text-slate-500">৳{d.defaultCostPrice.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-mono font-bold text-green-600">৳{d.defaultSalesPrice.toLocaleString()}</TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-3.5 w-3.5" /></Button>
@@ -210,6 +193,13 @@ export default function ProductsPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchData(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

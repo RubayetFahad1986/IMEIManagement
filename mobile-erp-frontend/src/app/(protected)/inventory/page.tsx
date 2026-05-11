@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import Link from "next/link";
 import {
@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Package, Plus, Search, History } from "lucide-react";
 import { toast } from "sonner";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface InventoryItem {
   id: number;
@@ -33,38 +34,41 @@ interface InventoryItem {
 }
 
 export default function InventoryPage() {
-  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [data, setData] = useState({
+    items: [] as InventoryItem[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchInventory();
-  }, []);
-
-  const fetchInventory = async () => {
+  const fetchInventory = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const data = await apiFetch("/erp/inventory");
-      setInventory(data);
+      const result = await apiFetch(`/erp/inventory?page=${page}&pageSize=10&search=${search}`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to fetch inventory: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filteredInventory = inventory.filter(
-    (item) =>
-      item.imei1.includes(searchTerm) ||
-      item.mobileDevice.modelName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.mobileDevice.brand.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchInventory(1, searchTerm);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchInventory]);
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Inventory</h1>
-          <p className="text-muted-foreground">Manage your mobile device stock and IMEIs.</p>
+          <p className="text-muted-foreground">Manage your mobile device stock with server-side search.</p>
         </div>
         <Link href="/purchases/new">
           <Button>
@@ -102,27 +106,18 @@ export default function InventoryPage() {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8">
-                    Loading inventory...
-                  </TableCell>
-                </TableRow>
-              ) : filteredInventory.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8">
-                    No items found.
-                  </TableCell>
-                </TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading inventory...</TableCell></TableRow>
+              ) : data.items.length === 0 ? (
+                <TableRow><TableCell colSpan={6} className="text-center py-8">No items found.</TableCell></TableRow>
               ) : (
-                filteredInventory.map((item) => (
+                data.items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
                       <div className="font-medium">{item.mobileDevice.brand} {item.mobileDevice.modelName}</div>
-                      <div className="text-xs text-muted-foreground">{item.mobileDevice.variantName}</div>
                     </TableCell>
                     <TableCell className="font-mono">{item.imei1}</TableCell>
-                    <TableCell>${item.costPrice.toLocaleString()}</TableCell>
-                    <TableCell>${item.currentSalePrice.toLocaleString()}</TableCell>
+                    <TableCell>৳{item.costPrice.toLocaleString()}</TableCell>
+                    <TableCell>৳{item.currentSalePrice.toLocaleString()}</TableCell>
                     <TableCell>
                       <Badge variant={item.isSold ? "secondary" : "default"}>
                         {item.isSold ? "Sold" : "In Stock"}
@@ -130,9 +125,7 @@ export default function InventoryPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Link href={`/inventory/history/${item.id}`}>
-                        <Button variant="ghost" size="icon" title="View Journey">
-                          <History className="h-4 w-4" />
-                        </Button>
+                        <Button variant="ghost" size="icon" title="View Journey"><History className="h-4 w-4" /></Button>
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -140,6 +133,13 @@ export default function InventoryPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchInventory(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

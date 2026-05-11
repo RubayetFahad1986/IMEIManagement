@@ -325,7 +325,32 @@ namespace MobileERP.API.Controllers
             return Ok(new { item.IMEI1, Device = item.MobileDevice?.ModelName, ExpiryDate = item.WarrantyExpiryDate, RemainingDays = Math.Max(0, remaining), IsActive = remaining > 0 });
         }
 
-        [HttpGet("inventory")] public async Task<IActionResult> GetInventory() => Ok(await _context.Inventory.Include(i => i.MobileDevice).OrderByDescending(i => i.Id).ToListAsync());
+        [HttpGet("inventory")]
+        public async Task<IActionResult> GetInventory(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<InventoryItem> query = _context.Inventory.Include(i => i.MobileDevice);
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(i => i.IMEI1.Contains(search) || i.IMEI2.Contains(search) || (i.MobileDevice != null && i.MobileDevice.ModelName.Contains(search)));
+            }
+
+            int totalCount = await query.CountAsync();
+            var items = await query
+                .OrderByDescending(i => i.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+            });
+        }
         
         [HttpGet("sales")]
         public async Task<IActionResult> GetSales()

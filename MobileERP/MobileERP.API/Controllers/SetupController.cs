@@ -37,7 +37,19 @@ namespace MobileERP.API.Controllers
         }
 
         // --- Product CRUD ---
-        [HttpGet("products")] public async Task<IActionResult> GetProducts() => Ok(await _productRepo.GetAllAsync());
+        [HttpGet("products")]
+        public async Task<IActionResult> GetProducts(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<Product> query = _context.Products;
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(p => p.Name.Contains(search) || (p.SKU != null && p.SKU.Contains(search)));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(p => p.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
+
         [HttpPost("products")] public async Task<IActionResult> CreateProduct(Product product) { product.ComId = 1; await _productRepo.AddAsync(product); return Ok(product); }
         [HttpPut("products")] public async Task<IActionResult> UpdateProduct(Product product) { _productRepo.Update(product); return Ok(product); }
         [HttpDelete("products/{id}")] public async Task<IActionResult> DeleteProduct(int id) { var p = await _productRepo.GetByIdAsync(id); if (p != null) _productRepo.Delete(p); return Ok(); }
@@ -53,7 +65,19 @@ namespace MobileERP.API.Controllers
         [HttpDelete("brands/{id}")] public async Task<IActionResult> DeleteBrand(int id) { var b = await _brandRepo.GetByIdAsync(id); if (b != null) _brandRepo.Delete(b); return Ok(); }
 
         // --- MobileDevice CRUD ---
-        [HttpGet("mobile-devices")] public async Task<IActionResult> GetMobileDevices() => Ok(await _deviceRepo.GetAllAsync());
+        [HttpGet("mobile-devices")]
+        public async Task<IActionResult> GetMobileDevices(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<MobileDevice> query = _context.MobileDevices;
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(d => d.Brand.Contains(search) || d.ModelName.Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(d => d.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
+        
         [HttpPost("mobile-devices")] public async Task<IActionResult> CreateMobileDevice(MobileDevice device) { device.ComId = 1; await _deviceRepo.AddAsync(device); return Ok(device); }
         [HttpPut("mobile-devices")] public async Task<IActionResult> UpdateMobileDevice(MobileDevice device) { _deviceRepo.Update(device); return Ok(device); }
         [HttpDelete("mobile-devices/{id}")] public async Task<IActionResult> DeleteMobileDevice(int id) { var d = await _deviceRepo.GetByIdAsync(id); if (d != null) _deviceRepo.Delete(d); return Ok(); }
@@ -65,7 +89,21 @@ namespace MobileERP.API.Controllers
         [HttpDelete("branches/{id}")] public async Task<IActionResult> DeleteBranch(int id) { var b = await _branchRepo.GetByIdAsync(id); if (b != null) _branchRepo.Delete(b); return Ok(); }
 
         // --- Contact (Unified Customer/Supplier) CRUD ---
-        [HttpGet("contacts")] public async Task<IActionResult> GetContacts() => Ok(await _contactRepo.GetAllAsync());
+        [HttpGet("contacts")]
+        public async Task<IActionResult> GetContacts(int page = 1, int pageSize = 10, string? search = null, bool? isCustomer = null, bool? isSupplier = null)
+        {
+            IQueryable<Contact> query = _context.Contacts;
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(c => c.Name.Contains(search) || c.Phone.Contains(search));
+            }
+            if (isCustomer.HasValue) query = query.Where(c => c.IsCustomer == isCustomer.Value);
+            if (isSupplier.HasValue) query = query.Where(c => c.IsSupplier == isSupplier.Value);
+
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(c => c.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
         
         [HttpGet("suppliers")] 
         public async Task<IActionResult> GetSuppliers() => Ok(await _contactRepo.FindAsync(c => c.IsSupplier));
