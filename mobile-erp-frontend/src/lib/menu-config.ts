@@ -4,7 +4,8 @@ export const MENU_ITEMS = [
   { group: "General", items: [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "POS / Sale", href: "/pos", icon: ShoppingCart },
-    { name: "Inventory", href: "/inventory", icon: Package },
+    { name: "Product Catalog", href: "/settings/products", icon: Package },
+    { name: "Inventory", href: "/inventory", icon: Smartphone },
   ]},
   { group: "Transactions", items: [
     { name: "Sales History", href: "/sales", icon: History },

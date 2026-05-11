@@ -15,20 +15,36 @@ namespace MobileERP.API.Controllers
         private readonly IRepository<Contact> _contactRepo;
         private readonly IRepository<AccountHead> _accountRepo;
         private readonly IRepository<MobileDevice> _deviceRepo;
+        private readonly IRepository<Product> _productRepo;
+        private readonly IRepository<ProductCategory> _categoryRepo;
 
         public SetupController(
             IRepository<Brand> brandRepo,
             IRepository<Branch> branchRepo,
             IRepository<Contact> contactRepo,
             IRepository<AccountHead> accountRepo,
-            IRepository<MobileDevice> deviceRepo)
+            IRepository<MobileDevice> deviceRepo,
+            IRepository<Product> productRepo,
+            IRepository<ProductCategory> categoryRepo)
         {
             _brandRepo = brandRepo;
             _branchRepo = branchRepo;
             _contactRepo = contactRepo;
             _accountRepo = accountRepo;
             _deviceRepo = deviceRepo;
+            _productRepo = productRepo;
+            _categoryRepo = categoryRepo;
         }
+
+        // --- Product CRUD ---
+        [HttpGet("products")] public async Task<IActionResult> GetProducts() => Ok(await _productRepo.GetAllAsync());
+        [HttpPost("products")] public async Task<IActionResult> CreateProduct(Product product) { product.ComId = 1; await _productRepo.AddAsync(product); return Ok(product); }
+        [HttpPut("products")] public async Task<IActionResult> UpdateProduct(Product product) { _productRepo.Update(product); return Ok(product); }
+        [HttpDelete("products/{id}")] public async Task<IActionResult> DeleteProduct(int id) { var p = await _productRepo.GetByIdAsync(id); if (p != null) _productRepo.Delete(p); return Ok(); }
+
+        // --- ProductCategory CRUD ---
+        [HttpGet("categories")] public async Task<IActionResult> GetProductCategories() => Ok(await _categoryRepo.GetAllAsync());
+        [HttpPost("categories")] public async Task<IActionResult> CreateProductCategory(ProductCategory cat) { cat.ComId = 1; await _categoryRepo.AddAsync(cat); return Ok(cat); }
 
         // --- Brand CRUD ---
         [HttpGet("brands")] public async Task<IActionResult> GetBrands() => Ok(await _brandRepo.GetAllAsync());
