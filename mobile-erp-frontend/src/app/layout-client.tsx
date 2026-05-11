@@ -15,7 +15,6 @@ export default function RootLayoutClient({
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
-  // Fix Hydration Mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -23,19 +22,21 @@ export default function RootLayoutClient({
   useEffect(() => {
     if (!mounted) return;
 
-    if (!isAuthenticated && pathname !== "/login") {
-      router.push("/login");
-    } else if (isAuthenticated && pathname === "/login") {
-      router.push("/dashboard");
+    const publicPaths = ["/"];
+    
+    if (!isAuthenticated && !publicPaths.includes(pathname)) {
+      router.replace("/");
+    } else if (isAuthenticated && pathname === "/") {
+      router.replace("/dashboard");
     }
   }, [isAuthenticated, pathname, router, mounted]);
 
-  if (!mounted) return null;
-
+  // Render children even if not mounted to avoid blank screen, 
+  // but wrap in a div that suppresses hydration warning if necessary.
   return (
-    <>
+    <div suppressHydrationWarning>
       {children}
       <Toaster position="top-right" />
-    </>
+    </div>
   );
 }
