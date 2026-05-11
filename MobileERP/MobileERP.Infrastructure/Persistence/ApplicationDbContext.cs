@@ -15,8 +15,7 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<MobileDevice> MobileDevices { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
         public DbSet<InventoryItem> Inventory { get; set; }
@@ -33,8 +32,7 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<ExpenseVoucher> ExpenseVouchers { get; set; }
         public DbSet<ExpenseDetail> ExpenseDetails { get; set; }
-        public DbSet<CustomerLedger> CustomerLedgers { get; set; }
-        public DbSet<SupplierLedger> SupplierLedgers { get; set; }
+        public DbSet<ContactLedger> ContactLedgers { get; set; }
 
         // Advanced Modules
         public DbSet<SalesReturn> SalesReturns { get; set; }

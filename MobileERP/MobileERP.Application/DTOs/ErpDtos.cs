@@ -103,4 +103,12 @@ namespace MobileERP.Application.DTOs
         public decimal Amount { get; set; }
         public string? Note { get; set; }
     }
+
+    public class BalanceAdjustmentRequest
+    {
+        public int ContactId { get; set; }
+        public decimal AdjustmentAmount { get; set; }
+        public string Direction { get; set; } = string.Empty; // CustToSupp, SuppToCust
+        public string? Remarks { get; set; }
+    }
 }

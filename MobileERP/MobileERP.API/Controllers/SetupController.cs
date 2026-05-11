@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Repositories;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MobileERP.API.Controllers
 {
@@ -11,23 +12,20 @@ namespace MobileERP.API.Controllers
     {
         private readonly IRepository<Brand> _brandRepo;
         private readonly IRepository<Branch> _branchRepo;
-        private readonly IRepository<Supplier> _supplierRepo;
-        private readonly IRepository<Customer> _customerRepo;
+        private readonly IRepository<Contact> _contactRepo;
         private readonly IRepository<AccountHead> _accountRepo;
         private readonly IRepository<MobileDevice> _deviceRepo;
 
         public SetupController(
             IRepository<Brand> brandRepo,
             IRepository<Branch> branchRepo,
-            IRepository<Supplier> supplierRepo,
-            IRepository<Customer> customerRepo,
+            IRepository<Contact> contactRepo,
             IRepository<AccountHead> accountRepo,
             IRepository<MobileDevice> deviceRepo)
         {
             _brandRepo = brandRepo;
             _branchRepo = branchRepo;
-            _supplierRepo = supplierRepo;
-            _customerRepo = customerRepo;
+            _contactRepo = contactRepo;
             _accountRepo = accountRepo;
             _deviceRepo = deviceRepo;
         }
@@ -50,17 +48,23 @@ namespace MobileERP.API.Controllers
         [HttpPut("branches")] public async Task<IActionResult> UpdateBranch(Branch branch) { _branchRepo.Update(branch); return Ok(branch); }
         [HttpDelete("branches/{id}")] public async Task<IActionResult> DeleteBranch(int id) { var b = await _branchRepo.GetByIdAsync(id); if (b != null) _branchRepo.Delete(b); return Ok(); }
 
-        // --- Supplier CRUD ---
-        [HttpGet("suppliers")] public async Task<IActionResult> GetSuppliers() => Ok(await _supplierRepo.GetAllAsync());
-        [HttpPost("suppliers")] public async Task<IActionResult> CreateSupplier(Supplier s) { s.ComId = 1; await _supplierRepo.AddAsync(s); return Ok(s); }
-        [HttpPut("suppliers")] public async Task<IActionResult> UpdateSupplier(Supplier s) { _supplierRepo.Update(s); return Ok(s); }
-        [HttpDelete("suppliers/{id}")] public async Task<IActionResult> DeleteSupplier(int id) { var s = await _supplierRepo.GetByIdAsync(id); if (s != null) _supplierRepo.Delete(s); return Ok(); }
+        // --- Contact (Unified Customer/Supplier) CRUD ---
+        [HttpGet("contacts")] public async Task<IActionResult> GetContacts() => Ok(await _contactRepo.GetAllAsync());
+        
+        [HttpGet("suppliers")] 
+        public async Task<IActionResult> GetSuppliers() => Ok((await _contactRepo.GetAllAsync()).Where(c => c.IsSupplier));
+        
+        [HttpGet("customers")] 
+        public async Task<IActionResult> GetCustomers() => Ok((await _contactRepo.GetAllAsync()).Where(c => c.IsCustomer));
 
-        // --- Customer CRUD ---
-        [HttpGet("customers")] public async Task<IActionResult> GetCustomers() => Ok(await _customerRepo.GetAllAsync());
-        [HttpPost("customers")] public async Task<IActionResult> CreateCustomer(Customer c) { c.ComId = 1; await _customerRepo.AddAsync(c); return Ok(c); }
-        [HttpPut("customers")] public async Task<IActionResult> UpdateCustomer(Customer c) { _customerRepo.Update(c); return Ok(c); }
-        [HttpDelete("customers/{id}")] public async Task<IActionResult> DeleteCustomer(int id) { var c = await _customerRepo.GetByIdAsync(id); if (c != null) _customerRepo.Delete(c); return Ok(); }
+        [HttpPost("contacts")] 
+        public async Task<IActionResult> CreateContact(Contact contact) { contact.ComId = 1; await _contactRepo.AddAsync(contact); return Ok(contact); }
+        
+        [HttpPut("contacts")] 
+        public async Task<IActionResult> UpdateContact(Contact contact) { _contactRepo.Update(contact); return Ok(contact); }
+        
+        [HttpDelete("contacts/{id}")] 
+        public async Task<IActionResult> DeleteContact(int id) { var c = await _contactRepo.GetByIdAsync(id); if (c != null) _contactRepo.Delete(c); return Ok(); }
 
         // --- AccountHead CRUD ---
         [HttpGet("accounts")] public async Task<IActionResult> GetAccounts() => Ok(await _accountRepo.GetAllAsync());

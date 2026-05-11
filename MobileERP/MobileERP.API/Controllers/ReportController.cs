@@ -46,12 +46,14 @@ namespace MobileERP.API.Controllers
         [HttpGet("ledger/balances")]
         public async Task<IActionResult> GetLedgerBalances()
         {
-            var customers = await _context.Customers
-                .Select(c => new { c.Id, c.Name, c.Phone, c.CurrentBalance })
+            var customers = await _context.Contacts
+                .Where(c => c.IsCustomer)
+                .Select(c => new { c.Id, c.Name, c.Phone, CurrentBalance = c.CustomerBalance })
                 .ToListAsync();
 
-            var suppliers = await _context.Suppliers
-                .Select(s => new { s.Id, s.Name, s.Phone, s.CurrentBalance })
+            var suppliers = await _context.Contacts
+                .Where(c => c.IsSupplier)
+                .Select(s => new { s.Id, s.Name, s.Phone, CurrentBalance = s.SupplierBalance })
                 .ToListAsync();
 
             return Ok(new { Customers = customers, Suppliers = suppliers });

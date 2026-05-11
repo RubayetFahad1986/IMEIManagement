@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Truck, Plus, Search, Phone, MapPin, DollarSign } from "lucide-react";
+import { Truck, Plus, Search, Phone, MapPin, Repeat } from "lucide-react";
 import { toast } from "sonner";
 
 interface Supplier {
@@ -22,7 +22,9 @@ interface Supplier {
   name: string;
   phone: string;
   address: string;
-  currentBalance: number;
+  supplierBalance: number;
+  customerBalance: number;
+  isCustomer: boolean;
 }
 
 export default function SuppliersPage() {
@@ -56,7 +58,7 @@ export default function SuppliersPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Suppliers</h1>
-          <p className="text-muted-foreground">Manage your product sources and purchase accounts.</p>
+          <p className="text-muted-foreground">Unified contact management for purchasing and trade-ins.</p>
         </div>
         <Button>
           <Plus className="mr-2 h-4 w-4" /> Add Supplier
@@ -66,7 +68,7 @@ export default function SuppliersPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-blue-50 border-blue-200">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-blue-800">Total Suppliers</CardTitle>
+            <CardTitle className="text-sm font-medium text-blue-800">Total Active Suppliers</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-900">{suppliers.length}</div>
@@ -78,7 +80,7 @@ export default function SuppliersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-900">
-              ${suppliers.reduce((acc, s) => acc + (s.currentBalance > 0 ? s.currentBalance : 0), 0).toLocaleString()}
+              ${suppliers.reduce((acc, s) => acc + s.supplierBalance, 0).toLocaleString()}
             </div>
           </CardContent>
         </Card>
@@ -105,8 +107,8 @@ export default function SuppliersPage() {
               <TableRow>
                 <TableHead>Supplier Name</TableHead>
                 <TableHead>Contact</TableHead>
-                <TableHead>Address</TableHead>
-                <TableHead className="text-right">Balance</TableHead>
+                <TableHead className="text-right">Supplier Debt</TableHead>
+                <TableHead className="text-right">Customer Credit</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -118,24 +120,36 @@ export default function SuppliersPage() {
               ) : (
                 filtered.map((s) => (
                   <TableRow key={s.id}>
-                    <TableCell className="font-medium">{s.name}</TableCell>
                     <TableCell>
-                       <div className="flex items-center text-xs text-muted-foreground">
-                         <Phone className="mr-1 h-3 w-3" /> {s.phone}
+                       <div className="font-medium">{s.name}</div>
+                       <div className="text-[10px] flex items-center text-muted-foreground mt-0.5">
+                         <MapPin className="mr-1 h-2 w-2" /> {s.address}
                        </div>
                     </TableCell>
-                    <TableCell>
-                       <div className="flex items-center text-xs text-muted-foreground">
-                         <MapPin className="mr-1 h-3 w-3" /> {s.address}
-                       </div>
-                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{s.phone}</TableCell>
                     <TableCell className="text-right">
-                       <Badge variant={s.currentBalance > 0 ? "destructive" : "secondary"}>
-                         ${s.currentBalance.toLocaleString()}
+                       <Badge variant={s.supplierBalance > 0 ? "destructive" : "secondary"}>
+                         ${s.supplierBalance.toLocaleString()}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                       <Button variant="ghost" size="sm">View Ledger</Button>
+                       {s.isCustomer ? (
+                         <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">
+                           ${s.customerBalance.toLocaleString()}
+                         </Badge>
+                       ) : (
+                         <span className="text-xs text-muted-foreground italic">N/A</span>
+                       )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                       <div className="flex justify-end gap-2">
+                         {s.isCustomer && s.supplierBalance > 0 && s.customerBalance > 0 && (
+                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-2 border-orange-200 text-orange-700 bg-orange-50 hover:bg-orange-100">
+                              <Repeat className="mr-1 h-3 w-3" /> Net Balance
+                            </Button>
+                         )}
+                         <Button variant="ghost" size="sm" className="h-7">Ledger</Button>
+                       </div>
                     </TableCell>
                   </TableRow>
                 ))

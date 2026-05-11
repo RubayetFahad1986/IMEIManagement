@@ -4,24 +4,27 @@ using System.Collections.Generic;
 
 namespace MobileERP.Domain.Entities
 {
-    public class Supplier : TenantBaseEntity
-    {
-        public string Name { get; set; } = string.Empty;
-        public string? Phone { get; set; }
-        public string? Address { get; set; }
-        public decimal OpeningBalance { get; set; }
-        public decimal CurrentBalance { get; set; }
-    }
-
-    public class Customer : TenantBaseEntity
+    public class Contact : TenantBaseEntity
     {
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
+        public string? Email { get; set; }
         public string? Address { get; set; }
+        
+        // --- Role Flags ---
+        public bool IsCustomer { get; set; }
+        public bool IsSupplier { get; set; }
+
+        // --- Identity Info (Mainly for Customers/Trade-ins) ---
         public string? NID { get; set; }
         public string? Passport { get; set; }
         public string? DrivingLicense { get; set; }
-        public decimal CurrentBalance { get; set; }
+
+        // --- Financials ---
+        public decimal OpeningBalance { get; set; }
+        public decimal CustomerBalance { get; set; } // What they owe us
+        public decimal SupplierBalance { get; set; } // What we owe them
+        public decimal NetBalance => CustomerBalance - SupplierBalance;
     }
 
     public class ProductCategory : TenantBaseEntity

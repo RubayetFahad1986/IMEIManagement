@@ -35,6 +35,7 @@ namespace MobileERP.Domain.Entities
     {
         public int JournalVoucherId { get; set; }
         public int AccountHeadId { get; set; }
+        public AccountHead? AccountHead { get; set; }
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
     }
@@ -58,25 +59,15 @@ namespace MobileERP.Domain.Entities
         public string? Note { get; set; }
     }
 
-    public class CustomerLedger : TenantBaseEntity
+    public class ContactLedger : TenantBaseEntity
     {
-        public int CustomerId { get; set; }
+        public int ContactId { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Description { get; set; } = string.Empty;
-        public string ReferenceNo { get; set; } = string.Empty;
+        public string? ReferenceNo { get; set; }
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
-    }
-
-    public class SupplierLedger : TenantBaseEntity
-    {
-        public int SupplierId { get; set; }
-        public DateTime TransactionDate { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public string ReferenceNo { get; set; } = string.Empty;
-        public decimal Debit { get; set; }
-        public decimal Credit { get; set; }
-        public decimal Balance { get; set; }
+        public string TransactionType { get; set; } = "General"; // Sale, Purchase, Payment, Adjustment
     }
 }
