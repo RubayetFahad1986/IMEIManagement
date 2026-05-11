@@ -326,6 +326,42 @@ namespace MobileERP.API.Controllers
         }
 
         [HttpGet("inventory")] public async Task<IActionResult> GetInventory() => Ok(await _context.Inventory.Include(i => i.MobileDevice).OrderByDescending(i => i.Id).ToListAsync());
+        
+        [HttpGet("sales")]
+        public async Task<IActionResult> GetSales()
+        {
+            var sales = await _context.SalesInvoices
+                .OrderByDescending(s => s.SalesDate)
+                .Select(s => new {
+                    s.Id,
+                    s.InvoiceNo,
+                    s.SalesDate,
+                    CustomerName = _context.Contacts.Where(c => c.Id == s.CustomerId).Select(c => c.Name).FirstOrDefault(),
+                    s.NetTotal,
+                    s.PaidAmount,
+                    s.ChangeAmount
+                })
+                .ToListAsync();
+            return Ok(sales);
+        }
+
+        [HttpGet("purchases")]
+        public async Task<IActionResult> GetPurchases()
+        {
+            var purchases = await _context.PurchaseInvoices
+                .OrderByDescending(p => p.PurchaseDate)
+                .Select(p => new {
+                    p.Id,
+                    p.InvoiceNo,
+                    p.PurchaseDate,
+                    SupplierName = _context.Contacts.Where(c => c.Id == p.SupplierId).Select(c => c.Name).FirstOrDefault(),
+                    p.TotalAmount,
+                    p.PaidAmount,
+                    p.DueAmount
+                })
+                .ToListAsync();
+            return Ok(purchases);
+        }
         [HttpGet("product-history/{itemId}")] public async Task<IActionResult> GetProductHistory(int itemId) => Ok(await _context.ProductHistories.Where(h => h.InventoryItemId == itemId).OrderByDescending(h => h.EventDate).ToListAsync());
         [HttpGet("staff")] public async Task<IActionResult> GetStaff() => Ok(await _context.Employees.OrderBy(e => e.Name).ToListAsync());
         
