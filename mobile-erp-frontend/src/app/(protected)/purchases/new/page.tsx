@@ -56,10 +56,10 @@ export default function NewPurchasePage() {
     try {
       const [sData, dData] = await Promise.all([
         apiFetch("/setup/suppliers"),
-        apiFetch("/setup/mobile-devices"),
+        apiFetch("/setup/mobile-devices?pageSize=100"), // Load more for dropdown
       ]);
-      setSuppliers(sData);
-      setDevices(dData);
+      setSuppliers(sData.items || sData); // Handle both paginated and plain array
+      setDevices(dData.items || dData);
     } catch (error) {
       console.error(error);
     } finally {

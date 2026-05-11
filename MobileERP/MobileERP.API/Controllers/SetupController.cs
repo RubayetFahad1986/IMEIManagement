@@ -20,6 +20,7 @@ namespace MobileERP.API.Controllers
         private readonly IRepository<MobileDevice> _deviceRepo;
         private readonly IRepository<Product> _productRepo;
         private readonly IRepository<ProductCategory> _categoryRepo;
+        private readonly IRepository<Employee> _employeeRepo;
 
         public SetupController(
             ApplicationDbContext context,
@@ -29,7 +30,8 @@ namespace MobileERP.API.Controllers
             IRepository<AccountHead> accountRepo,
             IRepository<MobileDevice> deviceRepo,
             IRepository<Product> productRepo,
-            IRepository<ProductCategory> categoryRepo)
+            IRepository<ProductCategory> categoryRepo,
+            IRepository<Employee> employeeRepo)
         {
             _context = context;
             _brandRepo = brandRepo;
@@ -39,6 +41,7 @@ namespace MobileERP.API.Controllers
             _deviceRepo = deviceRepo;
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
+            _employeeRepo = employeeRepo;
         }
 
         // --- Product CRUD ---
@@ -135,6 +138,12 @@ namespace MobileERP.API.Controllers
             var matched = contacts.Where(c => c.Phone.Contains(phone)).Take(5);
             return Ok(matched);
         }
+
+        // --- Employee CRUD ---
+        [HttpGet("staff")] public async Task<IActionResult> GetStaff() => Ok(await _employeeRepo.GetAllAsync());
+        [HttpPost("staff")] public async Task<IActionResult> CreateStaff(Employee emp) { emp.ComId = 1; await _employeeRepo.AddAsync(emp); return Ok(emp); }
+        [HttpPut("staff")] public async Task<IActionResult> UpdateStaff(Employee emp) { _employeeRepo.Update(emp); return Ok(emp); }
+        [HttpDelete("staff/{id}")] public async Task<IActionResult> DeleteStaff(int id) { var e = await _employeeRepo.GetByIdAsync(id); if (e != null) _employeeRepo.Delete(e); return Ok(); }
 
         // --- AccountHead CRUD ---
         [HttpGet("accounts")] public async Task<IActionResult> GetAccounts() => Ok(await _accountRepo.GetAllAsync());

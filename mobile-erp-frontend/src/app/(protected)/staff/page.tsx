@@ -10,11 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { UserCircle, Plus, Wallet, TrendingUp, DollarSign } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 interface Employee {
@@ -29,6 +31,14 @@ interface Employee {
 export default function StaffPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  
+  const [newEmployee, setNewEmployee] = useState({
+    name: "",
+    designation: "",
+    phone: "",
+    email: ""
+  });
 
   useEffect(() => {
     fetchStaff();
@@ -36,13 +46,31 @@ export default function StaffPage() {
 
   const fetchStaff = async () => {
     try {
-      // Assuming endpoint for staff list
-      const data = await apiFetch("/erp/staff");
+      const data = await apiFetch("/setup/staff");
       setEmployees(data);
     } catch (error: any) {
       toast.error("Failed to fetch staff: " + error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreate = async () => {
+    if (!newEmployee.name || !newEmployee.phone) {
+        toast.error("Name and Phone are required.");
+        return;
+    }
+    try {
+      await apiFetch("/setup/staff", {
+        method: "POST",
+        body: JSON.stringify({ ...newEmployee, comId: 1 }),
+      });
+      toast.success("Employee added successfully!");
+      setIsAddOpen(false);
+      setNewEmployee({ name: "", designation: "", phone: "", email: "" });
+      fetchStaff();
+    } catch (error: any) {
+      toast.error("Failed to add employee: " + error.message);
     }
   };
 
@@ -53,13 +81,43 @@ export default function StaffPage() {
           <h1 className="text-3xl font-bold tracking-tight">Staff Management</h1>
           <p className="text-muted-foreground">Manage employees and their sales commissions.</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" /> Add Employee
-        </Button>
+        
+        <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+          <DialogTrigger render={<Button><Plus className="mr-2 h-4 w-4" /> Add Employee</Button>} />
+          <DialogContent className="max-w-md">
+            <DialogHeader><DialogTitle className="flex items-center"><UserPlus className="mr-2 h-5 w-5" /> New Employee</DialogTitle></DialogHeader>
+            <div className="space-y-4 py-4">
+               <div className="space-y-2">
+                 <Label>Full Name</Label>
+                 <Input value={newEmployee.name} onChange={e => setNewEmployee({...newEmployee, name: e.target.value})} placeholder="e.g. John Doe" />
+               </div>
+               <div className="space-y-2">
+                 <Label>Designation</Label>
+                 <div className="relative">
+                   <Briefcase className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                   <Input className="pl-10" value={newEmployee.designation} onChange={e => setNewEmployee({...newEmployee, designation: e.target.value})} placeholder="e.g. Sales Manager" />
+                 </div>
+               </div>
+               <div className="grid grid-cols-1 gap-4">
+                 <div className="space-y-2">
+                   <Label>Phone Number</Label>
+                   <div className="relative">
+                     <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                     <Input className="pl-10" value={newEmployee.phone} onChange={e => setNewEmployee({...newEmployee, phone: e.target.value})} placeholder="e.g. 01712345678" />
+                   </div>
+                 </div>
+               </div>
+            </div>
+            <DialogFooter>
+              <Button variant="ghost" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+              <Button onClick={handleCreate}>Save Employee</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-blue-50 border-blue-200 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-blue-800 flex items-center">
               <UserCircle className="mr-2 h-4 w-4" /> Total Staff
@@ -69,7 +127,7 @@ export default function StaffPage() {
             <div className="text-2xl font-bold text-blue-900">{employees.length}</div>
           </CardContent>
         </Card>
-        <Card className="bg-green-50 border-green-200">
+        <Card className="bg-green-50 border-green-200 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-green-800 flex items-center">
               <TrendingUp className="mr-2 h-4 w-4" /> Total Earnings
@@ -77,64 +135,67 @@ export default function StaffPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-900">
-              ${employees.reduce((acc, e) => acc + e.totalCommissionEarned, 0).toLocaleString()}
+              ৳{employees.reduce((acc, e) => acc + (e.totalCommissionEarned || 0), 0).toLocaleString()}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-orange-50 border-orange-200">
+        <Card className="bg-orange-50 border-orange-200 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-orange-800 flex items-center">
-              <Wallet className="mr-2 h-4 w-4" /> Unpaid Commissions
+              <Wallet className="mr-2 h-4 w-4" /> Unpaid Balance
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-900">
-              ${employees.reduce((acc, e) => acc + e.commissionBalance, 0).toLocaleString()}
+              ৳{employees.reduce((acc, e) => acc + (e.commissionBalance || 0), 0).toLocaleString()}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      <Card className="shadow-sm">
         <CardHeader>
-          <CardTitle>Employee List</CardTitle>
+          <CardTitle>Employee Directory</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
-                <TableHead>Employee</TableHead>
+                <TableHead className="pl-6">Employee</TableHead>
                 <TableHead>Designation</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Earned</TableHead>
-                <TableHead>Balance</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Contact</TableHead>
+                <TableHead className="text-right">Total Earned</TableHead>
+                <TableHead className="text-right">Balance</TableHead>
+                <TableHead className="text-right pr-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8">Loading...</TableCell>
-                </TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading staff data...</TableCell></TableRow>
               ) : employees.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No employees found.</TableCell>
-                </TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No employees found. Register your first staff member.</TableCell></TableRow>
               ) : (
                 employees.map((emp) => (
-                  <TableRow key={emp.id}>
-                    <TableCell className="font-medium">{emp.name}</TableCell>
-                    <TableCell>{emp.designation}</TableCell>
-                    <TableCell>{emp.phone}</TableCell>
-                    <TableCell>${emp.totalCommissionEarned.toLocaleString()}</TableCell>
+                  <TableRow key={emp.id} className="hover:bg-slate-50/50">
+                    <TableCell className="pl-6">
+                       <div className="flex items-center">
+                          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-3">{emp.name[0]}</div>
+                          <div className="font-medium text-slate-900">{emp.name}</div>
+                       </div>
+                    </TableCell>
                     <TableCell>
-                      <Badge variant={emp.commissionBalance > 0 ? "default" : "secondary"}>
-                        ${emp.commissionBalance.toLocaleString()}
+                       <Badge variant="outline" className="text-[10px] uppercase font-bold text-slate-500">{emp.designation || "Staff"}</Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-slate-600">{emp.phone}</TableCell>
+                    <TableCell className="text-right font-mono text-slate-500">৳{(emp.totalCommissionEarned || 0).toLocaleString()}</TableCell>
+                    <TableCell className="text-right">
+                      <Badge variant={(emp.commissionBalance || 0) > 0 ? "default" : "secondary"} className={(emp.commissionBalance || 0) > 0 ? "bg-orange-100 text-orange-700 border-none" : ""}>
+                        ৳{(emp.commissionBalance || 0).toLocaleString()}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="outline" size="sm">
-                        <DollarSign className="mr-1 h-3 w-3" /> Pay Commission
+                    <TableCell className="text-right pr-6">
+                      <Button variant="outline" size="sm" className="h-8 text-xs">
+                        <DollarSign className="mr-1 h-3 w-3" /> Pay
                       </Button>
                     </TableCell>
                   </TableRow>
