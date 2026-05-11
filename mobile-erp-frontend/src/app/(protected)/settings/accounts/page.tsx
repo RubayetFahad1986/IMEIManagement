@@ -207,7 +207,7 @@ export default function AccountHeadsPage() {
                       <span className="text-xs font-medium text-slate-500 uppercase">{acc.accountType}</span>
                     </TableCell>
                     <TableCell className="text-right font-mono">
-                      ${acc.currentBalance.toLocaleString()}
+                      ${acc.currentBalance.toLocaleString("en-US")}
                     </TableCell>
                     <TableCell className="text-right">
                       {acc.isDefault ? (

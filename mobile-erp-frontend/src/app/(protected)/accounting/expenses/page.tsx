@@ -32,13 +32,14 @@ export default function ExpensesPage() {
   
   const [formData, setFormData] = useState({
     paymentAccountId: "" as string | number,
-    expenseDate: format(new Date(), "yyyy-MM-dd"),
+    expenseDate: "",
     remarks: "",
     details: [{ expenseAccountId: "" as string | number, amount: 0, note: "" }]
   });
 
   useEffect(() => {
     fetchAccounts();
+    setFormData(prev => ({ ...prev, expenseDate: format(new Date(), "yyyy-MM-dd") }));
   }, []);
 
   const fetchAccounts = async () => {
@@ -182,7 +183,7 @@ export default function ExpensesPage() {
           </CardContent>
           <CardFooter className="border-t pt-6 bg-slate-50/50">
             <div className="flex justify-between items-center w-full">
-              <div className="text-sm font-medium">Total: <span className="text-lg font-bold text-primary ml-2">${formData.details.reduce((acc, d) => acc + d.amount, 0).toLocaleString()}</span></div>
+              <div className="text-sm font-medium">Total: <span className="text-lg font-bold text-primary ml-2">${formData.details.reduce((acc, d) => acc + d.amount, 0).toLocaleString("en-US")}</span></div>
               <Button type="submit" size="lg">Save Expense</Button>
             </div>
           </CardFooter>

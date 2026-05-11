@@ -171,7 +171,7 @@ export default function StaffPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-900">
-              ৳{employees.reduce((acc, e) => acc + (e.totalCommissionEarned || 0), 0).toLocaleString()}
+              ৳{employees.reduce((acc, e) => acc + (e.totalCommissionEarned || 0), 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -183,7 +183,7 @@ export default function StaffPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-900">
-              ৳{employees.reduce((acc, e) => acc + (e.commissionBalance || 0), 0).toLocaleString()}
+              ৳{employees.reduce((acc, e) => acc + (e.commissionBalance || 0), 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -223,10 +223,10 @@ export default function StaffPage() {
                        <Badge variant="outline" className="text-[10px] uppercase font-bold text-slate-500">{emp.designation || "Staff"}</Badge>
                     </TableCell>
                     <TableCell className="text-sm text-slate-600">{emp.phone}</TableCell>
-                    <TableCell className="text-right font-mono text-slate-500">৳{(emp.totalCommissionEarned || 0).toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-mono text-slate-500">৳{(emp.totalCommissionEarned || 0).toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <Badge variant={(emp.commissionBalance || 0) > 0 ? "default" : "secondary"} className={(emp.commissionBalance || 0) > 0 ? "bg-orange-100 text-orange-700 border-none" : ""}>
-                        ৳{(emp.commissionBalance || 0).toLocaleString()}
+                        ৳{(emp.commissionBalance || 0).toLocaleString("en-US")}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right pr-6">

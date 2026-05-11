@@ -82,7 +82,7 @@ export default function CustomersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-900">
-              ${customers.reduce((acc, c) => acc + c.customerBalance, 0).toLocaleString()}
+              ${customers.reduce((acc, c) => acc + c.customerBalance, 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -126,13 +126,13 @@ export default function CustomersPage() {
                     <TableCell className="text-sm text-muted-foreground">{c.phone}</TableCell>
                     <TableCell className="text-right">
                        <Badge variant={c.customerBalance > 0 ? "default" : "secondary"}>
-                         ${c.customerBalance.toLocaleString()}
+                         ${c.customerBalance.toLocaleString("en-US")}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                        {c.isSupplier ? (
                          <Badge variant="destructive" className="bg-red-500">
-                           ${c.supplierBalance.toLocaleString()}
+                           ${c.supplierBalance.toLocaleString("en-US")}
                          </Badge>
                        ) : (
                          <span className="text-xs text-muted-foreground italic">N/A</span>

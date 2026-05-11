@@ -96,7 +96,7 @@ export default function InvoiceReportPage({ params }: InvoiceProps) {
                     <div className="text-[10px] text-slate-500">Warranty: {item.warrantyMonths || 0} Months</div>
                   </td>
                   <td className="p-3 text-sm font-mono">{item.imeI1} {item.imeI2 && ` / ${item.imeI2}`}</td>
-                  <td className="p-3 text-sm text-right">৳{(item.unitPrice || item.costPrice).toLocaleString()}</td>
+                  <td className="p-3 text-sm text-right">৳{(item.unitPrice || item.costPrice).toLocaleString("en-US")}</td>
                 </tr>
               ))}
             </tbody>
@@ -166,7 +166,7 @@ export default function InvoiceReportPage({ params }: InvoiceProps) {
                       <tr key={idx}>
                          <td className="py-4 font-bold text-slate-700">{item.mobileDevice?.brand} {item.mobileDevice?.modelName}</td>
                          <td className="py-4 text-sm font-mono text-slate-500">{item.imeI1}</td>
-                         <td className="py-4 text-right font-bold text-slate-900">৳{(item.unitPrice || item.costPrice).toLocaleString()}</td>
+                         <td className="py-4 text-right font-bold text-slate-900">৳{(item.unitPrice || item.costPrice).toLocaleString("en-US")}</td>
                       </tr>
                    ))}
                 </tbody>
@@ -180,7 +180,7 @@ export default function InvoiceReportPage({ params }: InvoiceProps) {
               </div>
               <div className="text-right">
                  <div className="text-sm text-slate-500">Net Payable</div>
-                 <div className="text-3xl font-black text-slate-900">৳{(inv.netTotal || inv.totalAmount).toLocaleString()}</div>
+                 <div className="text-3xl font-black text-slate-900">৳{(inv.netTotal || inv.totalAmount).toLocaleString("en-US")}</div>
               </div>
            </div>
         </div>
@@ -203,15 +203,15 @@ export default function InvoiceReportPage({ params }: InvoiceProps) {
                {inv.details.map((item: any, idx: number) => (
                   <tr key={idx}>
                      <td className="py-1">{item.mobileDevice?.modelName}<br/><span className="text-[8px] opacity-60">IMEI: {item.imeI1.slice(-6)}</span></td>
-                     <td className="py-1 text-right">৳{(item.unitPrice || item.costPrice).toLocaleString()}</td>
+                     <td className="py-1 text-right">৳{(item.unitPrice || item.costPrice).toLocaleString("en-US")}</td>
                   </tr>
                ))}
             </tbody>
          </table>
          <div className="space-y-1 text-right mb-4">
-            <div>SUBTOTAL: ৳{(inv.netTotal || inv.totalAmount).toLocaleString()}</div>
-            <div className="font-bold">TOTAL: ৳{(inv.netTotal || inv.totalAmount).toLocaleString()}</div>
-            <div>CASH: ৳{inv.paidAmount.toLocaleString()}</div>
+            <div>SUBTOTAL: ৳{(inv.netTotal || inv.totalAmount).toLocaleString("en-US")}</div>
+            <div className="font-bold">TOTAL: ৳{(inv.netTotal || inv.totalAmount).toLocaleString("en-US")}</div>
+            <div>CASH: ৳{inv.paidAmount.toLocaleString("en-US")}</div>
          </div>
          <div className="text-center pt-2 border-t border-dashed">
             <p className="font-bold mb-1 italic text-[8px]">Thank you for shopping!</p>

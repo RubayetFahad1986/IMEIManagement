@@ -119,7 +119,7 @@ export default function POSPage() {
                       <div className="font-medium">{item.mobileDevice.brand} {item.mobileDevice.modelName}</div>
                       <div className="text-xs text-muted-foreground">IMEI: {item.imei1}</div>
                     </div>
-                    <div className="font-bold text-blue-600">${item.currentSalePrice.toLocaleString()}</div>
+                    <div className="font-bold text-blue-600">${item.currentSalePrice.toLocaleString("en-US")}</div>
                   </div>
                 ))}
               </div>
@@ -156,7 +156,7 @@ export default function POSPage() {
                           <option value={12}>12 Months</option>
                         </select>
                       </TableCell>
-                      <TableCell className="text-right font-medium">${item.currentSalePrice.toLocaleString()}</TableCell>
+                      <TableCell className="text-right font-medium">${item.currentSalePrice.toLocaleString("en-US")}</TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="icon" onClick={() => setCart(cart.filter(c => c.id !== item.id))}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                       </TableCell>
@@ -211,13 +211,13 @@ export default function POSPage() {
           <div className="absolute right-0 top-0 p-4 opacity-10"><CreditCard className="h-24 w-24" /></div>
           <CardHeader className="pb-2"><CardTitle className="text-blue-100">Checkout</CardTitle></CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex justify-between text-sm opacity-90"><span>Subtotal</span><span>${subtotal.toLocaleString()}</span></div>
+            <div className="flex justify-between text-sm opacity-90"><span>Subtotal</span><span>${subtotal.toLocaleString("en-US")}</span></div>
             <div className="flex justify-between items-center text-sm">
               <span>Discount</span>
               <input type="number" className="w-20 text-right bg-blue-700 border-none rounded px-2 h-7 focus:ring-1 focus:ring-blue-300" value={discount} onChange={e => setDiscount(parseFloat(e.target.value) || 0)} />
             </div>
             <div className="pt-4 border-t border-blue-500 flex justify-between font-bold text-2xl">
-              <span>Total</span><span>${netTotal.toLocaleString()}</span>
+              <span>Total</span><span>${netTotal.toLocaleString("en-US")}</span>
             </div>
             <div className="space-y-1 pt-2">
               <label className="text-[10px] font-bold uppercase opacity-80">Payment Received</label>

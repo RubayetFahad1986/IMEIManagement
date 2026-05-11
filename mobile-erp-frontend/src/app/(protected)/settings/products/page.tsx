@@ -217,8 +217,8 @@ export default function ProductsPage() {
                           <Badge variant="secondary" className="text-[10px] py-0">{d.ram}/{d.storage}</Badge>
                        </div>
                     </TableCell>
-                    <TableCell className="text-right font-mono text-xs text-slate-500">৳{d.defaultCostPrice.toLocaleString()}</TableCell>
-                    <TableCell className="text-right font-mono font-bold text-green-600">৳{d.defaultSalesPrice.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-mono text-xs text-slate-500">৳{d.defaultCostPrice.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-mono font-bold text-green-600">৳{d.defaultSalesPrice.toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(d)}><Edit className="h-3.5 w-3.5" /></Button>

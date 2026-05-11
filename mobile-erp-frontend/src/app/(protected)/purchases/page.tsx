@@ -112,9 +112,9 @@ export default function PurchasesListPage() {
                       <div className="flex items-center"><Calendar className="mr-1 h-3 w-3 text-muted-foreground" /> {format(new Date(inv.purchaseDate), "dd MMM yyyy")}</div>
                     </TableCell>
                     <TableCell>{inv.supplierName || "Direct Purchase"}</TableCell>
-                    <TableCell className="text-right font-medium">৳{inv.totalAmount.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-green-600">৳{inv.paidAmount.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-red-600 font-bold">৳{inv.dueAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-medium">৳{inv.totalAmount.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right text-green-600">৳{inv.paidAmount.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right text-red-600 font-bold">৳{inv.dueAmount.toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="icon">
                         <FileText className="h-4 w-4" />

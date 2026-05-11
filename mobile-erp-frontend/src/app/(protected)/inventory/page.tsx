@@ -116,8 +116,8 @@ export default function InventoryPage() {
                       <div className="font-medium">{item.mobileDevice.brand} {item.mobileDevice.modelName}</div>
                     </TableCell>
                     <TableCell className="font-mono">{item.imei1}</TableCell>
-                    <TableCell>৳{item.costPrice.toLocaleString()}</TableCell>
-                    <TableCell>৳{item.currentSalePrice.toLocaleString()}</TableCell>
+                    <TableCell>৳{item.costPrice.toLocaleString("en-US")}</TableCell>
+                    <TableCell>৳{item.currentSalePrice.toLocaleString("en-US")}</TableCell>
                     <TableCell>
                       <Badge variant={item.isSold ? "secondary" : "default"}>
                         {item.isSold ? "Sold" : "In Stock"}

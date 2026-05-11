@@ -9,23 +9,26 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Smartphone } from "lucide-react";
-
 export default function HomePage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { login, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
+    setMounted(true);
     if (isAuthenticated) {
       router.replace("/dashboard");
     }
   }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+    // ... rest of method ...
+  };
+
+  if (!mounted || isAuthenticated) return null;
 
     try {
       const response = await fetch("http://localhost:5237/api/auth/login", {

@@ -115,8 +115,8 @@ export default function SalesListPage() {
                     <TableCell>
                       <div className="flex items-center text-sm"><User className="mr-1 h-3 w-3 text-muted-foreground" /> {inv.customerName || "Walk-in"}</div>
                     </TableCell>
-                    <TableCell className="text-right font-medium">৳{inv.netTotal.toLocaleString()}</TableCell>
-                    <TableCell className="text-right">৳{inv.paidAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-medium">৳{inv.netTotal.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right">৳{inv.paidAmount.toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <Badge variant={inv.paidAmount >= inv.netTotal ? "default" : "destructive"}>
                         {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}

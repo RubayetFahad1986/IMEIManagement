@@ -103,8 +103,8 @@ export default function LedgersPage() {
                       {v.entries.map((entry, idx) => (
                         <TableRow key={idx}>
                           <TableCell className="w-1/2">{entry.accountHead.name}</TableCell>
-                          <TableCell className="text-right">{entry.debit > 0 ? `$${entry.debit.toLocaleString()}` : ""}</TableCell>
-                          <TableCell className="text-right">{entry.credit > 0 ? `$${entry.credit.toLocaleString()}` : ""}</TableCell>
+                          <TableCell className="text-right">{entry.debit > 0 ? `$${entry.debit.toLocaleString("en-US")}` : ""}</TableCell>
+                          <TableCell className="text-right">{entry.credit > 0 ? `$${entry.credit.toLocaleString("en-US")}` : ""}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

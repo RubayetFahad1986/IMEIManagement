@@ -224,8 +224,8 @@ export default function ContactsPage() {
                         {c.isSupplier && <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">Supplier</Badge>}
                       </div>
                     </TableCell>
-                    <TableCell className="text-right font-medium text-green-600">৳{c.customerBalance.toLocaleString()}</TableCell>
-                    <TableCell className="text-right font-medium text-red-600">৳{c.supplierBalance.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-medium text-green-600">৳{c.customerBalance.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-medium text-red-600">৳{c.supplierBalance.toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(c)}><Edit className="h-3.5 w-3.5" /></Button>

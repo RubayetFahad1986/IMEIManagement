@@ -39,7 +39,7 @@ export default function SuppliersPage() {
   const fetchSuppliers = async () => {
     try {
       const data = await apiFetch("/setup/suppliers");
-      setSuppliers(data);
+      setSuppliers(data.items || data);
     } catch (error: any) {
       toast.error("Failed to fetch suppliers: " + error.message);
     } finally {
@@ -80,7 +80,7 @@ export default function SuppliersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-900">
-              ${suppliers.reduce((acc, s) => acc + s.supplierBalance, 0).toLocaleString()}
+              ৳{suppliers.reduce((acc, s) => acc + s.supplierBalance, 0).toLocaleString("en-US")}
             </div>
           </CardContent>
         </Card>
@@ -129,13 +129,13 @@ export default function SuppliersPage() {
                     <TableCell className="text-sm text-muted-foreground">{s.phone}</TableCell>
                     <TableCell className="text-right">
                        <Badge variant={s.supplierBalance > 0 ? "destructive" : "secondary"}>
-                         ${s.supplierBalance.toLocaleString()}
+                         ৳{s.supplierBalance.toLocaleString("en-US")}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                        {s.isCustomer ? (
                          <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">
-                           ${s.customerBalance.toLocaleString()}
+                           ৳{s.customerBalance.toLocaleString("en-US")}
                          </Badge>
                        ) : (
                          <span className="text-xs text-muted-foreground italic">N/A</span>
