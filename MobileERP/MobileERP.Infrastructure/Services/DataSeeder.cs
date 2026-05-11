@@ -156,5 +156,35 @@ namespace MobileERP.Infrastructure.Services
             await _context.SaveChangesAsync();
             Console.WriteLine("Successfully seeded admin user.");
         }
+
+        public async Task SeedCompanyAsync()
+        {
+            if (await _context.Companies.AnyAsync()) return;
+
+            var company = new Company
+            {
+                Name = "Dominate Software Solution",
+                Address = "Dhaka, Bangladesh",
+                Phone = "+8801700000000",
+                Email = "info@dominate.com",
+                IsActive = true
+            };
+
+            _context.Companies.Add(company);
+            await _context.SaveChangesAsync();
+
+            var branch = new Branch
+            {
+                Name = "Main Branch",
+                Address = "Head Office, Dhaka",
+                Phone = "+8801700000000",
+                IsMainBranch = true,
+                ComId = company.Id
+            };
+
+            _context.Branches.Add(branch);
+            await _context.SaveChangesAsync();
+            Console.WriteLine("Successfully seeded default company and branch.");
+        }
     }
 }

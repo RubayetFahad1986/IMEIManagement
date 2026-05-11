@@ -39,6 +39,7 @@ using (var scope = app.Services.CreateScope())
     await seeder.SeedMobileDevicesAsync(csvPath);
     await seeder.SeedAccountHeadsAsync();
     await seeder.SeedAdminUserAsync();
+    await seeder.SeedCompanyAsync();
 }
 
 // Configure the HTTP request pipeline.

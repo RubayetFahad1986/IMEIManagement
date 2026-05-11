@@ -54,5 +54,14 @@ namespace MobileERP.API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpPost("{id}/branches")]
+        public async Task<IActionResult> CreateBranch(int id, Branch branch)
+        {
+            branch.ComId = id;
+            _context.Branches.Add(branch);
+            await _context.SaveChangesAsync();
+            return Ok(branch);
+        }
     }
 }
