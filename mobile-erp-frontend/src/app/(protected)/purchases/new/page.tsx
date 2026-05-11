@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Truck, Plus, Trash2, Save, UserPlus, Smartphone } from "lucide-react";
+import { Truck, Plus, Trash2, Save, UserPlus, Smartphone, Copy, ScanLine } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { QuickAddContact } from "@/components/ui/quick-add-contact";
@@ -72,6 +72,14 @@ export default function NewPurchasePage() {
     });
   };
 
+  const duplicateItem = (item: any) => {
+    setFormData({
+      ...formData,
+      items: [...formData.items, { ...item, imei1: "", imei2: "" }]
+    });
+    toast.info("Model details copied to new row. Enter IMEI.");
+  };
+
   const removeItem = (idx: number) => {
     setFormData({ ...formData, items: formData.items.filter((_, i) => i !== idx) });
   };
@@ -81,6 +89,12 @@ export default function NewPurchasePage() {
     if (!formData.supplierId || formData.items.length === 0) {
       toast.error("Supplier and at least one item are required.");
       return;
+    }
+
+    // Validation for IMEIs
+    if (formData.items.some(i => !i.imei1)) {
+        toast.error("All items must have at least IMEI 1.");
+        return;
     }
 
     try {
@@ -112,7 +126,7 @@ export default function NewPurchasePage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Record Purchase</h1>
-          <p className="text-muted-foreground">Add new stock to your inventory by recording a supplier invoice.</p>
+          <p className="text-muted-foreground">Multiple Products & Batch IMEIs Support.</p>
         </div>
       </div>
 
@@ -120,9 +134,9 @@ export default function NewPurchasePage() {
         <Card>
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center"><Truck className="mr-2 h-5 w-5" /> Supplier Information</CardTitle>
-              <Button type="button" variant="ghost" size="sm" className="text-blue-600" onClick={() => setIsQuickAddOpen(true)}>
-                <UserPlus className="h-4 w-4 mr-1" /> Add New Supplier
+              <CardTitle className="flex items-center"><Truck className="mr-2 h-5 w-5 text-blue-600" /> Supplier Information</CardTitle>
+              <Button type="button" variant="outline" size="sm" className="h-8 text-blue-600 border-blue-200" onClick={() => setIsQuickAddOpen(true)}>
+                <UserPlus className="h-4 w-4 mr-1" /> Quick Add Supplier
               </Button>
             </div>
           </CardHeader>
@@ -138,41 +152,41 @@ export default function NewPurchasePage() {
             </div>
             <div className="space-y-2">
               <Label>Invoice / Ref No.</Label>
-              <Input placeholder="e.g. PUR-001" value={formData.invoiceNo} onChange={e => setFormData({...formData, invoiceNo: e.target.value})} required />
+              <Input placeholder="e.g. PUR-10023" value={formData.invoiceNo} onChange={e => setFormData({...formData, invoiceNo: e.target.value})} required />
             </div>
             <div className="space-y-2">
-              <Label>Amount Paid (Optional)</Label>
+              <Label>Amount Paid</Label>
               <Input type="number" placeholder="0.00" value={formData.paidAmount} onChange={e => setFormData({...formData, paidAmount: parseFloat(e.target.value) || 0})} />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center"><Smartphone className="mr-2 h-5 w-5" /> Purchase Items (IMEIs)</CardTitle>
-            <Button type="button" variant="outline" size="sm" onClick={addItem}>
-              <Plus className="mr-2 h-4 w-4" /> Add Item Row
+        <Card className="border-blue-100 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between bg-blue-50/30">
+            <CardTitle className="text-sm font-bold flex items-center"><Smartphone className="mr-2 h-5 w-5 text-blue-600" /> Items & IMEIs</CardTitle>
+            <Button type="button" variant="default" size="sm" onClick={addItem} className="bg-blue-600">
+              <Plus className="mr-2 h-4 w-4" /> Add New Row
             </Button>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-slate-50">
                 <TableRow>
-                  <TableHead className="w-1/4">Device Model</TableHead>
-                  <TableHead>IMEI 1</TableHead>
+                  <TableHead className="w-[30%] pl-6">Device Model</TableHead>
+                  <TableHead>IMEI 1 (Required)</TableHead>
                   <TableHead>IMEI 2</TableHead>
-                  <TableHead>Cost</TableHead>
-                  <TableHead>Sale</TableHead>
-                  <TableHead className="w-10"></TableHead>
+                  <TableHead className="w-[12%] text-right">Cost Price</TableHead>
+                  <TableHead className="w-[12%] text-right">Sale Price</TableHead>
+                  <TableHead className="w-[10%] text-right pr-6">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {formData.items.length === 0 ? (
-                  <TableRow><TableCell colSpan={6} className="text-center py-10 text-muted-foreground italic">No items added. Click "Add Item Row" to start.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={6} className="text-center py-20 text-muted-foreground italic">No products added. Click "Add New Row" to start scanning IMEIs.</TableCell></TableRow>
                 ) : (
                   formData.items.map((item, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell>
+                    <TableRow key={idx} className="group hover:bg-slate-50/50">
+                      <TableCell className="pl-6">
                         <SearchableSelect 
                           className="h-9 text-xs"
                           options={devices.map(d => ({ label: `${d.brand} ${d.modelName}`, value: d.id }))}
@@ -185,19 +199,29 @@ export default function NewPurchasePage() {
                           placeholder="Search Device..."
                         />
                       </TableCell>
-                      <TableCell><Input placeholder="IMEI 1" className="h-9 font-mono" value={item.imei1} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei1 = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
-                      <TableCell><Input placeholder="IMEI 2" className="h-9 font-mono" value={item.imei2} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei2 = e.target.value; setFormData({...formData, items: newItems}); }} /></TableCell>
-                      <TableCell><Input type="number" placeholder="0.00" className="h-9" value={item.costPrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].costPrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
-                      <TableCell><Input type="number" placeholder="0.00" className="h-9" value={item.salePrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].salePrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
-                      <TableCell><Button type="button" variant="ghost" size="icon" onClick={() => removeItem(idx)}><Trash2 className="h-4 w-4 text-destructive" /></Button></TableCell>
+                      <TableCell><Input placeholder="Scan IMEI 1" className="h-9 font-mono bg-white" value={item.imei1} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei1 = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Input placeholder="IMEI 2" className="h-9 font-mono bg-white" value={item.imei2} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei2 = e.target.value; setFormData({...formData, items: newItems}); }} /></TableCell>
+                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.costPrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].costPrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Input type="number" className="h-9 text-right bg-white" value={item.salePrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].salePrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell className="pr-6">
+                        <div className="flex justify-end gap-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                          <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-blue-600" title="Duplicate row for same model" onClick={() => duplicateItem(item)}><Copy className="h-3.5 w-3.5" /></Button>
+                          <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeItem(idx)}><Trash2 className="h-3.5 w-3.5" /></Button>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ))
                 )}
               </TableBody>
             </Table>
           </CardContent>
-          <CardFooter className="bg-slate-50 border-t justify-end py-4">
-             <Button type="submit" size="lg"><Save className="mr-2 h-4 w-4" /> Finalize Purchase</Button>
+          <CardFooter className="bg-slate-50 border-t justify-between py-4 px-6">
+             <div className="text-sm font-medium text-slate-500">
+                Total Items: <span className="text-slate-900 font-bold">{formData.items.length}</span>
+             </div>
+             <Button type="submit" size="lg" className="bg-blue-600 hover:bg-blue-700 shadow-md">
+               <Save className="mr-2 h-4 w-4" /> Finalize Purchase
+             </Button>
           </CardFooter>
         </Card>
       </form>

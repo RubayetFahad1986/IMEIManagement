@@ -66,9 +66,11 @@ export default function InventoryPage() {
           <h1 className="text-3xl font-bold tracking-tight">Inventory</h1>
           <p className="text-muted-foreground">Manage your mobile device stock and IMEIs.</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" /> Add Purchase
-        </Button>
+        <Link href="/purchases/new">
+          <Button>
+            <Plus className="mr-2 h-4 w-4" /> Add Purchase
+          </Button>
+        </Link>
       </div>
 
       <Card>
