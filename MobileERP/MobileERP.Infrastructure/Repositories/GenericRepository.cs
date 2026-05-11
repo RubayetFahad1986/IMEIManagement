@@ -48,16 +48,19 @@ namespace MobileERP.Infrastructure.Repositories
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public void Update(T entity)
         {
             _dbSet.Update(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
             _context.Remove(entity); // DbContext override handles soft delete
+            _context.SaveChanges();
         }
     }
 }

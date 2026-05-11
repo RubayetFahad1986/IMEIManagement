@@ -68,10 +68,10 @@ namespace MobileERP.API.Controllers
         [HttpGet("contacts")] public async Task<IActionResult> GetContacts() => Ok(await _contactRepo.GetAllAsync());
         
         [HttpGet("suppliers")] 
-        public async Task<IActionResult> GetSuppliers() => Ok((await _contactRepo.GetAllAsync()).Where(c => c.IsSupplier));
+        public async Task<IActionResult> GetSuppliers() => Ok(await _contactRepo.FindAsync(c => c.IsSupplier));
         
         [HttpGet("customers")] 
-        public async Task<IActionResult> GetCustomers() => Ok((await _contactRepo.GetAllAsync()).Where(c => c.IsCustomer));
+        public async Task<IActionResult> GetCustomers() => Ok(await _contactRepo.FindAsync(c => c.IsCustomer));
 
         [HttpPost("contacts")] 
         public async Task<IActionResult> CreateContact(Contact contact) { contact.ComId = 1; await _contactRepo.AddAsync(contact); return Ok(contact); }
