@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -18,6 +18,7 @@ import { ShoppingCart, Search, FileText, Calendar, User } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Link from "next/link";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface SalesInvoice {
   id: number;
@@ -30,36 +31,41 @@ interface SalesInvoice {
 }
 
 export default function SalesListPage() {
-  const [invoices, setInvoices] = useState<SalesInvoice[]>([]);
+  const [data, setData] = useState({
+    items: [] as SalesInvoice[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchInvoices();
-  }, []);
-
-  const fetchInvoices = async () => {
+  const fetchInvoices = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      // Assuming endpoint to get all sales
-      const data = await apiFetch("/erp/sales"); 
-      setInvoices(data);
+      // Endpoint updated for pagination
+      const result = await apiFetch(`/erp/sales?page=${page}&pageSize=10&search=${search}`); 
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to load sales: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filtered = invoices.filter(i => 
-    i.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchInvoices(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchInvoices]);
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Sales History</h1>
-          <p className="text-muted-foreground">Review all sales transactions and invoices.</p>
+          <p className="text-muted-foreground">Review all sales transactions with server pagination.</p>
         </div>
         <Link href="/pos">
           <Button><ShoppingCart className="mr-2 h-4 w-4" /> New Sale</Button>
@@ -97,10 +103,10 @@ export default function SalesListPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
+              ) : data.items.length === 0 ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No invoices found.</TableCell></TableRow>
               ) : (
-                filtered.map((inv) => (
+                data.items.map((inv) => (
                   <TableRow key={inv.id}>
                     <TableCell className="font-bold text-blue-600">{inv.invoiceNo}</TableCell>
                     <TableCell className="text-sm">
@@ -109,8 +115,8 @@ export default function SalesListPage() {
                     <TableCell>
                       <div className="flex items-center text-sm"><User className="mr-1 h-3 w-3 text-muted-foreground" /> {inv.customerName || "Walk-in"}</div>
                     </TableCell>
-                    <TableCell className="text-right font-medium">${inv.netTotal.toLocaleString()}</TableCell>
-                    <TableCell className="text-right">${inv.paidAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-medium">৳{inv.netTotal.toLocaleString()}</TableCell>
+                    <TableCell className="text-right">৳{inv.paidAmount.toLocaleString()}</TableCell>
                     <TableCell className="text-right">
                       <Badge variant={inv.paidAmount >= inv.netTotal ? "default" : "destructive"}>
                         {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}
@@ -126,6 +132,13 @@ export default function SalesListPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchInvoices(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

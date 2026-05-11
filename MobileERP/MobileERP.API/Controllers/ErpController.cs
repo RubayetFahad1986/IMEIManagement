@@ -332,7 +332,8 @@ namespace MobileERP.API.Controllers
             
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(i => i.IMEI1.Contains(search) || i.IMEI2.Contains(search) || (i.MobileDevice != null && i.MobileDevice.ModelName.Contains(search)));
+                search = search.ToLower();
+                query = query.Where(i => i.IMEI1.ToLower().Contains(search) || i.IMEI2.ToLower().Contains(search) || (i.MobileDevice != null && i.MobileDevice.ModelName.ToLower().Contains(search)));
             }
 
             int totalCount = await query.CountAsync();
@@ -353,10 +354,19 @@ namespace MobileERP.API.Controllers
         }
         
         [HttpGet("sales")]
-        public async Task<IActionResult> GetSales()
+        public async Task<IActionResult> GetSales(int page = 1, int pageSize = 10, string? search = null)
         {
-            var sales = await _context.SalesInvoices
+            IQueryable<SalesInvoice> query = _context.SalesInvoices;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(s => s.InvoiceNo.ToLower().Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query
                 .OrderByDescending(s => s.SalesDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(s => new {
                     s.Id,
                     s.InvoiceNo,
@@ -367,14 +377,23 @@ namespace MobileERP.API.Controllers
                     s.ChangeAmount
                 })
                 .ToListAsync();
-            return Ok(sales);
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
 
         [HttpGet("purchases")]
-        public async Task<IActionResult> GetPurchases()
+        public async Task<IActionResult> GetPurchases(int page = 1, int pageSize = 10, string? search = null)
         {
-            var purchases = await _context.PurchaseInvoices
+            IQueryable<PurchaseInvoice> query = _context.PurchaseInvoices;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(p => p.InvoiceNo.ToLower().Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query
                 .OrderByDescending(p => p.PurchaseDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(p => new {
                     p.Id,
                     p.InvoiceNo,
@@ -385,7 +404,7 @@ namespace MobileERP.API.Controllers
                     p.DueAmount
                 })
                 .ToListAsync();
-            return Ok(purchases);
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
         [HttpGet("product-history/{itemId}")] public async Task<IActionResult> GetProductHistory(int itemId) => Ok(await _context.ProductHistories.Where(h => h.InventoryItemId == itemId).OrderByDescending(h => h.EventDate).ToListAsync());
         [HttpGet("staff")] public async Task<IActionResult> GetStaff() => Ok(await _context.Employees.OrderBy(e => e.Name).ToListAsync());

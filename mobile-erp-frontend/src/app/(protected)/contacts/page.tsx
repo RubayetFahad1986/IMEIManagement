@@ -106,22 +106,22 @@ export default function ContactsPage() {
             <DialogHeader><DialogTitle>Create New Contact</DialogTitle></DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label>Full Name</Label>
-                <Input value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
+                <Label htmlFor="cName">Full Name</Label>
+                <Input id="cName" name="name" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Phone Number</Label>
-                  <Input value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
+                  <Label htmlFor="cPhone">Phone Number</Label>
+                  <Input id="cPhone" name="phone" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Email</Label>
-                  <Input type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
+                  <Label htmlFor="cEmail">Email</Label>
+                  <Input id="cEmail" name="email" type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Full Address</Label>
-                <Input value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
+                <Label htmlFor="cAddr">Full Address</Label>
+                <Input id="cAddr" name="address" value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
               </div>
               <div className="p-4 bg-slate-50 rounded-lg space-y-3">
                 <div className="flex items-center space-x-6">

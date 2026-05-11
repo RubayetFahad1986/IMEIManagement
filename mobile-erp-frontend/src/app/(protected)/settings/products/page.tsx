@@ -13,12 +13,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { ServerPagination } from "@/components/ui/server-pagination";
+import { Label } from "@/components/ui/label";
 
 interface MobileDevice {
   id: number;
@@ -104,34 +104,34 @@ export default function ProductsPage() {
             <DialogHeader><DialogTitle>Insert Mobile to Master List</DialogTitle></DialogHeader>
             <div className="grid grid-cols-2 gap-4 py-4">
               <div className="space-y-2">
-                <Label>Brand</Label>
-                <Input placeholder="e.g. Samsung" value={newDevice.brand} onChange={e => setNewDevice({...newDevice, brand: e.target.value})} />
+                <Label htmlFor="brand">Brand</Label>
+                <Input id="brand" name="brand" placeholder="e.g. Samsung" value={newDevice.brand} onChange={e => setNewDevice({...newDevice, brand: e.target.value})} />
               </div>
               <div className="space-y-2">
-                <Label>Model Name</Label>
-                <Input placeholder="e.g. Galaxy S24" value={newDevice.modelName} onChange={e => setNewDevice({...newDevice, modelName: e.target.value})} />
+                <Label htmlFor="modelName">Model Name</Label>
+                <Input id="modelName" name="modelName" placeholder="e.g. Galaxy S24" value={newDevice.modelName} onChange={e => setNewDevice({...newDevice, modelName: e.target.value})} />
               </div>
               <div className="space-y-2">
-                <Label>Color</Label>
-                <Input placeholder="e.g. Black" value={newDevice.color} onChange={e => setNewDevice({...newDevice, color: e.target.value})} />
+                <Label htmlFor="color">Color</Label>
+                <Input id="color" name="color" placeholder="e.g. Black" value={newDevice.color} onChange={e => setNewDevice({...newDevice, color: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-2">
                  <div className="space-y-1">
-                    <Label className="text-[10px]">RAM</Label>
-                    <Input placeholder="8GB" value={newDevice.ram} onChange={e => setNewDevice({...newDevice, ram: e.target.value})} />
+                    <Label className="text-[10px]" htmlFor="ram">RAM</Label>
+                    <Input id="ram" name="ram" placeholder="8GB" value={newDevice.ram} onChange={e => setNewDevice({...newDevice, ram: e.target.value})} />
                  </div>
                  <div className="space-y-1">
-                    <Label className="text-[10px]">Storage</Label>
-                    <Input placeholder="256GB" value={newDevice.storage} onChange={e => setNewDevice({...newDevice, storage: e.target.value})} />
+                    <Label className="text-[10px]" htmlFor="storage">Storage</Label>
+                    <Input id="storage" name="storage" placeholder="256GB" value={newDevice.storage} onChange={e => setNewDevice({...newDevice, storage: e.target.value})} />
                  </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-blue-600 font-bold">Default Cost (BDT)</Label>
-                <Input type="number" value={newDevice.defaultCostPrice} onChange={e => setNewDevice({...newDevice, defaultCostPrice: parseFloat(e.target.value) || 0})} />
+                <Label className="text-blue-600 font-bold" htmlFor="cost">Default Cost (BDT)</Label>
+                <Input id="cost" name="defaultCostPrice" type="number" value={newDevice.defaultCostPrice} onChange={e => setNewDevice({...newDevice, defaultCostPrice: parseFloat(e.target.value) || 0})} />
               </div>
               <div className="space-y-2">
-                <Label className="text-green-600 font-bold">Default Sale (BDT)</Label>
-                <Input type="number" value={newDevice.defaultSalesPrice} onChange={e => setNewDevice({...newDevice, defaultSalesPrice: parseFloat(e.target.value) || 0})} />
+                <Label className="text-green-600 font-bold" htmlFor="sale">Default Sale (BDT)</Label>
+                <Input id="sale" name="defaultSalesPrice" type="number" value={newDevice.defaultSalesPrice} onChange={e => setNewDevice({...newDevice, defaultSalesPrice: parseFloat(e.target.value) || 0})} />
               </div>
             </div>
             <DialogFooter>

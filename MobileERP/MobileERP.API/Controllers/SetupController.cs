@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MobileERP.Domain.Entities;
+using MobileERP.Infrastructure.Persistence;
 using MobileERP.Infrastructure.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace MobileERP.API.Controllers
     [Route("api/[controller]")]
     public class SetupController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private readonly IRepository<Brand> _brandRepo;
         private readonly IRepository<Branch> _branchRepo;
         private readonly IRepository<Contact> _contactRepo;
@@ -19,6 +22,7 @@ namespace MobileERP.API.Controllers
         private readonly IRepository<ProductCategory> _categoryRepo;
 
         public SetupController(
+            ApplicationDbContext context,
             IRepository<Brand> brandRepo,
             IRepository<Branch> branchRepo,
             IRepository<Contact> contactRepo,
@@ -27,6 +31,7 @@ namespace MobileERP.API.Controllers
             IRepository<Product> productRepo,
             IRepository<ProductCategory> categoryRepo)
         {
+            _context = context;
             _brandRepo = brandRepo;
             _branchRepo = branchRepo;
             _contactRepo = contactRepo;
@@ -43,7 +48,8 @@ namespace MobileERP.API.Controllers
             IQueryable<Product> query = _context.Products;
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(p => p.Name.Contains(search) || (p.SKU != null && p.SKU.Contains(search)));
+                search = search.ToLower();
+                query = query.Where(p => p.Name.ToLower().Contains(search) || (p.SKU != null && p.SKU.ToLower().Contains(search)));
             }
             int totalCount = await query.CountAsync();
             var items = await query.OrderByDescending(p => p.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
@@ -71,7 +77,8 @@ namespace MobileERP.API.Controllers
             IQueryable<MobileDevice> query = _context.MobileDevices;
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(d => d.Brand.Contains(search) || d.ModelName.Contains(search));
+                search = search.ToLower();
+                query = query.Where(d => d.Brand.ToLower().Contains(search) || d.ModelName.ToLower().Contains(search));
             }
             int totalCount = await query.CountAsync();
             var items = await query.OrderByDescending(d => d.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
@@ -95,7 +102,8 @@ namespace MobileERP.API.Controllers
             IQueryable<Contact> query = _context.Contacts;
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(c => c.Name.Contains(search) || c.Phone.Contains(search));
+                search = search.ToLower();
+                query = query.Where(c => c.Name.ToLower().Contains(search) || c.Phone.ToLower().Contains(search));
             }
             if (isCustomer.HasValue) query = query.Where(c => c.IsCustomer == isCustomer.Value);
             if (isSupplier.HasValue) query = query.Where(c => c.IsSupplier == isSupplier.Value);

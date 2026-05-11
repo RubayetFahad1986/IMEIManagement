@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -18,6 +18,7 @@ import { Truck, Search, FileText, Calendar, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Link from "next/link";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface PurchaseInvoice {
   id: number;
@@ -30,36 +31,40 @@ interface PurchaseInvoice {
 }
 
 export default function PurchasesListPage() {
-  const [invoices, setInvoices] = useState<PurchaseInvoice[]>([]);
+  const [data, setData] = useState({
+    items: [] as PurchaseInvoice[],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchInvoices();
-  }, []);
-
-  const fetchInvoices = async () => {
+  const fetchInvoices = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      // Assuming an endpoint for purchase list
-      const data = await apiFetch("/erp/purchases");
-      setInvoices(data);
+      const result = await apiFetch(`/erp/purchases?page=${page}&pageSize=10&search=${search}`);
+      setData(result);
     } catch (error: any) {
       toast.error("Failed to load purchases: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filtered = invoices.filter(i => 
-    i.invoiceNo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchInvoices(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchInvoices]);
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Purchase History</h1>
-          <p className="text-muted-foreground">Manage your incoming stock and supplier invoices.</p>
+          <p className="text-muted-foreground">Manage your incoming stock with server pagination.</p>
         </div>
         <Link href="/purchases/new">
           <Button><Plus className="mr-2 h-4 w-4" /> Record Purchase</Button>
@@ -97,19 +102,19 @@ export default function PurchasesListPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
+              ) : data.items.length === 0 ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No purchases found.</TableCell></TableRow>
               ) : (
-                filtered.map((inv) => (
+                data.items.map((inv) => (
                   <TableRow key={inv.id}>
                     <TableCell className="font-bold text-orange-600">{inv.invoiceNo}</TableCell>
                     <TableCell className="text-sm">
                       <div className="flex items-center"><Calendar className="mr-1 h-3 w-3 text-muted-foreground" /> {format(new Date(inv.purchaseDate), "dd MMM yyyy")}</div>
                     </TableCell>
                     <TableCell>{inv.supplierName || "Direct Purchase"}</TableCell>
-                    <TableCell className="text-right font-medium">${inv.totalAmount.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-green-600">${inv.paidAmount.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-red-600 font-bold">${inv.dueAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right font-medium">৳{inv.totalAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-green-600">৳{inv.paidAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-red-600 font-bold">৳{inv.dueAmount.toLocaleString()}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="icon">
                         <FileText className="h-4 w-4" />
@@ -120,6 +125,13 @@ export default function PurchasesListPage() {
               )}
             </TableBody>
           </Table>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchInvoices(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>
