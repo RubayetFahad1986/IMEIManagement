@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone } from "lucide-react";
 
 export const MENU_ITEMS = [
   { group: "General", items: [
