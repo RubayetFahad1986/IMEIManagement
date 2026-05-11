@@ -125,7 +125,7 @@ export default function NewPurchasePage() {
     }
 
     try {
-      await apiFetch("/erp/purchase", {
+      const data = await apiFetch("/erp/purchase", {
         method: "POST",
         body: JSON.stringify({
           ...formData,
@@ -140,7 +140,7 @@ export default function NewPurchasePage() {
         }),
       });
       toast.success("Purchase recorded successfully!");
-      router.push("/inventory");
+      router.push(`/reports/invoice/purchase/${data.invoiceId || data.InvoiceId}`);
     } catch (error: any) {
       toast.error("Failed to save purchase: " + error.message);
     }

@@ -1,4 +1,5 @@
 using MobileERP.Domain.Common;
+using System.Collections.Generic;
 
 namespace MobileERP.Domain.Entities
 {
@@ -9,6 +10,8 @@ namespace MobileERP.Domain.Entities
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public string? LogoPath { get; set; }
+        public string? HeaderImagePath { get; set; }
+        public string? TermsAndConditions { get; set; }
         public bool IsActive { get; set; } = true;
         public ICollection<Branch> Branches { get; set; } = new List<Branch>();
     }

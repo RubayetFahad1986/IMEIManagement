@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { apiFetch } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2 } from "lucide-react";
+import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2, Image as ImageIcon, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 interface Branch {
@@ -25,6 +26,8 @@ interface Company {
   phone: string;
   email: string;
   logoPath: string;
+  headerImagePath: string;
+  termsAndConditions: string;
   branches: Branch[];
 }
 
@@ -41,7 +44,6 @@ export default function CompanySettingsPage() {
 
   const fetchCompany = async () => {
     try {
-      // Assuming ComId 1 for now (Seeded by DataSeeder)
       const data = await apiFetch("/company/1");
       setCompany(data);
     } catch (error: any) {
@@ -87,10 +89,10 @@ export default function CompanySettingsPage() {
   if (loading) return <div className="p-6">Loading settings...</div>;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">System Settings</h1>
-        <p className="text-muted-foreground">Manage your company identity and branch network.</p>
+        <p className="text-muted-foreground">Manage your company identity, branding, and branch network.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -102,7 +104,7 @@ export default function CompanySettingsPage() {
                   <Building2 className="mr-2 h-5 w-5" /> Company Profile
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Legal Company Name</Label>
@@ -115,46 +117,77 @@ export default function CompanySettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Official Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="email"
-                        type="email"
-                        className="pl-8"
-                        value={company?.email || ""}
-                        onChange={(e) => setCompany({ ...company!, email: e.target.value })}
-                      />
-                    </div>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={company?.email || ""}
+                      onChange={(e) => setCompany({ ...company!, email: e.target.value })}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Official Phone</Label>
-                    <div className="relative">
-                      <Phone className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="phone"
-                        className="pl-8"
-                        value={company?.phone || ""}
-                        onChange={(e) => setCompany({ ...company!, phone: e.target.value })}
-                      />
-                    </div>
+                    <Input
+                      id="phone"
+                      value={company?.phone || ""}
+                      onChange={(e) => setCompany({ ...company!, phone: e.target.value })}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="address">Headquarters Address</Label>
-                    <div className="relative">
-                      <MapPin className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="address"
-                        className="pl-8"
-                        value={company?.address || ""}
-                        onChange={(e) => setCompany({ ...company!, address: e.target.value })}
+                    <Input
+                      id="address"
+                      value={company?.address || ""}
+                      onChange={(e) => setCompany({ ...company!, address: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="border-t pt-6 space-y-4">
+                  <h3 className="text-sm font-bold uppercase text-slate-500 flex items-center">
+                    <ImageIcon className="mr-2 h-4 w-4" /> Branding Assets
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Company Logo (URL)</Label>
+                      <Input 
+                        placeholder="https://example.com/logo.png"
+                        value={company?.logoPath || ""}
+                        onChange={e => setCompany({...company!, logoPath: e.target.value})}
                       />
+                      <div className="h-20 w-20 bg-slate-100 rounded border flex items-center justify-center overflow-hidden">
+                         {company?.logoPath ? <img src={company.logoPath} alt="Logo" className="max-h-full object-contain" /> : <ImageIcon className="text-slate-300 h-8 w-8" />}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Header Image (URL)</Label>
+                      <Input 
+                        placeholder="https://example.com/header.png"
+                        value={company?.headerImagePath || ""}
+                        onChange={e => setCompany({...company!, headerImagePath: e.target.value})}
+                      />
+                      <div className="h-20 w-full bg-slate-100 rounded border flex items-center justify-center overflow-hidden">
+                         {company?.headerImagePath ? <img src={company.headerImagePath} alt="Header" className="w-full h-full object-cover" /> : <ImageIcon className="text-slate-300 h-8 w-8" />}
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <div className="border-t pt-6 space-y-2">
+                   <Label className="flex items-center text-slate-700 font-bold">
+                     <FileText className="mr-2 h-4 w-4" /> Terms & Conditions (Invoice Footer)
+                   </Label>
+                   <Textarea 
+                     className="min-h-[150px] font-sans text-sm"
+                     placeholder="Enter your business terms, return policy, and warranty conditions..."
+                     value={company?.termsAndConditions || ""}
+                     onChange={e => setCompany({...company!, termsAndConditions: e.target.value})}
+                   />
+                   <p className="text-[10px] text-muted-foreground italic">These terms will automatically appear at the bottom of every Sales and Purchase invoice.</p>
+                </div>
               </CardContent>
               <CardFooter className="border-t pt-6">
-                <Button type="submit" disabled={saving}>
-                  {saving ? "Saving..." : <><Save className="mr-2 h-4 w-4" /> Save Profile</>}
+                <Button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-700">
+                  {saving ? "Saving..." : <><Save className="mr-2 h-4 w-4" /> Save Profile & Branding</>}
                 </Button>
               </CardFooter>
             </Card>
@@ -163,15 +196,13 @@ export default function CompanySettingsPage() {
 
         <div className="space-y-6">
            <Card className="border-t-4 border-t-orange-500">
-             <CardHeader className="flex flex-row items-center justify-between">
+             <CardHeader className="flex flex-row items-center justify-between pb-2">
                <CardTitle className="text-sm flex items-center">
                  <MapPinned className="mr-2 h-4 w-4 text-orange-500" /> Branch Network
                </CardTitle>
                
                <Dialog open={isAddBranchOpen} onOpenChange={setIsAddBranchOpen}>
-                 <DialogTrigger 
-                   render={<Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button>} 
-                 />
+                 <DialogTrigger render={<Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button>} />
                  <DialogContent>
                     <DialogHeader><DialogTitle>Register New Branch</DialogTitle></DialogHeader>
                     <div className="space-y-4 py-4">
@@ -205,18 +236,19 @@ export default function CompanySettingsPage() {
                       <div className="text-[10px] text-muted-foreground">{branch.phone}</div>
                     </div>
                     {!branch.isMainBranch && (
-                       <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 className="h-3 w-3 text-destructive" /></Button>
+                       <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 className="h-3.5 w-3.5 text-destructive" /></Button>
                     )}
                   </div>
                 ))}
              </CardContent>
            </Card>
 
-           <Card className="bg-slate-900 text-white">
-             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-slate-400">Subscription Status</CardTitle></CardHeader>
+           <Card className="bg-slate-900 text-white overflow-hidden relative">
+             <div className="absolute top-0 right-0 p-4 opacity-5"><Building2 className="h-24 w-24" /></div>
+             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-slate-400">Subscription</CardTitle></CardHeader>
              <CardContent>
-                <div className="text-lg font-bold">Enterprise Plan</div>
-                <p className="text-xs text-slate-400 mt-1">Status: <span className="text-green-400">Active</span></p>
+                <div className="text-xl font-bold">Enterprise Plan</div>
+                <p className="text-xs text-slate-400 mt-1 italic">Unlimited branches & master products.</p>
              </CardContent>
            </Card>
         </div>

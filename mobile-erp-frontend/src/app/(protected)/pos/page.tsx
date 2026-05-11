@@ -82,7 +82,7 @@ export default function POSPage() {
     if (cart.length === 0) { toast.error("Cart is empty"); return; }
     setLoading(true);
     try {
-      await apiFetch("/erp/sales", {
+      const data = await apiFetch("/erp/sales", {
         method: "POST",
         body: JSON.stringify({
           customerId: customerInfo.id,
@@ -92,11 +92,7 @@ export default function POSPage() {
         }),
       });
       toast.success("Sale completed!");
-      setCart([]);
-      setDiscount(0);
-      setPaidAmount(0);
-      setCustomerInfo({ id: 1, name: "Walk-in Customer", phone: "", address: "" });
-      setIsWalkIn(true);
+      router.push(`/reports/invoice/sale/${data.invoiceId || data.InvoiceId}`);
     } catch (error: any) {
       toast.error("Sale failed: " + error.message);
     } finally {

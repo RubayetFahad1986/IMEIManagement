@@ -418,12 +418,33 @@ namespace MobileERP.API.Controllers
             return Ok(new { Message = "Stolen device reported.", report.ClaimId });
         }
 
-        [HttpGet("stolen-check/{imei}")]
-        public async Task<IActionResult> CheckStolen(string imei)
+        [HttpGet("sales/{id}")]
+        public async Task<IActionResult> GetSale(int id)
         {
-            var report = await _context.StolenDeviceReports.FirstOrDefaultAsync(r => r.IMEI1 == imei || r.IMEI2 == imei);
-            if (report == null) return Ok(new { IsStolen = false });
-            return Ok(new { IsStolen = true, report.BrandModel, report.IsVerified, report.ReporterPhone, Message = report.IsVerified ? "WARNING: STOLEN." : "CAUTION: Reported." });
+            var sale = await _context.SalesInvoices
+                .Include(s => s.Details)
+                .ThenInclude(d => d.InventoryItem)
+                .ThenInclude(i => i.MobileDevice)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            
+            if (sale == null) return NotFound();
+
+            var customer = await _context.Contacts.FindAsync(sale.CustomerId);
+            return Ok(new { Sale = sale, Customer = customer });
+        }
+
+        [HttpGet("purchases/{id}")]
+        public async Task<IActionResult> GetPurchase(int id)
+        {
+            var purchase = await _context.PurchaseInvoices
+                .Include(p => p.Details)
+                .ThenInclude(d => d.MobileDevice)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (purchase == null) return NotFound();
+
+            var supplier = await _context.Contacts.FindAsync(purchase.SupplierId);
+            return Ok(new { Purchase = purchase, Supplier = supplier });
         }
     }
 }
