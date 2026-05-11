@@ -102,9 +102,9 @@ export default function AccountHeadsPage() {
         </div>
         
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" /> Add Account Head</Button>
-          </DialogTrigger>
+          <DialogTrigger 
+            render={<Button><Plus className="mr-2 h-4 w-4" /> Add Account Head</Button>} 
+          />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create New Account Head</DialogTitle>

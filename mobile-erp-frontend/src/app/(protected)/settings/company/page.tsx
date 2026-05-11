@@ -169,9 +169,9 @@ export default function CompanySettingsPage() {
                </CardTitle>
                
                <Dialog open={isAddBranchOpen} onOpenChange={setIsAddBranchOpen}>
-                 <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button>
-                 </DialogTrigger>
+                 <DialogTrigger 
+                   render={<Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button>} 
+                 />
                  <DialogContent>
                     <DialogHeader><DialogTitle>Register New Branch</DialogTitle></DialogHeader>
                     <div className="space-y-4 py-4">

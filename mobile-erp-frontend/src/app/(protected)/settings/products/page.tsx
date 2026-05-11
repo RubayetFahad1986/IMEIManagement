@@ -105,9 +105,9 @@ export default function ProductsPage() {
         
         <div className="flex gap-2">
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-            <DialogTrigger asChild>
-              <Button><Plus className="mr-2 h-4 w-4" /> Define New Product</Button>
-            </DialogTrigger>
+            <DialogTrigger 
+              render={<Button><Plus className="mr-2 h-4 w-4" /> Define New Product</Button>} 
+            />
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Add Product to Master</DialogTitle>
