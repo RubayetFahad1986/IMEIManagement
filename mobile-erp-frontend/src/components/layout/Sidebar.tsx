@@ -10,7 +10,12 @@ import { Button } from "@/components/ui/button";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const logout = useAuthStore((state) => state.logout);
+  const { logout, user } = useAuthStore();
+
+  const filteredMenu = MENU_ITEMS.map(group => ({
+    ...group,
+    items: group.items.filter(item => !item.roles || (user?.role && item.roles.includes(user.role)))
+  })).filter(group => group.items.length > 0);
 
   return (
     <div className="w-64 bg-white border-r h-screen flex flex-col">
@@ -22,7 +27,7 @@ export default function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-auto py-4 px-3">
-        {MENU_ITEMS.map((group) => (
+        {filteredMenu.map((group) => (
           <div key={group.group} className="mb-6">
             <h2 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               {group.group}

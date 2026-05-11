@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Smartphone } from "lucide-react";
+
 export default function HomePage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +26,8 @@ export default function HomePage() {
   }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // ... rest of method ...
-  };
-
-  if (!mounted || isAuthenticated) return null;
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch("http://localhost:5237/api/auth/login", {
@@ -47,6 +46,8 @@ export default function HomePage() {
             role: data.role,
             comId: data.comId,
             branchId: null,
+            isShowCosting: data.isShowCosting,
+            canSeeOthersEntry: data.canSeeOthersEntry,
           },
           data.token
         );
@@ -63,7 +64,7 @@ export default function HomePage() {
     }
   };
 
-  if (isAuthenticated) return null;
+  if (!mounted || isAuthenticated) return null;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">

@@ -5,6 +5,7 @@ using MobileERP.Infrastructure.Persistence;
 using MobileERP.Infrastructure.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
+using BCrypt.Net;
 
 namespace MobileERP.API.Controllers
 {
@@ -139,7 +140,54 @@ namespace MobileERP.API.Controllers
             return Ok(matched);
         }
 
-        // --- Employee CRUD ---
+        // --- User CRUD ---
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<User> query = _context.Users;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(u => u.Username.ToLower().Contains(search) || u.FullName.ToLower().Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(u => u.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
+
+        [HttpPost("users")]
+        public async Task<IActionResult> CreateUser(User user)
+        {
+            if (await _context.Users.AnyAsync(u => u.Username == user.Username)) return BadRequest("Username already exists.");
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123"); // Default password
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+
+        [HttpPut("users")]
+        public async Task<IActionResult> UpdateUser(User user)
+        {
+            var existing = await _context.Users.FindAsync(user.Id);
+            if (existing == null) return NotFound();
+            existing.FullName = user.FullName;
+            existing.Email = user.Email;
+            existing.Role = user.Role;
+            existing.BranchId = user.BranchId;
+            existing.IsActive = user.IsActive;
+            existing.IsShowCosting = user.IsShowCosting;
+            existing.CanSeeOthersEntry = user.CanSeeOthersEntry;
+            await _context.SaveChangesAsync();
+            return Ok(existing);
+        }
+
+        [HttpDelete("users/{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var u = await _context.Users.FindAsync(id);
+            if (u != null) { _context.Users.Remove(u); await _context.SaveChangesAsync(); }
+            return Ok();
+        }
         [HttpGet("staff")]
         public async Task<IActionResult> GetStaff(int page = 1, int pageSize = 10, string? search = null)
         {
@@ -158,7 +206,19 @@ namespace MobileERP.API.Controllers
         [HttpDelete("staff/{id}")] public async Task<IActionResult> DeleteStaff(int id) { var e = await _employeeRepo.GetByIdAsync(id); if (e != null) _employeeRepo.Delete(e); return Ok(); }
 
         // --- AccountHead CRUD ---
-        [HttpGet("accounts")] public async Task<IActionResult> GetAccounts() => Ok(await _accountRepo.GetAllAsync());
+        [HttpGet("accounts")]
+        public async Task<IActionResult> GetAccounts(int page = 1, int pageSize = 10, string? search = null)
+        {
+            IQueryable<AccountHead> query = _context.AccountHeads;
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(a => a.Name.ToLower().Contains(search));
+            }
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderByDescending(a => a.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
         [HttpPost("accounts")] public async Task<IActionResult> CreateAccount(AccountHead a) { a.ComId = 1; await _accountRepo.AddAsync(a); return Ok(a); }
         [HttpPut("accounts")] public async Task<IActionResult> UpdateAccount(AccountHead a) { _accountRepo.Update(a); return Ok(a); }
         [HttpDelete("accounts/{id}")] public async Task<IActionResult> DeleteAccount(int id) { var a = await _accountRepo.GetByIdAsync(id); if (a != null) _accountRepo.Delete(a); return Ok(); }

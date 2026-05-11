@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Search, FileText, Calendar, User } from "lucide-react";
+import { ShoppingCart, Search, FileText, Calendar, User, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -31,8 +31,8 @@ interface SalesInvoice {
 }
 
 export default function SalesListPage() {
-  const [data, setData] = useState({
-    items: [] as SalesInvoice[],
+  const [data, setData] = useState<any>({
+    items: [],
     totalCount: 0,
     pageNumber: 1,
     totalPages: 1
@@ -43,9 +43,14 @@ export default function SalesListPage() {
   const fetchInvoices = useCallback(async (page: number, search: string) => {
     setLoading(true);
     try {
-      // Endpoint updated for pagination
       const result = await apiFetch(`/erp/sales?page=${page}&pageSize=10&search=${search}`); 
-      setData(result);
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to load sales: " + error.message);
     } finally {
@@ -59,6 +64,8 @@ export default function SalesListPage() {
     }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, fetchInvoices]);
+
+  const items = data.items || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -89,7 +96,7 @@ export default function SalesListPage() {
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead>Invoice No</TableHead>
                 <TableHead>Date</TableHead>
@@ -97,17 +104,17 @@ export default function SalesListPage() {
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead className="text-right">Paid</TableHead>
                 <TableHead className="text-right">Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-right pr-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : data.items.length === 0 ? (
+              ) : items.length === 0 ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No invoices found.</TableCell></TableRow>
               ) : (
-                data.items.map((inv) => (
-                  <TableRow key={inv.id}>
+                items.map((inv: any) => (
+                  <TableRow key={inv.id} className="hover:bg-slate-50/50">
                     <TableCell className="font-bold text-blue-600">{inv.invoiceNo}</TableCell>
                     <TableCell className="text-sm">
                       <div className="flex items-center"><Calendar className="mr-1 h-3 w-3 text-muted-foreground" /> {format(new Date(inv.salesDate), "dd MMM yyyy")}</div>
@@ -115,16 +122,26 @@ export default function SalesListPage() {
                     <TableCell>
                       <div className="flex items-center text-sm"><User className="mr-1 h-3 w-3 text-muted-foreground" /> {inv.customerName || "Walk-in"}</div>
                     </TableCell>
-                    <TableCell className="text-right font-medium">৳{inv.netTotal.toLocaleString("en-US")}</TableCell>
-                    <TableCell className="text-right">৳{inv.paidAmount.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-medium">৳{(inv.netTotal || 0).toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right">৳{(inv.paidAmount || 0).toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <Badge variant={inv.paidAmount >= inv.netTotal ? "default" : "destructive"}>
                         {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" title="View Invoice">
-                        <FileText className="h-4 w-4" />
+                    <TableCell className="text-right pr-6 flex justify-end gap-2">
+                      <Link href={`/reports/invoice/sale/${inv.id}`}>
+                         <Button variant="ghost" size="icon" title="View Invoice">
+                           <FileText className="h-4 w-4" />
+                         </Button>
+                      </Link>
+                      <Link href={`/pos?edit=${inv.id}`}>
+                         <Button variant="ghost" size="icon" title="Edit Invoice">
+                           <Pencil className="h-4 w-4" />
+                         </Button>
+                      </Link>
+                      <Button variant="ghost" size="icon" title="Delete Invoice" onClick={() => console.log("Delete:", inv.id)}>
+                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </TableCell>
                   </TableRow>

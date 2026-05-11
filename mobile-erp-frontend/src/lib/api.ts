@@ -21,5 +21,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     throw new Error(errorData.message || response.statusText || "Request failed");
   }
 
-  return response.json();
+  const text = await response.text();
+  if (!text) return null;
+  return JSON.parse(text);
 }

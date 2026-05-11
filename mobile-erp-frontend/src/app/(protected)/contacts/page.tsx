@@ -34,8 +34,8 @@ interface Contact {
 }
 
 export default function ContactsPage() {
-  const [data, setData] = useState({
-    items: [] as Contact[],
+  const [data, setData] = useState<any>({
+    items: [],
     totalCount: 0,
     pageNumber: 1,
     totalPages: 1
@@ -60,7 +60,14 @@ export default function ContactsPage() {
     setLoading(true);
     try {
       const result = await apiFetch(`/setup/contacts?page=${page}&pageSize=10&search=${search}`);
-      setData(result);
+      // Standardize casing
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to load contacts: " + error.message);
     } finally {
@@ -128,6 +135,8 @@ export default function ContactsPage() {
     }
   };
 
+  const items = data.items || [];
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -143,21 +152,21 @@ export default function ContactsPage() {
             <div className="space-y-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="cName">Full Name</Label>
-                <Input id="cName" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
+                <Input id="cName" name="name" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="cPhone">Phone Number</Label>
-                  <Input id="cPhone" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
+                  <Input id="cPhone" name="phone" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="cEmail">Email</Label>
-                  <Input id="cEmail" type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
+                  <Input id="cEmail" name="email" type="email" value={newContact.email} onChange={e => setNewContact({...newContact, email: e.target.value})} />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="cAddr">Full Address</Label>
-                <Input id="cAddr" value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
+                <Input id="cAddr" name="address" value={newContact.address} onChange={e => setNewContact({...newContact, address: e.target.value})} />
               </div>
               <div className="p-4 bg-slate-50 rounded-lg space-y-3">
                 <div className="flex items-center space-x-6">
@@ -205,10 +214,10 @@ export default function ContactsPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={6} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : data.items.length === 0 ? (
+              ) : items.length === 0 ? (
                 <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No contacts found.</TableCell></TableRow>
               ) : (
-                data.items.map((c) => (
+                items.map((c: any) => (
                   <TableRow key={c.id} className="hover:bg-slate-50/50">
                     <TableCell>
                       <div className="font-medium">{c.name}</div>
@@ -224,8 +233,8 @@ export default function ContactsPage() {
                         {c.isSupplier && <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">Supplier</Badge>}
                       </div>
                     </TableCell>
-                    <TableCell className="text-right font-medium text-green-600">৳{c.customerBalance.toLocaleString("en-US")}</TableCell>
-                    <TableCell className="text-right font-medium text-red-600">৳{c.supplierBalance.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-medium text-green-600">৳{(c.customerBalance || 0).toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-medium text-red-600">৳{(c.supplierBalance || 0).toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(c)}><Edit className="h-3.5 w-3.5" /></Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
@@ -15,9 +15,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Search, Trash2, CreditCard, User, UserPlus, Phone, MapPin, SearchCode } from "lucide-react";
+import { ShoppingCart, Search, Trash2, CreditCard, User, UserPlus, Phone, MapPin, SearchCode, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { QuickAddContact } from "@/components/ui/quick-add-contact";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 interface InventoryItem {
   id: number;
@@ -31,11 +33,23 @@ interface CartItem extends InventoryItem {
 }
 
 export default function POSPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Loading POS...</div>}>
+      <POSContent />
+    </Suspense>
+  );
+}
+
+function POSContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<InventoryItem[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [discount, setDiscount] = useState(0);
   const [paidAmount, setPaidAmount] = useState(0);
+  const [invoiceNo, setInvoiceNo] = useState("");
   const [loading, setLoading] = useState(false);
   
   // Walk-in / Customer Logic
@@ -44,13 +58,70 @@ export default function POSPage() {
   const [customerInfo, setCustomerInfo] = useState({ id: 1, name: "Walk-in Customer", phone: "", address: "" });
   const [phoneSuggestions, setPhoneSuggestions] = useState<any[]>([]);
 
+  useEffect(() => {
+    if (editId) {
+      loadExistingSale(editId);
+    }
+  }, [editId]);
+
+  const loadExistingSale = async (id: string) => {
+    setLoading(true);
+    try {
+      const data = await apiFetch(`/erp/sales/${id}`);
+      const { sale, customer } = data;
+      setInvoiceNo(sale.invoiceNo);
+      setDiscount(sale.discount || 0);
+      setPaidAmount(sale.paidAmount || 0);
+      if (customer) {
+        setCustomerInfo({ id: customer.id, name: customer.name, phone: customer.phone, address: customer.address });
+        setIsWalkIn(false);
+      }
+      setCart(sale.details.map((item: any) => ({
+        id: item.inventoryItem.id,
+        mobileDevice: {
+           brand: item.inventoryItem.mobileDevice.brand,
+           modelName: item.inventoryItem.mobileDevice.modelName,
+           variantName: ""
+        },
+        imei1: item.inventoryItem.imeI1,
+        currentSalePrice: item.unitPrice,
+        warrantyMonths: item.warrantyMonths
+      })));
+    } catch (error: any) {
+      toast.error("Failed to load sale for editing: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const searchInventory = async (term: string) => {
     if (term.length < 3) { setSearchResults([]); return; }
     try {
-      const allInventory: InventoryItem[] = await apiFetch("/erp/inventory");
-      const filtered = allInventory.filter(i => !i.isSold && (i.imei1.includes(term) || i.mobileDevice.modelName.toLowerCase().includes(term.toLowerCase())));
-      setSearchResults(filtered);
-    } catch (error) { console.error(error); }
+      const result = await apiFetch(`/erp/inventory?search=${term}&pageSize=50`);
+      const groups = result.items || result.Items || [];
+      
+      // Flatten the grouped results into individual items for the POS search results
+      const flattened: InventoryItem[] = [];
+      groups.forEach((group: any) => {
+        const groupImeis = group.imeis || group.Imeis || [];
+        groupImeis.forEach((imei: any) => {
+          flattened.push({
+            id: imei.id,
+            mobileDevice: {
+              brand: group.brand || group.Brand,
+              modelName: group.modelName || group.ModelName,
+              variantName: ""
+            },
+            imei1: imei.imeI1 || imei.IMEI1,
+            currentSalePrice: imei.currentSalePrice || imei.CurrentSalePrice
+          });
+        });
+      });
+      
+      setSearchResults(flattened);
+    } catch (error) { 
+      console.error("Inventory search failed:", error); 
+    }
   };
 
   const searchCustomerByPhone = async (phone: string) => {
@@ -82,27 +153,43 @@ export default function POSPage() {
     if (cart.length === 0) { toast.error("Cart is empty"); return; }
     setLoading(true);
     try {
-      const data = await apiFetch("/erp/sales", {
-        method: "POST",
+      const method = editId ? "PUT" : "POST";
+      const url = editId ? `/erp/sales/${editId}` : "/erp/sales";
+      const data = await apiFetch(url, {
+        method: method,
         body: JSON.stringify({
+          invoiceNo,
           customerId: customerInfo.id,
           discount,
           paidAmount: paidAmount || netTotal,
           items: cart.map(c => ({ inventoryItemId: c.id, warrantyMonths: c.warrantyMonths })),
         }),
       });
-      toast.success("Sale completed!");
-      router.push(`/reports/invoice/sale/${data.invoiceId || data.InvoiceId}`);
+      toast.success(editId ? "Sale updated!" : "Sale completed!");
+      router.push(`/reports/invoice/sale/${data.invoiceId || data.InvoiceId || editId}`);
     } catch (error: any) {
-      toast.error("Sale failed: " + error.message);
+      toast.error("Operation failed: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-2 space-y-6">
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Point of Sale</h1>
+          <p className="text-muted-foreground">Process new sales and manage customer transactions.</p>
+        </div>
+        <Link href="/sales">
+          <Button variant="outline">
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Sales
+          </Button>
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
         <Card>
           <CardHeader><CardTitle>Item Search</CardTitle></CardHeader>
           <CardContent className="space-y-4">
@@ -220,6 +307,10 @@ export default function POSPage() {
               <span>Total</span><span>${netTotal.toLocaleString("en-US")}</span>
             </div>
             <div className="space-y-1 pt-2">
+              <label className="text-[10px] font-bold uppercase opacity-80">Invoice No (Optional)</label>
+              <Input className="h-9 bg-blue-700 border-none text-white placeholder:text-blue-300" placeholder="Auto-generated if empty" value={invoiceNo} onChange={e => setInvoiceNo(e.target.value)} />
+            </div>
+            <div className="space-y-1 pt-2">
               <label className="text-[10px] font-bold uppercase opacity-80">Payment Received</label>
               <Input type="number" className="text-right text-xl font-bold h-12 bg-white text-blue-900 border-none shadow-inner" placeholder={netTotal.toString()} value={paidAmount} onChange={e => setPaidAmount(parseFloat(e.target.value) || 0)} />
             </div>
@@ -231,6 +322,7 @@ export default function POSPage() {
           </CardFooter>
         </Card>
       </div>
+    </div>
 
       <QuickAddContact isOpen={isQuickAddOpen} onClose={() => setIsQuickAddOpen(false)} onSuccess={selectCustomer} />
     </div>

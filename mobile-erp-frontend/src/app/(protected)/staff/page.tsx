@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { UserCircle, Plus, Wallet, TrendingUp, DollarSign, UserPlus, Phone, Briefcase, Edit, Trash2, Search } from "lucide-react";
 import { toast } from "sonner";
 import { ServerPagination } from "@/components/ui/server-pagination";

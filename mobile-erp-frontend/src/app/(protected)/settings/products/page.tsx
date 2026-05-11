@@ -32,8 +32,8 @@ interface MobileDevice {
 }
 
 export default function ProductsPage() {
-  const [data, setData] = useState({
-    items: [] as MobileDevice[],
+  const [data, setData] = useState<any>({
+    items: [],
     totalCount: 0,
     pageNumber: 1,
     totalPages: 1
@@ -58,7 +58,13 @@ export default function ProductsPage() {
     setLoading(true);
     try {
       const result = await apiFetch(`/setup/mobile-devices?page=${page}&pageSize=10&search=${search}`);
-      setData(result);
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to load products: " + error.message);
     } finally {
@@ -125,6 +131,8 @@ export default function ProductsPage() {
       toast.error("Delete failed: " + error.message);
     }
   };
+
+  const items = data.items || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -202,10 +210,10 @@ export default function ProductsPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : data.items.length === 0 ? (
+              ) : items.length === 0 ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No models found.</TableCell></TableRow>
               ) : (
-                data.items.map((d) => (
+                items.map((d: any) => (
                   <TableRow key={d.id} className="hover:bg-slate-50/50">
                     <TableCell>
                       <div className="font-bold text-slate-900">{d.brand}</div>
@@ -217,8 +225,8 @@ export default function ProductsPage() {
                           <Badge variant="secondary" className="text-[10px] py-0">{d.ram}/{d.storage}</Badge>
                        </div>
                     </TableCell>
-                    <TableCell className="text-right font-mono text-xs text-slate-500">৳{d.defaultCostPrice.toLocaleString("en-US")}</TableCell>
-                    <TableCell className="text-right font-mono font-bold text-green-600">৳{d.defaultSalesPrice.toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-mono text-xs text-slate-500">৳{(d.defaultCostPrice || 0).toLocaleString("en-US")}</TableCell>
+                    <TableCell className="text-right font-mono font-bold text-green-600">৳{(d.defaultSalesPrice || 0).toLocaleString("en-US")}</TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600" onClick={() => handleEdit(d)}><Edit className="h-3.5 w-3.5" /></Button>

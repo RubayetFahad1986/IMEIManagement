@@ -34,7 +34,8 @@ namespace MobileERP.Domain.Entities
         public int? ComId { get; set; } // Null for SuperAdmin
         public int? BranchId { get; set; } // Staff locked to a branch
         public bool IsActive { get; set; } = true;
-        public bool CanViewCostPrice { get; set; } = false;
+        public bool IsShowCosting { get; set; } = false; // "Can view cost price"
+        public bool CanSeeOthersEntry { get; set; } = true; // "See other person entry"
     }
 
     public class Employee : TenantBaseEntity

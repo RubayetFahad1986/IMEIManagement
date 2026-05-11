@@ -178,8 +178,8 @@ export default function NewPurchasePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Invoice / Ref No.</Label>
-              <Input placeholder="e.g. PUR-10023" value={formData.invoiceNo} onChange={e => setFormData(prev => ({...prev, invoiceNo: e.target.value}))} required />
+              <Label>Invoice / Ref No. (Optional)</Label>
+              <Input placeholder="Auto-generated if empty" value={formData.invoiceNo} onChange={e => setFormData(prev => ({...prev, invoiceNo: e.target.value}))} />
             </div>
             <div className="space-y-2">
               <Label>Amount Paid</Label>

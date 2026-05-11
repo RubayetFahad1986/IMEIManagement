@@ -29,8 +29,8 @@ interface Supplier {
 }
 
 export default function SuppliersPage() {
-  const [data, setData] = useState({
-    items: [] as Supplier[],
+  const [data, setData] = useState<any>({
+    items: [],
     totalCount: 0,
     pageNumber: 1,
     totalPages: 1
@@ -41,9 +41,14 @@ export default function SuppliersPage() {
   const fetchSuppliers = useCallback(async (page: number, search: string) => {
     setLoading(true);
     try {
-      // Use unified contacts endpoint with isSupplier=true
       const result = await apiFetch(`/setup/contacts?page=${page}&pageSize=10&search=${search}&isSupplier=true`);
-      setData(result);
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to fetch suppliers: " + error.message);
     } finally {
@@ -57,6 +62,8 @@ export default function SuppliersPage() {
     }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, fetchSuppliers]);
+
+  const items = data.items || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -98,7 +105,7 @@ export default function SuppliersPage() {
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead>Supplier Name</TableHead>
                 <TableHead>Contact</TableHead>
@@ -110,11 +117,11 @@ export default function SuppliersPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : data.items.length === 0 ? (
+              ) : items.length === 0 ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No suppliers found.</TableCell></TableRow>
               ) : (
-                data.items.map((s) => (
-                  <TableRow key={s.id}>
+                items.map((s: any) => (
+                  <TableRow key={s.id} className="hover:bg-slate-50/50">
                     <TableCell>
                        <div className="font-medium">{s.name}</div>
                        <div className="text-[10px] flex items-center text-muted-foreground mt-0.5">
@@ -124,13 +131,13 @@ export default function SuppliersPage() {
                     <TableCell className="text-sm text-muted-foreground">{s.phone}</TableCell>
                     <TableCell className="text-right">
                        <Badge variant={s.supplierBalance > 0 ? "destructive" : "secondary"}>
-                         ৳{s.supplierBalance.toLocaleString("en-US")}
+                         ৳{(s.supplierBalance || 0).toLocaleString("en-US")}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                        {s.isCustomer ? (
                          <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">
-                           ৳{s.customerBalance.toLocaleString("en-US")}
+                           ৳{(s.customerBalance || 0).toLocaleString("en-US")}
                          </Badge>
                        ) : (
                          <span className="text-xs text-muted-foreground italic">N/A</span>

@@ -10,14 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { BookOpen, Plus, Search, Tag, Wallet } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { BookOpen, Plus, Search, Tag, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
+import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface AccountCategory {
   id: number;
@@ -39,59 +40,78 @@ export default function AccountHeadsPage() {
   const [categories, setCategories] = useState<AccountCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [pageData, setPageData] = useState({ pageNumber: 1, totalPages: 1, totalCount: 0 });
+  
   const [isAddOpen, setIsAddOpen] = useState(false);
-
-  const [newAccount, setNewAccount] = useState({
-    name: "",
-    accountCategoryId: "",
-    accountType: "General",
-  });
+  const [editingAccount, setEditingAccount] = useState<AccountHead | null>(null);
+  const [form, setForm] = useState({ name: "", accountCategoryId: "", accountType: "General" });
 
   useEffect(() => {
-    fetchData();
+    fetchData(1, "");
   }, []);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchData(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+  const fetchData = async (page: number, search: string) => {
+    setLoading(true);
     try {
-      const [accData, catData] = await Promise.all([
-        apiFetch("/setup/accounts"),
+      const [accRes, catData] = await Promise.all([
+        apiFetch(`/setup/accounts?page=${page}&pageSize=10&search=${search}`),
         apiFetch("/accounting/categories"),
       ]);
-      setAccounts(accData);
+      setAccounts(accRes.items || accRes);
+      setPageData({
+        pageNumber: accRes.pageNumber || 1,
+        totalPages: accRes.totalPages || 1,
+        totalCount: accRes.totalCount || 0
+      });
       setCategories(catData);
     } catch (error: any) {
-      toast.error("Failed to load accounts: " + error.message);
+      toast.error("Failed to load: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreate = async () => {
-    if (!newAccount.name || !newAccount.accountCategoryId) {
-      toast.error("Please fill all required fields");
-      return;
-    }
+  const handleSubmit = async () => {
     try {
-      await apiFetch("/setup/accounts", {
-        method: "POST",
-        body: JSON.stringify({
-          ...newAccount,
-          accountCategoryId: parseInt(newAccount.accountCategoryId),
-          comId: 1
-        }),
-      });
-      toast.success("Account head created successfully!");
+      if (editingAccount) {
+        await apiFetch(`/setup/accounts/${editingAccount.id}`, {
+          method: "PUT",
+          body: JSON.stringify({ ...form, id: editingAccount.id, accountCategoryId: parseInt(form.accountCategoryId) })
+        });
+        toast.success("Account updated");
+      } else {
+        await apiFetch("/setup/accounts", {
+          method: "POST",
+          body: JSON.stringify({ ...form, accountCategoryId: parseInt(form.accountCategoryId) })
+        });
+        toast.success("Account created");
+      }
       setIsAddOpen(false);
-      setNewAccount({ name: "", accountCategoryId: "", accountType: "General" });
-      fetchData();
+      setEditingAccount(null);
+      setForm({ name: "", accountCategoryId: "", accountType: "General" });
+      fetchData(1, "");
     } catch (error: any) {
-      toast.error("Creation failed: " + error.message);
+      toast.error("Action failed: " + error.message);
     }
   };
 
-  const filtered = accounts.filter((a) =>
-    a.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure?")) return;
+    try {
+      await apiFetch(`/setup/accounts/${id}`, { method: "DELETE" });
+      toast.success("Deleted");
+      fetchData(1, "");
+    } catch (error: any) {
+      toast.error("Failed: " + error.message);
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -102,64 +122,46 @@ export default function AccountHeadsPage() {
         </div>
         
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogTrigger 
-            render={<Button><Plus className="mr-2 h-4 w-4" /> Add Account Head</Button>} 
-          />
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create New Account Head</DialogTitle>
-            </DialogHeader>
+            <DialogHeader><DialogTitle>{editingAccount ? "Edit Account" : "Create Account"}</DialogTitle></DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
                 <Label>Account Name</Label>
-                <Input 
-                  placeholder="e.g. Petty Cash, Office Supplies" 
-                  value={newAccount.name}
-                  onChange={e => setNewAccount({...newAccount, name: e.target.value})}
-                />
+                <Input value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
               </div>
               <div className="space-y-2">
                 <Label>Category</Label>
-                <select 
-                  className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
-                  value={newAccount.accountCategoryId}
-                  onChange={e => setNewAccount({...newAccount, accountCategoryId: e.target.value})}
-                >
+                <select className="w-full h-10 px-3 rounded-md border border-input" value={form.accountCategoryId} onChange={e => setForm({...form, accountCategoryId: e.target.value})}>
                   <option value="">Select Category</option>
-                  {categories.map(c => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
+                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
               <div className="space-y-2">
                 <Label>Account Type</Label>
-                <select 
-                  className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
-                  value={newAccount.accountType}
-                  onChange={e => setNewAccount({...newAccount, accountType: e.target.value})}
-                >
-                  <option value="General">General (Expense/Income/Asset)</option>
-                  <option value="Cash">Cash (Physical Cash)</option>
-                  <option value="Bank">Bank (Account/Gateway)</option>
+                <select className="w-full h-10 px-3 rounded-md border border-input" value={form.accountType} onChange={e => setForm({...form, accountType: e.target.value})}>
+                  <option value="General">General</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Bank">Bank</option>
                 </select>
               </div>
             </div>
             <DialogFooter>
               <Button variant="ghost" onClick={() => setIsAddOpen(false)}>Cancel</Button>
-              <Button onClick={handleCreate}>Create Account</Button>
+              <Button onClick={handleSubmit}>{editingAccount ? "Update" : "Create"}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <Button onClick={() => { setEditingAccount(null); setForm({ name: "", accountCategoryId: "", accountType: "General" }); setIsAddOpen(true); }}><Plus className="mr-2 h-4 w-4" /> Add Account Head</Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-slate-50">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center">
-              <BookOpen className="mr-2 h-4 w-4 text-slate-500" /> Total Heads
+              <BookOpen className="mr-2 h-4 w-4 text-slate-500" /> Total Accounts
             </CardTitle>
           </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{accounts.length}</div></CardContent>
+          <CardContent><div className="text-2xl font-bold">{pageData.totalCount}</div></CardContent>
         </Card>
       </div>
 
@@ -167,15 +169,7 @@ export default function AccountHeadsPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Account Directory</CardTitle>
-            <div className="relative w-72">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search accounts..."
-                className="pl-8"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            <Input placeholder="Search accounts..." className="w-72" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
         </CardHeader>
         <CardContent>
@@ -186,41 +180,29 @@ export default function AccountHeadsPage() {
                 <TableHead>Category</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead className="text-right">Balance</TableHead>
-                <TableHead className="text-right">Status</TableHead>
+                <TableHead className="text-right w-24">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? (
-                <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : filtered.length === 0 ? (
-                <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No accounts found.</TableCell></TableRow>
-              ) : (
-                filtered.map((acc) => (
-                  <TableRow key={acc.id}>
-                    <TableCell className="font-medium">{acc.name}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="flex w-fit items-center">
-                        <Tag className="mr-1 h-3 w-3" /> {acc.category?.name || "Uncategorized"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-xs font-medium text-slate-500 uppercase">{acc.accountType}</span>
-                    </TableCell>
-                    <TableCell className="text-right font-mono">
-                      ${acc.currentBalance.toLocaleString("en-US")}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {acc.isDefault ? (
-                        <Badge className="bg-slate-100 text-slate-600 border-none">System</Badge>
-                      ) : (
-                        <Badge variant="secondary">User</Badge>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+              {loading ? <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow> : accounts.map(acc => (
+                <TableRow key={acc.id}>
+                  <TableCell className="font-medium">{acc.name}</TableCell>
+                  <TableCell><Badge variant="outline">{acc.category?.name || categories.find(c => c.id === acc.accountCategoryId)?.name || "Uncategorized"}</Badge></TableCell>
+                  <TableCell>{acc.accountType}</TableCell>
+                  <TableCell className="text-right font-mono">${acc.currentBalance.toLocaleString()}</TableCell>
+                  <TableCell className="text-right flex justify-end gap-1">
+                    {!acc.isDefault && (
+                      <>
+                        <Button variant="ghost" size="icon" onClick={() => { setEditingAccount(acc); setForm({ name: acc.name, accountCategoryId: acc.accountCategoryId.toString(), accountType: acc.accountType }); setIsAddOpen(true); }}><Pencil className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" onClick={() => handleDelete(acc.id)} className="text-red-500"><Trash2 className="h-4 w-4" /></Button>
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
+          {pageData.totalPages > 1 && <div className="mt-4"><ServerPagination pageNumber={pageData.pageNumber} totalPages={pageData.totalPages} totalCount={pageData.totalCount} onPageChange={(p) => fetchData(p, searchTerm)} /></div>}
         </CardContent>
       </Card>
     </div>

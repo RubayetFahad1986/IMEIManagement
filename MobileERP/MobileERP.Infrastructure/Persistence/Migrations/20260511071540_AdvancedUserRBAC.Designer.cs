@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileERP.Infrastructure.Persistence;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MobileERP.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260511071540_AdvancedUserRBAC")]
+    partial class AdvancedUserRBAC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountCategories", (string)null);
+                    b.ToTable("AccountCategories");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.AccountHead", b =>
@@ -108,7 +111,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("AccountCategoryId");
 
-                    b.ToTable("AccountHeads", (string)null);
+                    b.ToTable("AccountHeads");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Branch", b =>
@@ -157,7 +160,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Branches", (string)null);
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.BranchTransfer", b =>
@@ -204,7 +207,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BranchTransfers", (string)null);
+                    b.ToTable("BranchTransfers");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.BranchTransferDetail", b =>
@@ -243,7 +246,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BranchTransferId");
 
-                    b.ToTable("BranchTransferDetails", (string)null);
+                    b.ToTable("BranchTransferDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Brand", b =>
@@ -281,7 +284,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Company", b =>
@@ -334,7 +337,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Contact", b =>
@@ -403,7 +406,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ContactLedger", b =>
@@ -460,7 +463,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactLedgers", (string)null);
+                    b.ToTable("ContactLedgers");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Employee", b =>
@@ -519,7 +522,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.EmployeeCommission", b =>
@@ -569,7 +572,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeeCommissions", (string)null);
+                    b.ToTable("EmployeeCommissions");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ExpenseDetail", b =>
@@ -614,7 +617,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ExpenseVoucherId");
 
-                    b.ToTable("ExpenseDetails", (string)null);
+                    b.ToTable("ExpenseDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ExpenseVoucher", b =>
@@ -661,7 +664,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpenseVouchers", (string)null);
+                    b.ToTable("ExpenseVouchers");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.InventoryItem", b =>
@@ -749,7 +752,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventory", (string)null);
+                    b.ToTable("Inventory");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.JournalEntry", b =>
@@ -796,7 +799,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("JournalVoucherId");
 
-                    b.ToTable("JournalEntries", (string)null);
+                    b.ToTable("JournalEntries");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.JournalVoucher", b =>
@@ -845,7 +848,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JournalVouchers", (string)null);
+                    b.ToTable("JournalVouchers");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.MobileDevice", b =>
@@ -929,7 +932,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MobileDevices", (string)null);
+                    b.ToTable("MobileDevices");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.Product", b =>
@@ -976,7 +979,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ProductCategory", b =>
@@ -1011,7 +1014,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ProductHistory", b =>
@@ -1069,7 +1072,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductHistories", (string)null);
+                    b.ToTable("ProductHistories");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseDetail", b =>
@@ -1132,7 +1135,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PurchaseInvoiceId");
 
-                    b.ToTable("PurchaseDetails", (string)null);
+                    b.ToTable("PurchaseDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseInvoice", b =>
@@ -1185,7 +1188,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PurchaseInvoices", (string)null);
+                    b.ToTable("PurchaseInvoices");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseReturn", b =>
@@ -1228,7 +1231,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PurchaseReturns", (string)null);
+                    b.ToTable("PurchaseReturns");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseReturnDetail", b =>
@@ -1270,7 +1273,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PurchaseReturnId");
 
-                    b.ToTable("PurchaseReturnDetails", (string)null);
+                    b.ToTable("PurchaseReturnDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesDetail", b =>
@@ -1323,7 +1326,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SalesInvoiceId");
 
-                    b.ToTable("SalesDetails", (string)null);
+                    b.ToTable("SalesDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesInvoice", b =>
@@ -1382,7 +1385,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SalesInvoices", (string)null);
+                    b.ToTable("SalesInvoices");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesPayment", b =>
@@ -1428,7 +1431,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SalesInvoiceId");
 
-                    b.ToTable("SalesPayments", (string)null);
+                    b.ToTable("SalesPayments");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesReturn", b =>
@@ -1474,7 +1477,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SalesReturns", (string)null);
+                    b.ToTable("SalesReturns");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesReturnDetail", b =>
@@ -1516,7 +1519,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SalesReturnId");
 
-                    b.ToTable("SalesReturnDetails", (string)null);
+                    b.ToTable("SalesReturnDetails");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.StolenDeviceReport", b =>
@@ -1588,7 +1591,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StolenDeviceReports", (string)null);
+                    b.ToTable("StolenDeviceReports");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.User", b =>
@@ -1651,7 +1654,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.WarrantyClaim", b =>
@@ -1708,7 +1711,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WarrantyClaims", (string)null);
+                    b.ToTable("WarrantyClaims");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.AccountHead", b =>

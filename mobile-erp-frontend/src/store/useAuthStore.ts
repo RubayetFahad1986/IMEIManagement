@@ -8,6 +8,8 @@ interface User {
   role: string;
   comId: number | null;
   branchId: number | null;
+  isShowCosting: boolean;
+  canSeeOthersEntry: boolean;
 }
 
 interface AuthState {

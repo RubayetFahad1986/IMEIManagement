@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 namespace MobileERP.Application.DTOs
 {
     public class LoginRequest { public string Username { get; set; } = string.Empty; public string Password { get; set; } = string.Empty; }
-    public class LoginResponse { public string Token { get; set; } = string.Empty; public string FullName { get; set; } = string.Empty; public string Role { get; set; } = string.Empty; public int ComId { get; set; } }
+    public class LoginResponse { public string Token { get; set; } = string.Empty; public string FullName { get; set; } = string.Empty; public string Role { get; set; } = string.Empty; public int ComId { get; set; } public bool IsShowCosting { get; set; } public bool CanSeeOthersEntry { get; set; } }
 
     public class PurchaseRequest
     {
@@ -32,6 +32,7 @@ namespace MobileERP.Application.DTOs
 
     public class SalesRequest
     {
+        public string? InvoiceNo { get; set; }
         public int? CustomerId { get; set; }
         public int? SalesPersonId { get; set; }
         public decimal Discount { get; set; }
@@ -91,6 +92,7 @@ namespace MobileERP.Application.DTOs
 
     public class ExpenseRequest
     {
+        public string? VoucherNo { get; set; }
         public int PaymentAccountId { get; set; }
         public DateTime ExpenseDate { get; set; }
         public string? Remarks { get; set; }

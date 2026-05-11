@@ -26,7 +26,33 @@ namespace MobileERP.API.Controllers
             var acc = await _context.AccountHeads.FirstOrDefaultAsync(a => a.Name == name && a.ComId == 1);
             if (acc == null)
             {
-                acc = new AccountHead { Name = name, AccountType = type, ComId = 1 };
+                // Map type to Category Name
+                string categoryName = type switch
+                {
+                    "Asset" or "Cash" or "Bank" => "Assets",
+                    "Liability" => "Liabilities",
+                    "Equity" => "Equity",
+                    "Income" => "Income",
+                    "Expense" => "Expense",
+                    _ => "Assets"
+                };
+
+                var category = await _context.AccountCategories.FirstOrDefaultAsync(c => c.Name == categoryName);
+                if (category == null)
+                {
+                    category = new AccountCategory { Name = categoryName, Code = "000" };
+                    _context.AccountCategories.Add(category);
+                    await _context.SaveChangesAsync();
+                }
+
+                acc = new AccountHead 
+                { 
+                    Name = name, 
+                    AccountType = type == "Cash" || type == "Bank" ? type : "General",
+                    AccountCategoryId = category.Id,
+                    ComId = 1,
+                    IsDefault = false
+                };
                 _context.AccountHeads.Add(acc);
                 await _context.SaveChangesAsync();
             }
@@ -51,31 +77,63 @@ namespace MobileERP.API.Controllers
         [HttpPost("purchase")]
         public async Task<IActionResult> CreatePurchase(PurchaseRequest request)
         {
+            if (request.Items == null || !request.Items.Any()) return BadRequest("No items in purchase request.");
+
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                // 1. Handle Invoice Number
+                if (string.IsNullOrWhiteSpace(request.InvoiceNo))
+                {
+                    request.InvoiceNo = "PUR-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + (await _context.PurchaseInvoices.CountAsync() + 1).ToString("D4");
+                }
+                else if (await _context.PurchaseInvoices.AnyAsync(p => p.InvoiceNo == request.InvoiceNo && p.ComId == 1))
+                {
+                    return BadRequest($"Duplicate Purchase Invoice Number: {request.InvoiceNo}");
+                }
+
+                // 2. Check for duplicate IMEIs in this request and in database
+                var requestImeis = request.Items.Select(i => i.IMEI1).ToList();
+                if (requestImeis.Count != requestImeis.Distinct().Count())
+                    return BadRequest("Duplicate IMEIs found in the same purchase request.");
+
+                var existingImeis = await _context.Inventory
+                    .Where(i => requestImeis.Contains(i.IMEI1) && !i.IsDelete)
+                    .Select(i => i.IMEI1)
+                    .ToListAsync();
+
+                if (existingImeis.Any())
+                    return BadRequest($"The following IMEIs already exist in inventory: {string.Join(", ", existingImeis)}");
+
                 var invoice = new PurchaseInvoice
                 {
                     InvoiceNo = request.InvoiceNo,
                     PurchaseDate = DateTime.UtcNow,
                     SupplierId = request.SupplierId,
                     PaidAmount = request.PaidAmount,
-                    ComId = 1
+                    ComId = 1,
+                    CreateDate = DateTime.UtcNow,
+                    IsDelete = false
                 };
 
                 decimal totalCost = 0;
+                var inventoryItems = new List<InventoryItem>();
+
                 foreach (var item in request.Items)
                 {
                     totalCost += item.CostPrice;
-                    invoice.Details.Add(new PurchaseDetail
+                    
+                    var detail = new PurchaseDetail
                     {
                         MobileDeviceId = item.MobileDeviceId,
                         IMEI1 = item.IMEI1,
                         IMEI2 = item.IMEI2,
                         CostPrice = item.CostPrice,
                         SalePrice = item.SalePrice,
-                        ComId = 1
-                    });
+                        ComId = 1,
+                        CreateDate = DateTime.UtcNow
+                    };
+                    invoice.Details.Add(detail);
 
                     var invItem = new InventoryItem
                     {
@@ -87,20 +145,27 @@ namespace MobileERP.API.Controllers
                         CommissionAmount = item.CommissionAmount,
                         IsSold = false,
                         BranchId = 1,
-                        ComId = 1
+                        ComId = 1,
+                        CreateDate = DateTime.UtcNow
                     };
-                    _context.Inventory.Add(invItem);
-                    await _context.SaveChangesAsync();
-
-                    await LogProductHistory(invItem.Id, "Purchase", request.InvoiceNo, $"Purchased from supplier ID {request.SupplierId}", null, 1);
+                    inventoryItems.Add(invItem);
                 }
 
                 invoice.TotalAmount = totalCost;
                 invoice.DueAmount = totalCost - request.PaidAmount;
+                
                 _context.PurchaseInvoices.Add(invoice);
+                _context.Inventory.AddRange(inventoryItems);
+                
                 await _context.SaveChangesAsync();
 
-                // Accounting
+                // 3. Log Product History
+                foreach (var invItem in inventoryItems)
+                {
+                    await LogProductHistory(invItem.Id, "Purchase", invoice.InvoiceNo, $"Purchased from supplier ID {request.SupplierId}", null, 1);
+                }
+
+                // 4. Accounting
                 int invAccId = await GetOrCreateAccountAsync("Inventory", "Asset");
                 int apAccId = await GetOrCreateAccountAsync("Accounts Payable", "Liability");
                 int cashAccId = await GetOrCreateAccountAsync("Cash In Hand", "Cash");
@@ -124,19 +189,34 @@ namespace MobileERP.API.Controllers
                 }
                 _context.JournalVouchers.Add(jv);
 
-                // Contact Ledger
+                // 5. Contact Ledger
                 var contact = await _context.Contacts.FindAsync(request.SupplierId);
                 if (contact != null)
                 {
                     contact.SupplierBalance += invoice.DueAmount;
-                    _context.ContactLedgers.Add(new ContactLedger { ContactId = contact.Id, TransactionDate = DateTime.UtcNow, Description = $"Purchase Invoice {invoice.InvoiceNo}", ReferenceNo = invoice.InvoiceNo, Credit = totalCost, Debit = request.PaidAmount, Balance = contact.SupplierBalance, TransactionType = "Purchase", ComId = 1 });
+                    _context.ContactLedgers.Add(new ContactLedger 
+                    { 
+                        ContactId = contact.Id, 
+                        TransactionDate = DateTime.UtcNow, 
+                        Description = $"Purchase Invoice {invoice.InvoiceNo}", 
+                        ReferenceNo = invoice.InvoiceNo, 
+                        Credit = totalCost, 
+                        Debit = request.PaidAmount, 
+                        Balance = contact.SupplierBalance, 
+                        TransactionType = "Purchase", 
+                        ComId = 1 
+                    });
                 }
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                return Ok(new { Message = "Purchase recorded.", InvoiceId = invoice.Id });
+                return Ok(new { Message = "Purchase recorded successfully.", InvoiceId = invoice.Id });
             }
-            catch(Exception ex) { await transaction.RollbackAsync(); return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            { 
+                await transaction.RollbackAsync(); 
+                return BadRequest(new { Message = "Critical error saving purchase.", Error = ex.Message }); 
+            }
         }
 
         [HttpPost("sales")]
@@ -145,6 +225,15 @@ namespace MobileERP.API.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                if (string.IsNullOrWhiteSpace(request.InvoiceNo))
+                {
+                    request.InvoiceNo = "SAL-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + (await _context.SalesInvoices.CountAsync() + 1).ToString("D4");
+                }
+                else if (await _context.SalesInvoices.AnyAsync(s => s.InvoiceNo == request.InvoiceNo && s.ComId == 1))
+                {
+                    return BadRequest("Duplicate Sales Invoice Number.");
+                }
+
                 var itemIds = request.Items.Select(i => i.InventoryItemId).ToList();
                 var items = await _context.Inventory.Where(i => itemIds.Contains(i.Id) && !i.IsSold).ToListAsync();
 
@@ -245,15 +334,58 @@ namespace MobileERP.API.Controllers
         [HttpGet("inventory")]
         public async Task<IActionResult> GetInventory(int page = 1, int pageSize = 10, string? search = null)
         {
-            IQueryable<InventoryItem> query = _context.Inventory.Include(i => i.MobileDevice);
+            IQueryable<InventoryItem> query = _context.Inventory
+                .Include(i => i.MobileDevice)
+                .Where(i => !i.IsSold && !i.IsDelete);
+
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(i => i.IMEI1.ToLower().Contains(search) || i.IMEI2.ToLower().Contains(search) || (i.MobileDevice != null && i.MobileDevice.ModelName.ToLower().Contains(search)));
+                query = query.Where(i => 
+                    i.IMEI1.ToLower().Contains(search) || 
+                    i.IMEI2.ToLower().Contains(search) || 
+                    (i.MobileDevice != null && i.MobileDevice.ModelName.ToLower().Contains(search)) ||
+                    (i.MobileDevice != null && i.MobileDevice.Brand.ToLower().Contains(search))
+                );
             }
-            int totalCount = await query.CountAsync();
-            var items = await query.OrderByDescending(i => i.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+
+            // Group by MobileDeviceId to get Live Stock Qty
+            var groupedQuery = query
+                .GroupBy(i => new { i.MobileDeviceId, i.MobileDevice!.Brand, i.MobileDevice!.ModelName })
+                .Select(g => new
+                {
+                    MobileDeviceId = g.Key.MobileDeviceId,
+                    Brand = g.Key.Brand,
+                    ModelName = g.Key.ModelName,
+                    StockQty = g.Count(),
+                    AvgCostPrice = g.Average(x => x.CostPrice),
+                    MaxSalePrice = g.Max(x => x.CurrentSalePrice),
+                    Imeis = g.Select(x => new 
+                    { 
+                        x.Id, 
+                        x.IMEI1, 
+                        x.IMEI2, 
+                        x.CostPrice, 
+                        x.CurrentSalePrice,
+                        x.CreateDate 
+                    }).OrderByDescending(x => x.CreateDate).ToList()
+                });
+
+            int totalCount = await groupedQuery.CountAsync();
+            var items = await groupedQuery
+                .OrderByDescending(g => g.StockQty)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new 
+            { 
+                Items = items, 
+                TotalCount = totalCount, 
+                PageNumber = page, 
+                PageSize = pageSize, 
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) 
+            });
         }
         
         [HttpGet("sales")]
@@ -311,10 +443,28 @@ namespace MobileERP.API.Controllers
         [HttpPost("stolen-report")]
         public async Task<IActionResult> ReportStolen(StolenReportRequest request)
         {
-            var report = new StolenDeviceReport { ClaimId = Guid.NewGuid().ToString().Substring(0, 8).ToUpper(), IMEI1 = request.IMEI1, IMEI2 = request.IMEI2, BrandModel = request.BrandModel, ReporterName = request.ReporterName, ReporterPhone = request.ReporterPhone, ReporterEmail = request.ReporterEmail, PoliceStation = request.PoliceStation, IsVerified = false, ReportedByComId = 1 };
+            string claimId = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
+            while (await _context.StolenDeviceReports.AnyAsync(r => r.ClaimId == claimId))
+            {
+                claimId = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
+            }
+
+            var report = new StolenDeviceReport 
+            { 
+                ClaimId = claimId, 
+                IMEI1 = request.IMEI1, 
+                IMEI2 = request.IMEI2, 
+                BrandModel = request.BrandModel, 
+                ReporterName = request.ReporterName, 
+                ReporterPhone = request.ReporterPhone, 
+                ReporterEmail = request.ReporterEmail, 
+                PoliceStation = request.PoliceStation, 
+                IsVerified = false, 
+                ReportedByComId = 1 
+            };
             _context.StolenDeviceReports.Add(report);
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Stolen device reported.", report.ClaimId });
+            return Ok(new { Message = "Stolen device reported.", ClaimId = report.ClaimId });
         }
 
         [HttpGet("stolen-check/{imei}")]
@@ -323,6 +473,138 @@ namespace MobileERP.API.Controllers
             var report = await _context.StolenDeviceReports.FirstOrDefaultAsync(r => r.IMEI1 == imei || r.IMEI2 == imei);
             if (report == null) return Ok(new { IsStolen = false });
             return Ok(new { IsStolen = true, report.BrandModel, report.IsVerified, report.ReporterPhone, Message = report.IsVerified ? "WARNING: STOLEN." : "CAUTION: Reported." });
+        }
+
+        [HttpPut("sales/{id}")]
+        public async Task<IActionResult> UpdateSale(int id, SalesRequest request)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var sale = await _context.SalesInvoices
+                    .Include(s => s.Details)
+                    .FirstOrDefaultAsync(s => s.Id == id && s.ComId == 1);
+
+                if (sale == null) return NotFound("Sale not found.");
+
+                // 1. Reverse Previous Sale
+                var itemIds = sale.Details.Select(d => d.InventoryItemId).ToList();
+                var items = await _context.Inventory.Where(i => itemIds.Contains(i.Id)).ToListAsync();
+                foreach (var item in items) { item.IsSold = false; }
+                
+                var jv = await _context.JournalVouchers.FirstOrDefaultAsync(j => j.ReferenceNo == sale.InvoiceNo && j.ReferenceType == "Sale");
+                if (jv != null) _context.JournalVouchers.Remove(jv); // Simple reverse logic
+
+                _context.SalesInvoices.Remove(sale);
+                await _context.SaveChangesAsync();
+
+                // 2. Create New Sale
+                // (Re-using the logic from CreateSale - could be extracted to a service)
+                var newSale = new SalesInvoice
+                {
+                    InvoiceNo = request.InvoiceNo ?? "SAL-" + DateTime.UtcNow.Ticks,
+                    SalesDate = DateTime.UtcNow,
+                    CustomerId = request.CustomerId,
+                    SalesPersonId = request.SalesPersonId,
+                    Discount = request.Discount,
+                    PaidAmount = request.PaidAmount,
+                    ComId = 1
+                };
+
+                decimal subtotal = 0, totalCOGS = 0;
+                foreach (var itemReq in request.Items)
+                {
+                    var item = await _context.Inventory.FindAsync(itemReq.InventoryItemId);
+                    if (item == null || item.IsSold) return BadRequest("Item not available.");
+                    subtotal += item.CurrentSalePrice;
+                    totalCOGS += item.CostPrice;
+                    item.IsSold = true;
+                    item.WarrantyExpiryDate = DateTime.UtcNow.AddMonths(itemReq.WarrantyMonths);
+                    newSale.Details.Add(new SalesDetail { InventoryItemId = item.Id, UnitPrice = item.CurrentSalePrice, CostPrice = item.CostPrice, WarrantyMonths = itemReq.WarrantyMonths, ComId = 1 });
+                }
+
+                newSale.SubTotal = subtotal;
+                newSale.NetTotal = subtotal - request.Discount;
+                newSale.ChangeAmount = Math.Max(0, request.PaidAmount - newSale.NetTotal);
+                _context.SalesInvoices.Add(newSale);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return Ok(new { Message = "Sale updated.", InvoiceId = newSale.Id });
+            }
+            catch (Exception ex) { await transaction.RollbackAsync(); return BadRequest(ex.Message); }
+        }
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var purchase = await _context.PurchaseInvoices
+                    .Include(p => p.Details)
+                    .FirstOrDefaultAsync(p => p.Id == id && p.ComId == 1);
+
+                if (purchase == null) return NotFound("Purchase not found.");
+
+                // 1. Check if any items from this purchase are already sold
+                var imeis = purchase.Details.Select(d => d.IMEI1).ToList();
+                var soldItems = await _context.Inventory.AnyAsync(i => imeis.Contains(i.IMEI1) && i.IsSold && !i.IsDelete);
+                if (soldItems) return BadRequest("Cannot delete purchase. Some items are already sold.");
+
+                // 2. Reverse Inventory
+                var inventoryItems = await _context.Inventory.Where(i => imeis.Contains(i.IMEI1) && !i.IsDelete).ToListAsync();
+                foreach (var item in inventoryItems)
+                {
+                    item.IsDelete = true;
+                    await LogProductHistory(item.Id, "PurchaseDelete", purchase.InvoiceNo, "Purchase deleted, item removed from stock");
+                }
+
+                // 3. Reverse Supplier Balance
+                var supplier = await _context.Contacts.FindAsync(purchase.SupplierId);
+                if (supplier != null)
+                {
+                    supplier.SupplierBalance -= purchase.DueAmount;
+                    _context.ContactLedgers.Add(new ContactLedger 
+                    { 
+                        ContactId = supplier.Id, 
+                        TransactionDate = DateTime.UtcNow, 
+                        Description = $"REVERSED: Purchase Invoice {purchase.InvoiceNo} Deleted", 
+                        ReferenceNo = purchase.InvoiceNo, 
+                        Credit = -purchase.TotalAmount, 
+                        Debit = -purchase.PaidAmount, 
+                        Balance = supplier.SupplierBalance, 
+                        TransactionType = "PurchaseDelete", 
+                        ComId = 1 
+                    });
+                }
+
+                // 4. Reverse Accounting (Simple way: Find JV and delete or add reverse JV)
+                // For simplicity, we'll mark the purchase as deleted.
+                purchase.IsDelete = true;
+                foreach(var detail in purchase.Details) detail.IsDelete = true;
+
+                // Add a reverse JV
+                int invAccId = await GetOrCreateAccountAsync("Inventory", "Asset");
+                int apAccId = await GetOrCreateAccountAsync("Accounts Payable", "Liability");
+                int cashAccId = await GetOrCreateAccountAsync("Cash In Hand", "Cash");
+
+                var jv = new JournalVoucher { VoucherNo = "JV-DEL-PUR-" + purchase.Id, VoucherDate = DateTime.UtcNow, ReferenceType = "PurchaseDelete", ReferenceNo = purchase.InvoiceNo, ComId = 1 };
+                jv.Entries.Add(new JournalEntry { AccountHeadId = invAccId, Debit = 0, Credit = purchase.TotalAmount, ComId = 1 });
+                jv.Entries.Add(new JournalEntry { AccountHeadId = apAccId, Debit = purchase.TotalAmount, Credit = 0, ComId = 1 });
+
+                if (purchase.PaidAmount > 0)
+                {
+                    jv.Entries.Add(new JournalEntry { AccountHeadId = apAccId, Debit = 0, Credit = purchase.PaidAmount, ComId = 1 });
+                    jv.Entries.Add(new JournalEntry { AccountHeadId = cashAccId, Debit = purchase.PaidAmount, Credit = 0, ComId = 1 });
+                }
+                _context.JournalVouchers.Add(jv);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return Ok(new { Message = "Purchase deleted and accounting reversed." });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

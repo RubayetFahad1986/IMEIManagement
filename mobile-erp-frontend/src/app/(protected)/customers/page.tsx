@@ -29,8 +29,8 @@ interface Customer {
 }
 
 export default function CustomersPage() {
-  const [data, setData] = useState({
-    items: [] as Customer[],
+  const [data, setData] = useState<any>({
+    items: [],
     totalCount: 0,
     pageNumber: 1,
     totalPages: 1
@@ -43,7 +43,13 @@ export default function CustomersPage() {
     try {
       // Use unified contacts endpoint with isCustomer=true
       const result = await apiFetch(`/setup/contacts?page=${page}&pageSize=10&search=${search}&isCustomer=true`);
-      setData(result);
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to fetch customers: " + error.message);
     } finally {
@@ -57,6 +63,8 @@ export default function CustomersPage() {
     }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, fetchCustomers]);
+
+  const items = data.items || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -100,7 +108,7 @@ export default function CustomersPage() {
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead>Customer Name</TableHead>
                 <TableHead>Contact</TableHead>
@@ -112,22 +120,22 @@ export default function CustomersPage() {
             <TableBody>
               {loading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : data.items.length === 0 ? (
+              ) : items.length === 0 ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No customers found.</TableCell></TableRow>
               ) : (
-                data.items.map((c) => (
-                  <TableRow key={c.id}>
+                items.map((c: any) => (
+                  <TableRow key={c.id} className="hover:bg-slate-50/50">
                     <TableCell className="font-medium">{c.name}</TableCell>
                     <TableCell className="text-sm text-muted-foreground">{c.phone}</TableCell>
                     <TableCell className="text-right">
                        <Badge variant={c.customerBalance > 0 ? "default" : "secondary"}>
-                         ৳{c.customerBalance.toLocaleString("en-US")}
+                         ৳{(c.customerBalance || 0).toLocaleString("en-US")}
                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                        {c.isSupplier ? (
                          <Badge variant="destructive" className="bg-red-500">
-                           ৳{c.supplierBalance.toLocaleString("en-US")}
+                           ৳{(c.supplierBalance || 0).toLocaleString("en-US")}
                          </Badge>
                        ) : (
                          <span className="text-xs text-muted-foreground italic">N/A</span>

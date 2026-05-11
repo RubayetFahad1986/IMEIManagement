@@ -1,20 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Search, Calendar, FileText } from "lucide-react";
+import { Search, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { ServerPagination } from "@/components/ui/server-pagination";
+import { Input } from "@/components/ui/input";
 
 interface JournalVoucher {
   id: number;
@@ -30,30 +30,41 @@ interface JournalVoucher {
 }
 
 export default function LedgersPage() {
-  const [vouchers, setVouchers] = useState<JournalVoucher[]>([]);
+  const [data, setData] = useState<any>({
+    items: [],
+    totalCount: 0,
+    pageNumber: 1,
+    totalPages: 1
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchVouchers();
-  }, []);
-
-  const fetchVouchers = async () => {
+  const fetchVouchers = useCallback(async (page: number, search: string) => {
+    setLoading(true);
     try {
-      // Assuming an endpoint to fetch journal vouchers
-      const data = await apiFetch("/accounting/vouchers");
-      setVouchers(data);
+      const result = await apiFetch(`/accounting/vouchers?page=${page}&pageSize=10&search=${search}`);
+      const formatted = {
+        items: result.items || result.Items || [],
+        totalCount: result.totalCount ?? result.TotalCount ?? 0,
+        pageNumber: result.pageNumber ?? result.PageNumber ?? 1,
+        totalPages: result.totalPages ?? result.TotalPages ?? 1
+      };
+      setData(formatted);
     } catch (error: any) {
       toast.error("Failed to fetch vouchers: " + error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filtered = vouchers.filter(v => 
-    v.voucherNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    v.referenceNo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+        fetchVouchers(1, searchTerm);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, fetchVouchers]);
+
+  const items = data.items || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -70,9 +81,9 @@ export default function LedgersPage() {
             <CardTitle>Journal Entries</CardTitle>
             <div className="relative w-72">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-8 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              <Input
                 placeholder="Search Voucher or Ref..."
+                className="pl-8"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -83,28 +94,28 @@ export default function LedgersPage() {
           <div className="space-y-6">
             {loading ? (
               <p className="text-center py-10">Loading vouchers...</p>
-            ) : filtered.length === 0 ? (
+            ) : items.length === 0 ? (
               <p className="text-center py-10 text-muted-foreground">No transactions found.</p>
             ) : (
-              filtered.map((v) => (
-                <div key={v.id} className="border rounded-lg overflow-hidden">
+              items.map((v: any) => (
+                <div key={v.id} className="border rounded-lg overflow-hidden shadow-sm">
                   <div className="bg-slate-50 px-4 py-2 border-b flex justify-between items-center">
                     <div className="flex items-center space-x-4 text-sm font-medium">
                       <span className="text-blue-600 font-bold">{v.voucherNo}</span>
                       <span className="text-slate-400">|</span>
                       <span className="flex items-center"><Calendar className="mr-1 h-3 w-3" /> {format(new Date(v.voucherDate), "dd MMM yyyy")}</span>
                       <span className="text-slate-400">|</span>
-                      <Badge variant="outline">{v.referenceType}</Badge>
-                      <span className="text-xs text-muted-foreground">Ref: {v.referenceNo}</span>
+                      <Badge variant="outline" className="text-[10px] uppercase">{v.referenceType}</Badge>
+                      <span className="text-[10px] text-muted-foreground">Ref: {v.referenceNo}</span>
                     </div>
                   </div>
                   <Table>
                     <TableBody>
-                      {v.entries.map((entry, idx) => (
-                        <TableRow key={idx}>
-                          <TableCell className="w-1/2">{entry.accountHead.name}</TableCell>
-                          <TableCell className="text-right">{entry.debit > 0 ? `$${entry.debit.toLocaleString("en-US")}` : ""}</TableCell>
-                          <TableCell className="text-right">{entry.credit > 0 ? `$${entry.credit.toLocaleString("en-US")}` : ""}</TableCell>
+                      {v.entries.map((entry: any, idx: number) => (
+                        <TableRow key={idx} className="hover:bg-white border-none">
+                          <TableCell className="w-1/2 py-2">{entry.accountHead?.name}</TableCell>
+                          <TableCell className="text-right py-2">{entry.debit > 0 ? `৳${entry.debit.toLocaleString("en-US")}` : ""}</TableCell>
+                          <TableCell className="text-right py-2">{entry.credit > 0 ? `৳${entry.credit.toLocaleString("en-US")}` : ""}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -113,6 +124,13 @@ export default function LedgersPage() {
               ))
             )}
           </div>
+
+          <ServerPagination 
+            pageNumber={data.pageNumber} 
+            totalPages={data.totalPages} 
+            totalCount={data.totalCount}
+            onPageChange={(p) => fetchVouchers(p, searchTerm)}
+          />
         </CardContent>
       </Card>
     </div>

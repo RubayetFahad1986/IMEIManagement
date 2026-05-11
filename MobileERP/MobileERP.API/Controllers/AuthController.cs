@@ -4,6 +4,7 @@ using MobileERP.Application.DTOs;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace MobileERP.API.Controllers
 {
@@ -24,7 +25,7 @@ namespace MobileERP.API.Controllers
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == request.Username || u.Username == request.Username);
 
-            if (user == null || user.PasswordHash != request.Password) // In real app, use BCrypt/Identity
+            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 return Unauthorized(new { Message = "Invalid email or password" });
             }
@@ -34,13 +35,14 @@ namespace MobileERP.API.Controllers
                 return BadRequest(new { Message = "Account is deactivated" });
             }
 
-            // Return user info and a dummy token (JWT implementation would go here)
             return Ok(new LoginResponse
             {
                 Token = "dummy-jwt-token-" + Guid.NewGuid().ToString(),
                 FullName = user.FullName,
                 Role = user.Role,
-                ComId = user.ComId ?? 0
+                ComId = user.ComId ?? 0,
+                IsShowCosting = user.IsShowCosting,
+                CanSeeOthersEntry = user.CanSeeOthersEntry
             });
         }
     }
