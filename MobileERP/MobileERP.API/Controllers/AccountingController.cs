@@ -21,6 +21,17 @@ namespace MobileERP.API.Controllers
         [HttpGet("categories")]
         public async Task<IActionResult> GetCategories() => Ok(await _context.AccountCategories.ToListAsync());
 
+        [HttpGet("vouchers")]
+        public async Task<IActionResult> GetVouchers()
+        {
+            var vouchers = await _context.JournalVouchers
+                .Include(v => v.Entries)
+                    .ThenInclude(e => e.AccountHead)
+                .OrderByDescending(v => v.VoucherDate)
+                .ToListAsync();
+            return Ok(vouchers);
+        }
+
         [HttpPost("expense")]
         public async Task<IActionResult> CreateExpense(ExpenseRequest request)
         {
