@@ -19,5 +19,9 @@ namespace MobileERP.Domain.Entities
         public string? ImageLink { get; set; }
         public bool IsOfficial { get; set; }
         public bool IsBTRCApproved { get; set; }
+        
+        // --- Pricing Master Data ---
+        public decimal DefaultCostPrice { get; set; }
+        public decimal DefaultSalesPrice { get; set; }
     }
 }

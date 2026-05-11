@@ -30,6 +30,8 @@ interface MobileDevice {
   id: number;
   brand: string;
   modelName: string;
+  defaultCostPrice: number;
+  defaultSalesPrice: number;
 }
 
 export default function NewPurchasePage() {
@@ -90,7 +92,18 @@ export default function NewPurchasePage() {
   const updateItem = (idx: number, field: string, value: any) => {
     setFormData(prev => {
         const newItems = [...prev.items];
-        newItems[idx] = { ...newItems[idx], [field]: value };
+        let updatedItem = { ...newItems[idx], [field]: value };
+        
+        // Auto-populate prices if device changed
+        if (field === "mobileDeviceId") {
+            const device = devices.find(d => d.id === value);
+            if (device) {
+                updatedItem.costPrice = device.defaultCostPrice;
+                updatedItem.salePrice = device.defaultSalesPrice;
+            }
+        }
+        
+        newItems[idx] = updatedItem;
         return { ...prev, items: newItems };
     });
   };
@@ -120,9 +133,9 @@ export default function NewPurchasePage() {
           items: formData.items.map(i => ({
             ...i,
             mobileDeviceId: parseInt(i.mobileDeviceId),
-            costPrice: parseFloat(i.costPrice),
-            salePrice: parseFloat(i.salePrice),
-            commissionAmount: parseFloat(i.commissionAmount || 0)
+            costPrice: parseFloat(i.costPrice.toString()),
+            salePrice: parseFloat(i.salePrice.toString()),
+            commissionAmount: parseFloat((i.commissionAmount || 0).toString())
           }))
         }),
       });
@@ -140,7 +153,7 @@ export default function NewPurchasePage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Record Purchase</h1>
-          <p className="text-muted-foreground">Batch IMEI Entry & Multi-Product Support.</p>
+          <p className="text-muted-foreground">Master List Integrated & Auto-Pricing Enabled.</p>
         </div>
       </div>
 
