@@ -1,0 +1,6 @@
+@MobileERP.API_HostAddress = http://localhost:5237
+
+GET {{MobileERP.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

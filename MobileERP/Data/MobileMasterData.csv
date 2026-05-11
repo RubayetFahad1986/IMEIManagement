@@ -1,0 +1,71 @@
+Brand,ModelName,ModelNumber,VariantName,Color,RAM,Storage,BatteryCapacity,Barcode,EAN,CountryOfOrigin,OfficialStatus,BTRCApproved
+Apple,iPhone 15 Pro Max,A3106,Global,Natural Titanium,8GB,256GB,4422mAh,194253700001,194253700001,China,Official,Yes
+Apple,iPhone 15 Pro Max,A3106,Global,Blue Titanium,8GB,256GB,4422mAh,194253700002,194253700002,China,Official,Yes
+Apple,iPhone 15 Pro Max,A3106,Global,White Titanium,8GB,512GB,4422mAh,194253700003,194253700003,China,Official,Yes
+Apple,iPhone 15 Pro Max,A3106,Global,Black Titanium,8GB,1TB,4422mAh,194253700004,194253700004,China,Official,Yes
+Apple,iPhone 15 Pro,A3102,Global,Natural Titanium,8GB,128GB,3274mAh,194253700011,194253700011,China,Official,Yes
+Apple,iPhone 15 Pro,A3102,Global,Blue Titanium,8GB,256GB,3274mAh,194253700012,194253700012,China,Official,Yes
+Apple,iPhone 15,A3090,Global,Black,6GB,128GB,3349mAh,194253700021,194253700021,China,Official,Yes
+Apple,iPhone 15,A3090,Global,Blue,6GB,256GB,3349mAh,194253700022,194253700022,China,Official,Yes
+Apple,iPhone 15,A3090,Global,Pink,6GB,512GB,3349mAh,194253700023,194253700023,China,Official,Yes
+Apple,iPhone 14 Pro Max,A2894,Global,Space Black,6GB,256GB,4323mAh,194253700031,194253700031,China,Official,Yes
+Apple,iPhone 14 Pro Max,A2894,Global,Deep Purple,6GB,512GB,4323mAh,194253700032,194253700032,China,Official,Yes
+Apple,iPhone 13,A2633,Global,Midnight,4GB,128GB,3240mAh,194253700041,194253700041,China,Official,Yes
+Apple,iPhone 13,A2633,Global,Starlight,4GB,256GB,3240mAh,194253700042,194253700042,China,Official,Yes
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Gray,12GB,256GB,5000mAh,8806095300001,8806095300001,Vietnam,Official,Yes
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Black,12GB,512GB,5000mAh,8806095300002,8806095300002,Vietnam,Official,Yes
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Violet,12GB,1TB,5000mAh,8806095300003,8806095300003,Vietnam,Official,Yes
+Samsung,Galaxy S24+,SM-S926B,International,Onyx Black,12GB,256GB,4900mAh,8806095300011,8806095300011,Vietnam,Official,Yes
+Samsung,Galaxy S24+,SM-S926B,International,Cobalt Violet,12GB,512GB,4900mAh,8806095300012,8806095300012,Vietnam,Official,Yes
+Samsung,Galaxy S24,SM-S921B,International,Marble Grey,8GB,128GB,4000mAh,8806095300021,8806095300021,Vietnam,Official,Yes
+Samsung,Galaxy S24,SM-S921B,International,Onyx Black,8GB,256GB,4000mAh,8806095300022,8806095300022,Vietnam,Official,Yes
+Samsung,Galaxy Z Fold 5,SM-F946B,International,Icy Blue,12GB,256GB,4400mAh,8806095300031,8806095300031,South Korea,Official,Yes
+Samsung,Galaxy Z Fold 5,SM-F946B,International,Phantom Black,12GB,512GB,4400mAh,8806095300032,8806095300032,South Korea,Official,Yes
+Samsung,Galaxy A55,SM-A556B,International,Awesome Iceblue,8GB,128GB,5000mAh,8806095300041,8806095300041,Vietnam,Official,Yes
+Samsung,Galaxy A55,SM-A556B,International,Awesome Navy,8GB,256GB,5000mAh,8806095300042,8806095300042,Vietnam,Official,Yes
+Samsung,Galaxy A35,SM-A356B,International,Awesome Lilac,6GB,128GB,5000mAh,8806095300051,8806095300051,Vietnam,Official,Yes
+Samsung,Galaxy A35,SM-A356B,International,Awesome Navy,8GB,256GB,5000mAh,8806095300052,8806095300052,Vietnam,Official,Yes
+Xiaomi,14 Ultra,24030PN60G,Global,Black,16GB,512GB,5000mAh,6941812700001,6941812700001,China,Official,Yes
+Xiaomi,14 Ultra,24030PN60G,Global,White,16GB,512GB,5000mAh,6941812700002,6941812700002,China,Official,Yes
+Xiaomi,14,23127PN0CG,Global,Jade Green,12GB,256GB,4610mAh,6941812700011,6941812700011,China,Official,Yes
+Xiaomi,14,23127PN0CG,Global,Black,12GB,512GB,4610mAh,6941812700012,6941812700012,China,Official,Yes
+Xiaomi,Redmi Note 13 Pro+,23090RA98G,Global,Aurora Purple,8GB,256GB,5000mAh,6941812700021,6941812700021,China,Official,Yes
+Xiaomi,Redmi Note 13 Pro+,23090RA98G,Global,Midnight Black,12GB,512GB,5000mAh,6941812700022,6941812700022,China,Official,Yes
+Xiaomi,Redmi Note 13 Pro,2312DRA50G,Global,Ocean Teal,8GB,256GB,5100mAh,6941812700031,6941812700031,China,Official,Yes
+Xiaomi,Redmi Note 13 Pro,2312DRA50G,Global,Midnight Black,12GB,512GB,5100mAh,6941812700032,6941812700032,China,Official,Yes
+Xiaomi,Redmi 13C,23106RN0DA,Global,Navy Blue,4GB,128GB,5000mAh,6941812700041,6941812700041,China,Official,Yes
+Xiaomi,Redmi 13C,23106RN0DA,Global,Clover Green,8GB,256GB,5000mAh,6941812700042,6941812700042,China,Official,Yes
+Vivo,X100 Pro,V2324,Global,Asteroid Black,16GB,512GB,5400mAh,6935117800001,6935117800001,China,Official,Yes
+Vivo,X100 Pro,V2324,Global,Startrail Blue,12GB,256GB,5400mAh,6935117800002,6935117800002,China,Official,Yes
+Vivo,V30 Pro,V2319,Global,Bloom White,12GB,512GB,5000mAh,6935117800011,6935117800011,India,Official,Yes
+Vivo,V30 Pro,V2319,Global,Peacock Green,12GB,512GB,5000mAh,6935117800012,6935117800012,India,Official,Yes
+Vivo,V30,V2318,Global,Equator Black,8GB,256GB,5000mAh,6935117800021,6935117800021,India,Official,Yes
+Vivo,V30,V2318,Global,Bloom White,12GB,512GB,5000mAh,6935117800022,6935117800022,India,Official,Yes
+Vivo,Y100,V2327,Global,Crystal Black,8GB,128GB,5000mAh,6935117800031,6935117800031,India,Official,Yes
+Vivo,Y100,V2327,Global,Breeze Green,8GB,256GB,5000mAh,6935117800032,6935117800032,India,Official,Yes
+Oppo,Find X7 Ultra,PHY110,Global,Ocean Blue,16GB,512GB,5000mAh,6932165600001,6932165600001,China,Official,Yes
+Oppo,Reno11 Pro,CPH2607,Global,Pearl White,12GB,256GB,4600mAh,6932165600011,6932165600011,China,Official,Yes
+Oppo,Reno11 Pro,CPH2607,Global,Rock Grey,12GB,512GB,4600mAh,6932165600012,6932165600012,China,Official,Yes
+Oppo,Reno11,CPH2599,Global,Wave Green,8GB,128GB,5000mAh,6932165600021,6932165600021,China,Official,Yes
+Oppo,Reno11,CPH2599,Global,Rock Grey,12GB,256GB,5000mAh,6932165600022,6932165600022,China,Official,Yes
+Oppo,A79,CPH2557,Global,Mystery Black,8GB,128GB,5000mAh,6932165600031,6932165600031,China,Official,Yes
+Oppo,A79,CPH2557,Global,Dazzling Purple,8GB,256GB,5000mAh,6932165600032,6932165600032,China,Official,Yes
+Realme,12 Pro+,RMX3840,Global,Submarine Blue,8GB,128GB,5000mAh,6973000000001,6973000000001,China,Official,Yes
+Realme,12 Pro+,RMX3840,Global,Explorer Red,12GB,256GB,5000mAh,6973000000002,6973000000002,China,Official,Yes
+Realme,12 Pro,RMX3842,Global,Navigator Beige,8GB,256GB,5000mAh,6973000000011,6973000000011,China,Official,Yes
+Realme,C67,RMX3890,Global,Sunny Oasis,4GB,128GB,5000mAh,6973000000021,6973000000021,China,Official,Yes
+Realme,C67,RMX3890,Global,Black Rock,8GB,128GB,5000mAh,6973000000022,6973000000022,China,Official,Yes
+Google,Pixel 8 Pro,GC3VE,International,Bay,12GB,256GB,5050mAh,840244700001,840244700001,China,Unofficial,No
+Google,Pixel 8 Pro,GC3VE,International,Obsidian,12GB,512GB,5050mAh,840244700002,840244700002,China,Unofficial,No
+Google,Pixel 8,G9BQD,International,Rose,8GB,128GB,4575mAh,840244700011,840244700011,China,Unofficial,No
+Google,Pixel 8,G9BQD,International,Hazel,8GB,256GB,4575mAh,840244700012,840244700012,China,Unofficial,No
+Google,Pixel 7a,GWKK3,International,Sea,8GB,128GB,4385mAh,840244700021,840244700021,China,Unofficial,No
+OnePlus,12,CPH2581,Global,Flowy Emerald,16GB,512GB,5400mAh,6921815600001,6921815600001,China,Official,Yes
+OnePlus,12,CPH2581,Global,Silky Black,12GB,256GB,5400mAh,6921815600002,6921815600002,China,Official,Yes
+OnePlus,12R,CPH2609,Global,Iron Gray,8GB,128GB,5500mAh,6921815600011,6921815600011,China,Official,Yes
+OnePlus,12R,CPH2609,Global,Cool Blue,16GB,256GB,5500mAh,6921815600012,6921815600012,China,Official,Yes
+OnePlus,Nord CE 3 Lite,CPH2469,Global,Pastel Lime,8GB,256GB,5000mAh,6921815600021,6921815600021,China,Official,Yes
+Motorola,Edge 50 Pro,XT2403-1,Global,Luxe Lavender,12GB,256GB,4500mAh,6947681500001,6947681500001,India,Official,Yes
+Motorola,Edge 50 Pro,XT2403-1,Global,Black Beauty,8GB,256GB,4500mAh,6947681500002,6947681500002,India,Official,Yes
+Motorola,Moto G84,XT2347-2,Global,Viva Magenta,12GB,256GB,5000mAh,6947681500011,6947681500011,India,Official,Yes
+Motorola,Moto G54,XT2343-1,Global,Midnight Blue,8GB,128GB,5000mAh,6947681500021,6947681500021,India,Official,Yes

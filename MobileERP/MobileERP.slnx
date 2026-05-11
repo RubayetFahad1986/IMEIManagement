@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="MobileERP.API/MobileERP.API.csproj" />
+  <Project Path="MobileERP.Application/MobileERP.Application.csproj" />
+  <Project Path="MobileERP.Domain/MobileERP.Domain.csproj" />
+  <Project Path="MobileERP.Infrastructure/MobileERP.Infrastructure.csproj" />
+  <Project Path="MobileERP.Shared/MobileERP.Shared.csproj" />
+</Solution>

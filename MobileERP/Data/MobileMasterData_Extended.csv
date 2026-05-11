@@ -1,0 +1,24 @@
+Brand,ModelName,ModelNumber,VariantName,Color,RAM,Storage,Chipset,BatteryCapacity,Barcode,EAN,CountryOfOrigin,ImageLink
+Apple,iPhone 15 Pro Max,A3106,Global,Natural Titanium,8GB,256GB,Apple A17 Pro (3 nm),4422mAh,194253700001,194253700001,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro-max.jpg
+Apple,iPhone 15 Pro Max,A3106,Global,Blue Titanium,8GB,512GB,Apple A17 Pro (3 nm),4422mAh,194253700002,194253700002,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro-max.jpg
+Apple,iPhone 15 Pro,A3102,Global,White Titanium,8GB,128GB,Apple A17 Pro (3 nm),3274mAh,194253700011,194253700011,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro.jpg
+Apple,iPhone 15,A3090,Global,Black,6GB,128GB,Apple A16 Bionic (5 nm),3349mAh,194253700021,194253700021,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg
+Apple,iPhone 14 Pro Max,A2894,Global,Deep Purple,6GB,256GB,Apple A16 Bionic (5 nm),4323mAh,194253700031,194253700031,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-14-pro-max-.jpg
+Apple,iPhone 13,A2633,Global,Midnight,4GB,128GB,Apple A15 Bionic (5 nm),3240mAh,194253700041,194253700041,China,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-13.jpg
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Gray,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,8806095300001,8806095300001,Vietnam,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-ultra-5g-sm-s928.jpg
+Samsung,Galaxy S24+,SM-S926B,International,Onyx Black,12GB,256GB,Exynos 2400 (4 nm),4900mAh,8806095300011,8806095300011,Vietnam,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-plus-5g-sm-s926.jpg
+Samsung,Galaxy S24,SM-S921B,International,Marble Grey,8GB,128GB,Exynos 2400 (4 nm),4000mAh,8806095300021,8806095300021,Vietnam,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g-sm-s921.jpg
+Samsung,Galaxy Z Fold 5,SM-F946B,International,Icy Blue,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),4400mAh,8806095300031,8806095300031,South Korea,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-z-fold5-5g.jpg
+Samsung,Galaxy A55,SM-A556B,International,Awesome Iceblue,8GB,128GB,Exynos 1480 (4 nm),5000mAh,8806095300041,8806095300041,Vietnam,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a55.jpg
+Xiaomi,14 Ultra,24030PN60G,Global,Black,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,6941812700001,6941812700001,China,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg
+Xiaomi,14,23127PN0CG,Global,Jade Green,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),4610mAh,6941812700011,6941812700011,China,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14.jpg
+Xiaomi,Redmi Note 13 Pro+,23090RA98G,Global,Aurora Purple,8GB,256GB,Dimensity 7200 Ultra (4 nm),5000mAh,6941812700021,6941812700021,China,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro-plus.jpg
+Xiaomi,Redmi 13C,23106RN0DA,Global,Navy Blue,4GB,128GB,Mediatek Helio G85 (12nm),5000mAh,6941812700041,6941812700041,China,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg
+Vivo,X100 Pro,V2324,Global,Asteroid Black,16GB,512GB,Dimensity 9300 (4 nm),5400mAh,6935117800001,6935117800001,China,https://fdn2.gsmarena.com/vv/bigpic/vivo-x100-pro.jpg
+Vivo,V30 Pro,V2319,Global,Bloom White,12GB,512GB,Dimensity 8200 (4 nm),5000mAh,6935117800011,6935117800011,India,https://fdn2.gsmarena.com/vv/bigpic/vivo-v30-pro.jpg
+Oppo,Find X7 Ultra,PHY110,Global,Ocean Blue,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,6932165600001,6932165600001,China,https://fdn2.gsmarena.com/vv/bigpic/oppo-find-x7-ultra.jpg
+Oppo,Reno11 Pro,CPH2607,Global,Pearl White,12GB,256GB,Dimensity 8200 (4 nm),4600mAh,6932165600011,6932165600011,China,https://fdn2.gsmarena.com/vv/bigpic/oppo-reno11-pro-global.jpg
+Realme,12 Pro+,RMX3840,Global,Submarine Blue,8GB,128GB,Snapdragon 7s Gen 2 (4 nm),5000mAh,6973000000001,6973000000001,China,https://fdn2.gsmarena.com/vv/bigpic/realme-12-pro-plus.jpg
+Google,Pixel 8 Pro,GC3VE,International,Bay,12GB,256GB,Google Tensor G3 (4 nm),5050mAh,840244700001,840244700001,China,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-8-pro.jpg
+OnePlus,12,CPH2581,Global,Flowy Emerald,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5400mAh,6921815600001,6921815600001,China,https://fdn2.gsmarena.com/vv/bigpic/oneplus-12.jpg
+Motorola,Edge 50 Pro,XT2403-1,Global,Luxe Lavender,12GB,256GB,Snapdragon 7 Gen 3 (4 nm),4500mAh,6947681500001,6947681500001,India,https://fdn2.gsmarena.com/vv/bigpic/motorola-edge-50-pro.jpg

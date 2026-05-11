@@ -1,0 +1,247 @@
+Brand,ModelName,ModelNumber,VariantName,Color,RAM,Storage,Chipset,BatteryCapacity,ImageLink
+Apple,iPhone 15 Pro Max,A3106,Global,Natural Titanium,8GB,256GB,Apple A17 Pro (3 nm),4422mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro-max.jpg
+Apple,iPhone 15 Pro Max,A3106,Global,Blue Titanium,8GB,512GB,Apple A17 Pro (3 nm),4422mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro-max.jpg
+Apple,iPhone 15 Pro,A3102,Global,White Titanium,8GB,128GB,Apple A17 Pro (3 nm),3274mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro.jpg
+Apple,iPhone 15 Pro,A3102,Global,Black Titanium,8GB,256GB,Apple A17 Pro (3 nm),3274mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-pro.jpg
+Apple,iPhone 15 Plus,A3094,Global,Pink,6GB,128GB,Apple A16 Bionic (5 nm),4383mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-plus.jpg
+Apple,iPhone 15 Plus,A3094,Global,Blue,6GB,256GB,Apple A16 Bionic (5 nm),4383mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15-plus.jpg
+Apple,iPhone 15,A3090,Global,Black,6GB,128GB,Apple A16 Bionic (5 nm),3349mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg
+Apple,iPhone 15,A3090,Global,Green,6GB,256GB,Apple A16 Bionic (5 nm),3349mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg
+Apple,iPhone 14 Pro Max,A2894,Global,Deep Purple,6GB,256GB,Apple A16 Bionic (5 nm),4323mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-14-pro-max-.jpg
+Apple,iPhone 14 Pro,A2890,Global,Space Black,6GB,128GB,Apple A16 Bionic (5 nm),3200mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-14-pro.jpg
+Apple,iPhone 14,A2882,Global,Blue,6GB,128GB,Apple A15 Bionic (5 nm),3279mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-14.jpg
+Apple,iPhone 13 Pro Max,A2643,Global,Sierra Blue,6GB,256GB,Apple A15 Bionic (5 nm),4352mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-13-pro-max.jpg
+Apple,iPhone 13,A2633,Global,Midnight,4GB,128GB,Apple A15 Bionic (5 nm),3240mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-13.jpg
+Apple,iPhone 12,A2403,Global,White,4GB,128GB,Apple A14 Bionic (5 nm),2815mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-12.jpg
+Apple,iPhone 11,A2221,Global,Black,4GB,64GB,Apple A13 Bionic (7 nm+),3110mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-11.jpg
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Gray,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-ultra-5g-sm-s928.jpg
+Samsung,Galaxy S24 Ultra,SM-S928B,International,Titanium Black,12GB,512GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-ultra-5g-sm-s928.jpg
+Samsung,Galaxy S24+,SM-S926B,International,Cobalt Violet,12GB,256GB,Exynos 2400 (4 nm),4900mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-plus-5g-sm-s926.jpg
+Samsung,Galaxy S24,SM-S921B,International,Amber Yellow,8GB,128GB,Exynos 2400 (4 nm),4000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g-sm-s921.jpg
+Samsung,Galaxy S23 Ultra,SM-S918B,International,Phantom Black,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23-ultra-5g.jpg
+Samsung,Galaxy S23,SM-S911B,International,Cream,8GB,128GB,Snapdragon 8 Gen 2 (4 nm),3900mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23.jpg
+Samsung,Galaxy S22 Ultra,SM-S908B,International,Burgundy,12GB,256GB,Exynos 2200 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s22-ultra-5g.jpg
+Samsung,Galaxy S21 Ultra,SM-G998B,International,Phantom Silver,12GB,128GB,Exynos 2100 (5 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s21-ultra-5g.jpg
+Samsung,Galaxy Z Fold 5,SM-F946B,International,Icy Blue,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),4400mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-z-fold5-5g.jpg
+Samsung,Galaxy Z Flip 5,SM-F731B,International,Mint,8GB,256GB,Snapdragon 8 Gen 2 (4 nm),3700mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-z-flip5-5g.jpg
+Samsung,Galaxy A55,SM-A556B,International,Awesome Iceblue,8GB,128GB,Exynos 1480 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a55.jpg
+Samsung,Galaxy A54,SM-A546B,International,Awesome Lime,8GB,128GB,Exynos 1380 (5 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a54-5g.jpg
+Samsung,Galaxy A35,SM-A356B,International,Awesome Navy,8GB,128GB,Exynos 1380 (5 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a35.jpg
+Samsung,Galaxy A34,SM-A346B,International,Awesome Violet,6GB,128GB,Dimensity 1080 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a34-5g.jpg
+Samsung,Galaxy A15 5G,SM-A156B,International,Blue Black,6GB,128GB,Dimensity 6100+ (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a15-5g.jpg
+Samsung,Galaxy M54,SM-M546B,International,Silver,8GB,256GB,Exynos 1380 (5 nm),6000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-m54.jpg
+Samsung,Galaxy M34,SM-M346B,International,Waterfall Blue,6GB,128GB,Exynos 1280 (5 nm),6000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-m34-5g.jpg
+Xiaomi,14 Ultra,24030PN60G,Global,Black,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg
+Xiaomi,14,23127PN0CG,Global,Black,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),4610mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14.jpg
+Xiaomi,13 Ultra,2304FPN6DG,Global,Olive Green,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-13-ultra.jpg
+Xiaomi,13 Pro,2210132G,Global,Ceramic Black,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),4820mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-13-pro.jpg
+Xiaomi,13T Pro,23078PND5G,Global,Alpine Blue,12GB,512GB,Dimensity 9200+ (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-13t-pro.jpg
+Xiaomi,13T,2306EPN60G,Global,Black,8GB,256GB,Dimensity 8200 Ultra (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-13t.jpg
+Xiaomi,Redmi Note 13 Pro+ 5G,23090RA98G,Global,Aurora Purple,12GB,512GB,Dimensity 7200 Ultra (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro-plus.jpg
+Xiaomi,Redmi Note 13 Pro 5G,2312DRA50G,Global,Ocean Teal,8GB,256GB,Snapdragon 7s Gen 2 (4 nm),5100mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro-5g.jpg
+Xiaomi,Redmi Note 13 5G,2312DRAABG,Global,Graphite Black,8GB,256GB,Dimensity 6080 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-5g.jpg
+Xiaomi,Redmi Note 12 Pro+ 5G,22101316UG,Global,Arctic White,8GB,256GB,Dimensity 1080 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-12-pro-plus-5g.jpg
+Xiaomi,Redmi Note 12 Pro 5G,22101316G,Global,Onyx Black,8GB,128GB,Dimensity 1080 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-12-pro-5g.jpg
+Xiaomi,Redmi Note 12,23021RAAEG,Global,Ice Blue,6GB,128GB,Snapdragon 685 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-12.jpg
+Xiaomi,Redmi 13C,23106RN0DA,Global,Navy Blue,8GB,256GB,Helio G85 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg
+Xiaomi,Redmi 12,23053RN02Y,Global,Sky Blue,4GB,128GB,Helio G88 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-12.jpg
+Xiaomi,Poco F5 Pro,23013PC75G,Global,White,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),5160mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-f5-pro.jpg
+Xiaomi,Poco F5,23049PCD8G,Global,Blue,8GB,256GB,Snapdragon 7+ Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-f5.jpg
+Xiaomi,Poco X6 Pro,2311DRK48G,Global,Yellow,12GB,512GB,Dimensity 8300 Ultra (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-x6-pro.jpg
+Xiaomi,Poco X6,23122PCD1G,Global,Black,8GB,256GB,Snapdragon 7s Gen 2 (4 nm),5100mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-x6.jpg
+Xiaomi,Poco M6 Pro,2312FPCA6G,Global,Blue,8GB,256GB,Helio G99 Ultra,5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-m6-pro.jpg
+Google,Pixel 8 Pro,GC3VE,International,Bay,12GB,256GB,Google Tensor G3 (4 nm),5050mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-8-pro.jpg
+Google,Pixel 8,G9BQD,International,Hazel,8GB,128GB,Google Tensor G3 (4 nm),4575mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-8.jpg
+Google,Pixel 7 Pro,GP4BC,International,Obsidian,12GB,256GB,Google Tensor G2 (5 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-7-pro.jpg
+Google,Pixel 7,GVU6C,International,Snow,8GB,128GB,Google Tensor G2 (5 nm),4355mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-7.jpg
+Google,Pixel 7a,GWKK3,International,Sea,8GB,128GB,Google Tensor G2 (5 nm),4385mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-7a.jpg
+Google,Pixel 6 Pro,GLU0G,International,Stormy Black,12GB,128GB,Google Tensor (5 nm),5003mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-6-pro.jpg
+Google,Pixel 6,GB7N6,International,Kinda Coral,8GB,128GB,Google Tensor (5 nm),4614mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-6.jpg
+OnePlus,12,CPH2581,Global,Flowy Emerald,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5400mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-12.jpg
+OnePlus,12R,CPH2609,Global,Iron Gray,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5500mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-12r.jpg
+OnePlus,11,CPH2449,Global,Eternal Green,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-11.jpg
+OnePlus,10 Pro,NE2213,Global,Volcanic Black,12GB,256GB,Snapdragon 8 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-10-pro.jpg
+OnePlus,Nord 3,CPH2491,Global,Misty Green,16GB,256GB,Dimensity 9000 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-nord-3.jpg
+OnePlus,Nord CE 3 Lite,CPH2469,Global,Pastel Lime,8GB,256GB,Snapdragon 695 5G (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-nord-ce3-lite-5g.jpg
+OnePlus,Open,CPH2551,Global,Voyager Black,16GB,512GB,Snapdragon 8 Gen 2 (4 nm),4805mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-open.jpg
+Vivo,X100 Pro,V2324,Global,Asteroid Black,16GB,512GB,Dimensity 9300 (4 nm),5400mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-x100-pro.jpg
+Vivo,X100,V2309,Global,Startrail Blue,12GB,256GB,Dimensity 9300 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-x100.jpg
+Vivo,V30 Pro,V2319,Global,Bloom White,12GB,512GB,Dimensity 8200 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-v30-pro.jpg
+Vivo,V30,V2318,Global,Waving Aqua,8GB,256GB,Snapdragon 7 Gen 3 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-v30.jpg
+Vivo,V29 Pro,V2251,Global,Himalayan Blue,12GB,256GB,Dimensity 8200 (4 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-v29-pro.jpg
+Vivo,V29,V2250,Global,Peak Blue,8GB,128GB,Snapdragon 778G 5G (6 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-v29.jpg
+Vivo,Y100,V2327,Global,Crystal Black,8GB,128GB,Snapdragon 4 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-y100-2024.jpg
+Vivo,Y17s,V2310,Global,Glitter Purple,6GB,128GB,Helio G85 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-y17s.jpg
+Oppo,Find X7 Ultra,PHY110,Global,Ocean Blue,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-find-x7-ultra.jpg
+Oppo,Find N3,CPH2499,Global,Champagne Gold,16GB,512GB,Snapdragon 8 Gen 2 (4 nm),4805mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-find-n3.jpg
+Oppo,Reno11 Pro,CPH2607,Global,Pearl White,12GB,256GB,Dimensity 8200 (4 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-reno11-pro-global.jpg
+Oppo,Reno11,CPH2599,Global,Wave Green,8GB,256GB,Dimensity 7050 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-reno11-global.jpg
+Oppo,Reno10 Pro+,CPH2521,Global,Glossy Purple,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),4700mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-reno10-pro-plus.jpg
+Oppo,A79,CPH2557,Global,Mystery Black,8GB,128GB,Dimensity 6020 (7 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-a79.jpg
+Oppo,A58,CPH2577,Global,Dazzling Green,6GB,128GB,Helio G85 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-a58.jpg
+Realme,12 Pro+,RMX3840,Global,Submarine Blue,12GB,256GB,Snapdragon 7s Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-12-pro-plus.jpg
+Realme,12 Pro,RMX3842,Global,Navigator Beige,8GB,256GB,Snapdragon 6 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-12-pro.jpg
+Realme,GT5,RMX3820,Global,Silver,16GB,512GB,Snapdragon 8 Gen 2 (4 nm),5240mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-gt5.jpg
+Realme,11 Pro+,RMX3741,Global,Sunrise Beige,12GB,512GB,Dimensity 7050 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-11-pro-plus.jpg
+Realme,C67,RMX3890,Global,Sunny Oasis,8GB,128GB,Snapdragon 685 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-c67.jpg
+Realme,C55,RMX3710,Global,Rainy Night,6GB,128GB,Helio G88 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-c55.jpg
+Infinix,Zero 30 5G,X6731,Global,Golden Hour,12GB,256GB,Dimensity 8020 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/infinix-zero-30-5g.jpg
+Infinix,Note 40 Pro,X6850,Global,Vintage Green,12GB,256GB,Helio G99 Ultimate,5000mAh,https://fdn2.gsmarena.com/vv/bigpic/infinix-note-40-pro.jpg
+Infinix,Hot 40 Pro,X6837,Global,Palm Blue,8GB,256GB,Helio G99 (6nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/infinix-hot-40-pro.jpg
+Infinix,Smart 8,X6525,Global,Shiny Gold,4GB,64GB,Unisoc T606 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/infinix-smart-8.jpg
+Tecno,Camon 30 Premier,CL9,Global,Alps Snowy Silver,12GB,512GB,Dimensity 8200 Ultimate,5000mAh,https://fdn2.gsmarena.com/vv/bigpic/tecno-camon-30-premier.jpg
+Tecno,Phantom V Fold,AD10,Global,Black,12GB,512GB,Dimensity 9000+ (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/tecno-phantom-v-fold.jpg
+Tecno,Spark 20 Pro+,KJ7,Global,Lunar Frost,8GB,256GB,Helio G99 Ultimate,5000mAh,https://fdn2.gsmarena.com/vv/bigpic/tecno-spark-20-pro-plus.jpg
+Nothing,Phone (2),A065,Global,Dark Grey,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),4700mAh,https://fdn2.gsmarena.com/vv/bigpic/nothing-phone-2.jpg
+Nothing,Phone (2a),A142,Global,White,8GB,128GB,Dimensity 7200 Pro (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/nothing-phone-2a.jpg
+Huawei,P60 Pro,MNA-LX9,Global,Rococo Pearl,8GB,256GB,Snapdragon 8+ Gen 1 4G (4 nm),4815mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-p60-pro.jpg
+Huawei,Mate 60 Pro,ALN-AL00,Global,Green,12GB,512GB,Kirin 9000S (7 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-mate-60-pro.jpg
+Huawei,Nova 12s,FOA-LX9,Global,Blue,8GB,256GB,Snapdragon 778G 4G (6 nm),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-nova-12s.jpg
+Sony,Xperia 1 V,XQ-CT54,Global,Black,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-1-v.jpg
+Sony,Xperia 5 V,XQ-DE54,Global,Platinum Silver,8GB,128GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-5-v.jpg
+Asus,Zenfone 10,AI2302,Global,Midnight Black,8GB,128GB,Snapdragon 8 Gen 2 (4 nm),4300mAh,https://fdn2.gsmarena.com/vv/bigpic/asus-zenfone-10.jpg
+Asus,ROG Phone 8 Pro,AI2401,Global,Phantom Black,16GB,512GB,Snapdragon 8 Gen 3 (4 nm),5500mAh,https://fdn2.gsmarena.com/vv/bigpic/asus-rog-phone-8-pro.jpg
+Honor,Magic6 Pro,BVL-N41,Global,Epi Green,12GB,512GB,Snapdragon 8 Gen 3 (4 nm),5600mAh,https://fdn2.gsmarena.com/vv/bigpic/honor-magic6-pro.jpg
+Honor,90,REA-NX9,Global,Emerald Green,12GB,512GB,Snapdragon 7 Gen 1 Accelerated Edition (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/honor-90.jpg
+Honor,X9b,ALI-NX1,Global,Sunrise Orange,12GB,256GB,Snapdragon 6 Gen 1 (4 nm),5800mAh,https://fdn2.gsmarena.com/vv/bigpic/honor-x9b.jpg
+Motorola,Edge 50 Pro,XT2403-1,Global,Luxe Lavender,12GB,256GB,Snapdragon 7 Gen 3 (4 nm),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-edge-50-pro.jpg
+Motorola,Razr 40 Ultra,XT2321-1,Global,Infinite Black,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),3800mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-razr-40-ultra.jpg
+Motorola,Moto G84,XT2347-2,Global,Viva Magenta,12GB,256GB,Snapdragon 695 5G (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-moto-g84.jpg
+ZTE,Nubia Red Magic 9 Pro,NX769J,Global,Sleet,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),6500mAh,https://fdn2.gsmarena.com/vv/bigpic/zte-nubia-red-magic-9-pro.jpg
+ZTE,Nubia Z60 Ultra,NX721J,Global,Black,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),6000mAh,https://fdn2.gsmarena.com/vv/bigpic/zte-nubia-z60-ultra.jpg
+Meizu,21,M461Q,Global,White,12GB,256GB,Snapdragon 8 Gen 3 (4 nm),4800mAh,https://fdn2.gsmarena.com/vv/bigpic/meizu-21.jpg
+HMD,Pulse Pro,Global,Black Ocean,6GB,128GB,Unisoc T606 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/hmd-pulse-pro.jpg
+Nokia,G42,Global,So Purple,6GB,128GB,Snapdragon 480+ 5G (8 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/nokia-g42.jpg
+Nokia,XR21,Global,Midnight Black,6GB,128GB,Snapdragon 695 5G (6 nm),4800mAh,https://fdn2.gsmarena.com/vv/bigpic/nokia-xr21.jpg
+Panasonic,Eluga I7,Global,Black,2GB,16GB,MT6737H,4000mAh,https://fdn2.gsmarena.com/vv/bigpic/panasonic-eluga-i7-2019.jpg
+Sharp,Aquos R8 Pro,Global,Black,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sharp-aquos-r8-pro.jpg
+Sony,Xperia 10 V,Global,Lavender,8GB,128GB,Snapdragon 695 5G (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-10-v.jpg
+Fairphone,5,Global,Sky Blue,8GB,256GB,Qualcomm QCM6490,4200mAh,https://fdn2.gsmarena.com/vv/bigpic/fairphone-5.jpg
+Lava,Agni 2,Global,Glass Viridian,8GB,256GB,Dimensity 7050 (6 nm),4700mAh,https://fdn2.gsmarena.com/vv/bigpic/lava-agni-2-5g.jpg
+Micromax,In Note 2,Global,Black,4GB,64GB,Helio G95 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/micromax-in-note-2.jpg
+Blackview,BV9300,Global,Orange,12GB,256GB,Helio G99 (6nm),15080mAh,https://fdn2.gsmarena.com/vv/bigpic/blackview-bv9300.jpg
+Doogee,V30 Pro,Global,Black,12GB,512GB,Dimensity 7050 (6 nm),10800mAh,https://fdn2.gsmarena.com/vv/bigpic/doogee-v30-pro.jpg
+Ulefone,Armor 24,Global,Black,12GB,256GB,Helio G96 (12nm),22000mAh,https://fdn2.gsmarena.com/vv/bigpic/ulefone-armor-24.jpg
+Oukitel,WP30 Pro,Global,Black,12GB,512GB,Dimensity 8020 (6 nm),11000mAh,https://fdn2.gsmarena.com/vv/bigpic/oukitel-wp30-pro.jpg
+Unihertz,Jelly Star,Global,Red,8GB,256GB,Helio G99 (6nm),2000mAh,https://fdn2.gsmarena.com/vv/bigpic/unihertz-jelly-star.jpg
+HTC,U23 Pro,Global,Coffee Black,12GB,256GB,Snapdragon 7 Gen 1 (4 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/htc-u23-pro.jpg
+Itel,S23+,Global,Lake Cyan,8GB,256GB,Unisoc T616 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/itel-s23-plus.jpg
+Itel,P55+,Global,Royal Blue,8GB,256GB,Unisoc T606 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/itel-p55-plus.jpg
+Kyocera,DuraForce Pro 3,Global,Black,6GB,128GB,Snapdragon 7 Gen 1 (4 nm),4270mAh,https://fdn2.gsmarena.com/vv/bigpic/kyocera-duraforce-pro-3.jpg
+CAT,S75,Global,Black,6GB,128GB,Dimensity 9300 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/cat-s75.jpg
+Energizer,Hardcase G5,Global,Black,6GB,128GB,Dimensity 700 (7 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/energizer-hardcase-g5.jpg
+TCL,50 XL 5G,Global,Black,6GB,128GB,Dimensity 6100+ (6 nm),5010mAh,https://fdn2.gsmarena.com/vv/bigpic/tcl-50-xl-5g.jpg
+BLU,Bold N3,Global,Blue,8GB,256GB,Dimensity 7050 (6 nm),4700mAh,https://fdn2.gsmarena.com/vv/bigpic/blu-bold-n3.jpg
+Wiko,Hi Enjoy 70 Pro,Global,White,8GB,128GB,Dimensity 700 (7 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/wiko-hi-enjoy-70-pro.jpg
+Coolpad,Cool 30,Global,Black,6GB,128GB,Helio G85 (12nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/coolpad-cool-30.jpg
+Gionee,G13 Pro,Global,Blue,4GB,32GB,Unisoc T310,3500mAh,https://fdn2.gsmarena.com/vv/bigpic/gionee-g13-pro.jpg
+LeEco,S1 Pro,Global,Titanium,8GB,128GB,Unisoc T7510,5000mAh,https://fdn2.gsmarena.com/vv/bigpic/leeco-s1-pro.jpg
+Meizu,20 Pro,Global,Silver,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/meizu-20-pro.jpg
+ZTE,Axon 60 Ultra,Global,Black,12GB,256GB,Snapdragon 8 Gen 2 (4 nm),6000mAh,https://fdn2.gsmarena.com/vv/bigpic/zte-axon-60-ultra.jpg
+Nubia,Neo 2,Global,Yellow,8GB,256GB,Unisoc T820,6000mAh,https://fdn2.gsmarena.com/vv/bigpic/nubia-neo-2.jpg
+Rakuten,Hand 5G,Global,White,4GB,128GB,Snapdragon 480 5G (8 nm),2630mAh,https://fdn2.gsmarena.com/vv/bigpic/rakuten-hand-5g.jpg
+Benco,V91,Global,Blue,8GB,128GB,Unisoc T606 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/benco-v91.jpg
+Symphony,Z60 Plus,Global,Blue,6GB,128GB,Unisoc T606 (12 nm),5000mAh,https://static.symphony-mobile.com/storage/product/2023-08-01/z60-plus-blue.png
+Walton,Primo S8 Mini,Global,Black,6GB,128GB,Snapdragon 665,5000mAh,https://waltonbd.com/image/cache/catalog/mobile/primo-s8-mini/s8-mini-black-500x500.png
+Symphony,Helio 80,Global,Grey,6GB,128GB,Helio G99,5000mAh,https://static.symphony-mobile.com/storage/product/2022-11-20/helio-80.png
+Walton,Orbit Y70,Global,Green,6GB,128GB,Helio G85,5000mAh,https://waltonbd.com/image/cache/catalog/mobile/orbit-y70/orbit-y70-green-500x500.png
+Apple,iPhone SE (2022),A2783,Global,Midnight,4GB,64GB,Apple A15 Bionic (5 nm),2018mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-se-2022.jpg
+Samsung,Galaxy S20 FE 5G,SM-G781B,Global,Cloud Navy,8GB,128GB,Snapdragon 865 5G (7 nm+),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s20-fe-5g.jpg
+Xiaomi,Redmi Note 11,2201117TG,Global,Star Blue,4GB,64GB,Snapdragon 680 4G (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-11.jpg
+OnePlus,8T,KB2003,Global,Aquamarine Green,12GB,256GB,Snapdragon 865 (7 nm+),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-8t.jpg
+Google,Pixel 5,GD1YQ,Global,Sorta Sage,8GB,128GB,Snapdragon 765G 5G (7 nm),4080mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-5.jpg
+Sony,Xperia 5 IV,XQ-CQ54,Global,Green,8GB,128GB,Snapdragon 8 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-5-iv.jpg
+Asus,Zenfone 9,AI2202,Global,Starry Blue,8GB,128GB,Snapdragon 8+ Gen 1 (4 nm),4300mAh,https://fdn2.gsmarena.com/vv/bigpic/asus-zenfone-9.jpg
+Nothing,Phone (1),A063,Global,White,8GB,128GB,Snapdragon 778G+ 5G (6 nm),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/nothing-phone-1.jpg
+Huawei,Mate 50 Pro,CET-LX9,Global,Orange,8GB,256GB,Snapdragon 8+ Gen 1 4G (4 nm),4700mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-mate-50-pro.jpg
+Honor,70,FNE-NX9,Global,Crystal Silver,8GB,128GB,Snapdragon 778G+ 5G (6 nm),4800mAh,https://fdn2.gsmarena.com/vv/bigpic/honor-70.jpg
+Motorola,Edge 30 Fusion,XT2243-1,Global,Aurora White,8GB,128GB,Snapdragon 888+ 5G (5 nm),4400mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-edge-30-fusion.jpg
+Nokia,X30,Global,Cloudy Blue,8GB,256GB,Snapdragon 695 5G (6 nm),4200mAh,https://fdn2.gsmarena.com/vv/bigpic/nokia-x30.jpg
+Realme,GT Neo 3,RMX3561,Global,Nitro Blue,8GB,256GB,Dimensity 8100 (5 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/realme-gt-neo3.jpg
+Vivo,V27 Pro,V2230,Global,Magic Blue,8GB,128GB,Dimensity 8200 (4 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/vivo-v27-pro.jpg
+Oppo,Find X5 Pro,CPH2305,Global,Glaze Black,12GB,256GB,Snapdragon 8 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/oppo-find-x5-pro.jpg
+Infinix,Note 30 Pro,X6716B,Global,Variable Gold,8GB,256GB,Helio G99 (6nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/infinix-note-30-pro.jpg
+Tecno,Pova 5 Pro,LH8n,Global,Silver Fantasy,8GB,256GB,Dimensity 6080 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/tecno-pova-5-pro.jpg
+Itel,S23,Global,Starry Black,8GB,128GB,Unisoc T606 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/itel-s23.jpg
+Meizu,18 Pro,Global,White,8GB,128GB,Snapdragon 888 (5 nm),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/meizu-18-pro.jpg
+ZTE,Axon 40 Ultra,Global,Black,8GB,128GB,Snapdragon 8 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/zte-axon-40-ultra.jpg
+Lava,Agni 5G,Global,Fiery Blue,8GB,128GB,Dimensity 810 (6 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/lava-agni-5g.jpg
+Micromax,In 2c,Global,Silver,3GB,32GB,Unisoc T610 (12 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/micromax-in-2c.jpg
+Symphony,Z47,Global,Green,4GB,64GB,Unisoc T606,5030mAh,https://static.symphony-mobile.com/storage/product/2022-12-14/z47.png
+Walton,Primo S8,Global,Blue,6GB,128GB,Helio G95,5000mAh,https://waltonbd.com/image/cache/catalog/mobile/primo-s8/s8-blue-500x500.png
+Huawei,Nova 10 Pro,Global,Silver,8GB,128GB,Snapdragon 778G 4G (6 nm),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-nova-10-pro.jpg
+Honor,Magic4 Pro,Global,Cyan,8GB,256GB,Snapdragon 8 Gen 1 (4 nm),4600mAh,https://fdn2.gsmarena.com/vv/bigpic/honor-magic4-pro.jpg
+Motorola,Edge 30 Ultra,Global,Interstellar Black,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),4610mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-edge-30-ultra.jpg
+Sony,Xperia 1 IV,Global,Black,12GB,256GB,Snapdragon 8 Gen 1 (4 nm),5000mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-1-iv.jpg
+Asus,ROG Phone 6,Global,Phantom Black,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),6000mAh,https://fdn2.gsmarena.com/vv/bigpic/asus-rog-phone-6.jpg
+Xiaomi,12S Ultra,Global,Classic Black,12GB,256GB,Snapdragon 8+ Gen 1 (4 nm),4860mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-12s-ultra.jpg
+Samsung,Galaxy Note 20 Ultra 5G,SM-N986B,Global,Mystic Bronze,12GB,256GB,Exynos 990 (7 nm+),4500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note20-ultra-5g.jpg
+Apple,iPhone 12 Pro Max,A2411,Global,Pacific Blue,6GB,128GB,Apple A14 Bionic (5 nm),3687mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-12-pro-max.jpg
+Google,Pixel 4 XL,G020P,Global,Clearly White,6GB,64GB,Snapdragon 855 (7 nm),3700mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-4-xl.jpg
+OnePlus,7 Pro,GM1913,Global,Nebula Blue,8GB,256GB,Snapdragon 855 (7 nm),4000mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-7-pro.jpg
+Sony,Xperia XZ3,Global,Black,4GB,64GB,Snapdragon 845 (10 nm),3300mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-xz3.jpg
+Huawei,P30 Pro,VOG-L29,Global,Aurora,8GB,128GB,Kirin 980 (7 nm),4200mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-p30-pro.jpg
+Samsung,Galaxy S10+,SM-G975F,Global,Prism White,8GB,128GB,Exynos 9820 (8 nm),4100mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s10-plus.jpg
+Apple,iPhone X,A1865,Global,Silver,3GB,64GB,Apple A11 Bionic (10 nm),2716mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-x.jpg
+Xiaomi,Mi Mix 3,Global,Sapphire Blue,6GB,128GB,Snapdragon 845 (10 nm),3200mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-mi-mix-3.jpg
+OnePlus,6T,A6013,Global,Mirror Black,8GB,128GB,Snapdragon 845 (10 nm),3700mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-6t.jpg
+Google,Pixel 3 XL,G013C,Global,Not Pink,4GB,64GB,Snapdragon 845 (10 nm),3430mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-3-xl.jpg
+Samsung,Galaxy Note 9,SM-N960F,Global,Ocean Blue,6GB,128GB,Exynos 9810 (10 nm),4000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note9.jpg
+Huawei,Mate 20 Pro,LYA-L29,Global,Emerald Green,6GB,128GB,Kirin 980 (7 nm),4200mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-mate-20-pro.jpg
+Sony,Xperia XZ2 Premium,Global,Chrome Black,6GB,64GB,Snapdragon 845 (10 nm),3540mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-xz2-premium.jpg
+Apple,iPhone 8 Plus,A1864,Global,Gold,3GB,64GB,Apple A11 Bionic (10 nm),2691mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-8-plus.jpg
+Samsung,Galaxy S9+,SM-G965F,Global,Lilac Purple,6GB,64GB,Exynos 9810 (10 nm),3500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s9-plus.jpg
+Xiaomi,Mi 8,Global,White,6GB,64GB,Snapdragon 845 (10 nm),3400mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-mi-8.jpg
+OnePlus,6,A6003,Global,Silk White,8GB,128GB,Snapdragon 845 (10 nm),3300mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-6.jpg
+Google,Pixel 2 XL,G011C,Global,Black & White,4GB,64GB,Snapdragon 835 (10 nm),3520mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-2-xl.jpg
+Samsung,Galaxy Note 8,SM-N950F,Global,Midnight Black,6GB,64GB,Exynos 8895 (10 nm),3300mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note8.jpg
+Huawei,P20 Pro,CLT-L29,Global,Twilight,6GB,128GB,Kirin 970 (10 nm),4000mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-p20-pro.jpg
+Sony,Xperia XZ1,Global,Moonlit Blue,4GB,64GB,Snapdragon 835 (10 nm),2700mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-xz1.jpg
+Apple,iPhone 7 Plus,A1661,Global,Jet Black,3GB,128GB,Apple A10 Fusion (16 nm),2900mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-7-plus.jpg
+Samsung,Galaxy S8+,SM-G955F,Global,Orchid Gray,4GB,64GB,Exynos 8895 (10 nm),3500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s8-plus.jpg
+Xiaomi,Mi 6,Global,Blue,6GB,64GB,Snapdragon 835 (10 nm),3350mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-mi-6.jpg
+OnePlus,5T,A5010,Global,Midnight Black,8GB,128GB,Snapdragon 835 (10 nm),3300mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-5t.jpg
+Google,Pixel XL,G-2PW2100,Global,Very Silver,4GB,32GB,Snapdragon 821 (14 nm),3450mAh,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-xl.jpg
+Samsung,Galaxy S7 edge,SM-G935F,Global,Black Onyx,4GB,32GB,Exynos 8890 Octa (14 nm),3600mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s7-edge.jpg
+Huawei,Mate 10 Pro,BLA-L29,Global,Mocha Brown,6GB,128GB,Kirin 970 (10 nm),4000mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-mate-10-pro.jpg
+Sony,Xperia XZ Premium,Global,Luminous Chrome,4GB,64GB,Snapdragon 835 (10 nm),3230mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-xz-premium.jpg
+Apple,iPhone 6s Plus,A1634,Global,Rose Gold,2GB,64GB,Apple A9 (14 nm),2750mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-6s-plus.jpg
+Samsung,Galaxy S6 edge+,SM-G928F,Global,Gold Platinum,4GB,32GB,Exynos 7420 Octa (14 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s6-edge-plus.jpg
+Xiaomi,Mi 5,Global,White,3GB,32GB,Snapdragon 820 (14 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-mi-5.jpg
+OnePlus,3T,A3010,Global,Gunmetal,6GB,64GB,Snapdragon 821 (14 nm),3400mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-3t.jpg
+Nexus 6P,H1511,Global,Aluminium,3GB,32GB,Snapdragon 810 (20 nm),3450mAh,https://fdn2.gsmarena.com/vv/bigpic/huawei-nexus-6p.jpg
+Samsung,Galaxy Note 5,SM-N920F,Global,Black Sapphire,4GB,32GB,Exynos 7420 Octa (14 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note5.jpg
+LG,V10,H960,Global,Space Black,4GB,64GB,Snapdragon 808 (20 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/lg-v10.jpg
+Sony,Xperia Z5 Premium,Global,Chrome,3GB,32GB,Snapdragon 810 (20 nm),3430mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-z5-premium.jpg
+Apple,iPhone 6 Plus,A1522,Global,Space Gray,1GB,64GB,Apple A8 (20 nm),2915mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-6-plus.jpg
+Samsung,Galaxy Note 4,SM-N910F,Global,Charcoal Black,3GB,32GB,Snapdragon 805 (28 nm),3220mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note-4.jpg
+Xiaomi,Mi 4,Global,White,3GB,16GB,Snapdragon 801 (28 nm),3080mAh,https://fdn2.gsmarena.com/vv/bigpic/xiaomi-mi-4.jpg
+OnePlus,One,A0001,Global,Sandstone Black,3GB,64GB,Snapdragon 801 (28 nm),3100mAh,https://fdn2.gsmarena.com/vv/bigpic/oneplus-one.jpg
+Nexus 6,XT1100,Global,Midnight Blue,3GB,32GB,Snapdragon 805 (28 nm),3220mAh,https://fdn2.gsmarena.com/vv/bigpic/motorola-nexus-6.jpg
+LG,G3,D855,Global,Metallic Black,3GB,32GB,Snapdragon 801 (28 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/lg-g3.jpg
+Sony,Xperia Z3,Global,Black,3GB,16GB,Snapdragon 801 (28 nm),3100mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-z3.jpg
+Apple,iPhone 5s,A1533,Global,Space Gray,1GB,16GB,Apple A7 (28 nm),1560mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-5s.jpg
+Samsung,Galaxy S5,SM-G900F,Global,Shimmery White,2GB,16GB,Snapdragon 801 (28 nm),2800mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s5.jpg
+HTC,One (M8),Global,Gunmetal Gray,2GB,16GB,Snapdragon 801 (28 nm),2600mAh,https://fdn2.gsmarena.com/vv/bigpic/htc-one-m8.jpg
+Sony,Xperia Z2,Global,Black,3GB,16GB,Snapdragon 801 (28 nm),3200mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-z2.jpg
+Samsung,Galaxy Note 3,SM-N9005,Global,Jet Black,3GB,32GB,Snapdragon 800 (28 nm),3200mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note-3.jpg
+LG,G2,D802,Global,Black,2GB,16GB,Snapdragon 800 (28 nm),3000mAh,https://fdn2.gsmarena.com/vv/bigpic/lg-g2.jpg
+Nexus 5,D821,Global,Black,2GB,16GB,Snapdragon 800 (28 nm),2300mAh,https://fdn2.gsmarena.com/vv/bigpic/lg-nexus-5.jpg
+Apple,iPhone 5,A1428,Global,Black/Slate,1GB,16GB,Apple A6 (32 nm),1440mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-5.jpg
+Samsung,Galaxy S4,GT-I9505,Global,White Frost,2GB,16GB,Snapdragon 600 (28 nm),2600mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s4-i9505.jpg
+HTC,One (M7),Global,Glacial Silver,2GB,32GB,Snapdragon 600 (28 nm),2300mAh,https://fdn2.gsmarena.com/vv/bigpic/htc-one.jpg
+Sony,Xperia Z,Global,Black,2GB,16GB,Snapdragon S4 Pro (28 nm),2330mAh,https://fdn2.gsmarena.com/vv/bigpic/sony-xperia-z.jpg
+Samsung,Galaxy Note II,GT-N7100,Global,Titanium Gray,2GB,16GB,Exynos 4412 Quad (32 nm),3100mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note-ii-n7100.jpg
+Samsung,Galaxy S III,GT-I9300,Global,Pebble Blue,1GB,16GB,Exynos 4412 Quad (32 nm),2100mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s-iii-i9300.jpg
+Nexus 4,E960,Global,Black,2GB,8GB,Snapdragon S4 Pro (28 nm),2100mAh,https://fdn2.gsmarena.com/vv/bigpic/lg-nexus-4-e960.jpg
+Apple,iPhone 4s,A1387,Global,Black,512MB,16GB,Apple A5 (45 nm),1432mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-4s.jpg
+Samsung,Galaxy S II,GT-I9100,Global,Noble Black,1GB,16GB,Exynos 4210 Dual (45 nm),1650mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s-ii-i9100.jpg
+Samsung,Galaxy Note,GT-N7000,Global,Carbon Blue,1GB,16GB,Exynos 4210 Dual (45 nm),2500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-note.jpg
+Apple,iPhone 4,A1332,Global,Black,512MB,16GB,Apple A4 (45 nm),1420mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-4.jpg
+Samsung,Galaxy S,GT-I9000,Global,Black,512MB,8GB,Hummingbird (45 nm),1500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-i9000-galaxy-s.jpg
+Google,Nexus One,PB99100,Global,Brown,512MB,512MB,Snapdragon S1 (65 nm),1400mAh,https://fdn2.gsmarena.com/vv/bigpic/google-nexus-one.jpg
+Apple,iPhone 3GS,A1303,Global,Black,256MB,16GB,Cortex-A8 (65 nm),1219mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-3gs.jpg
+Samsung,Galaxy,GT-I7500,Global,Black,128MB,8GB,MSM7200A (65 nm),1500mAh,https://fdn2.gsmarena.com/vv/bigpic/samsung-i7500-galaxy.jpg
+HTC,Dream (G1),Global,Black,192MB,256MB,MSM7201A (65 nm),1150mAh,https://fdn2.gsmarena.com/vv/bigpic/t-mobile-g1.jpg
+Apple,iPhone 3G,A1241,Global,Black,128MB,8GB,ARM 11 (90 nm),1150mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-3g.jpg
+Apple,iPhone,A1203,Global,Silver,128MB,4GB,ARM 11 (90 nm),1400mAh,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone.jpg
