@@ -14,9 +14,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Truck, Plus, Trash2, Save, Search, Smartphone } from "lucide-react";
+import { Truck, Plus, Trash2, Save, UserPlus, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { QuickAddContact } from "@/components/ui/quick-add-contact";
+import { SearchableSelect } from "@/components/ui/searchable-select";
 
 interface Contact {
   id: number;
@@ -35,9 +37,10 @@ export default function NewPurchasePage() {
   const [suppliers, setSuppliers] = useState<Contact[]>([]);
   const [devices, setDevices] = useState<MobileDevice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
   
   const [formData, setFormData] = useState({
-    supplierId: "",
+    supplierId: "" as string | number,
     invoiceNo: "",
     paidAmount: 0,
     items: [] as any[]
@@ -85,7 +88,7 @@ export default function NewPurchasePage() {
         method: "POST",
         body: JSON.stringify({
           ...formData,
-          supplierId: parseInt(formData.supplierId),
+          supplierId: typeof formData.supplierId === "string" ? parseInt(formData.supplierId) : formData.supplierId,
           items: formData.items.map(i => ({
             ...i,
             mobileDeviceId: parseInt(i.mobileDeviceId),
@@ -116,38 +119,30 @@ export default function NewPurchasePage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center"><Truck className="mr-2 h-5 w-5" /> Supplier Information</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle className="flex items-center"><Truck className="mr-2 h-5 w-5" /> Supplier Information</CardTitle>
+              <Button type="button" variant="ghost" size="sm" className="text-blue-600" onClick={() => setIsQuickAddOpen(true)}>
+                <UserPlus className="h-4 w-4 mr-1" /> Add New Supplier
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
               <Label>Select Supplier</Label>
-              <select 
-                className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
+              <SearchableSelect 
+                options={suppliers.map(s => ({ label: s.name, value: s.id }))}
                 value={formData.supplierId}
-                onChange={e => setFormData({...formData, supplierId: e.target.value})}
-                required
-              >
-                <option value="">Choose Supplier...</option>
-                {suppliers.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
+                onChange={val => setFormData({...formData, supplierId: val})}
+                placeholder="Search Supplier..."
+              />
             </div>
             <div className="space-y-2">
               <Label>Invoice / Ref No.</Label>
-              <Input 
-                placeholder="e.g. PUR-001" 
-                value={formData.invoiceNo}
-                onChange={e => setFormData({...formData, invoiceNo: e.target.value})}
-                required
-              />
+              <Input placeholder="e.g. PUR-001" value={formData.invoiceNo} onChange={e => setFormData({...formData, invoiceNo: e.target.value})} required />
             </div>
             <div className="space-y-2">
               <Label>Amount Paid (Optional)</Label>
-              <Input 
-                type="number"
-                placeholder="0.00" 
-                value={formData.paidAmount}
-                onChange={e => setFormData({...formData, paidAmount: parseFloat(e.target.value) || 0})}
-              />
+              <Input type="number" placeholder="0.00" value={formData.paidAmount} onChange={e => setFormData({...formData, paidAmount: parseFloat(e.target.value) || 0})} />
             </div>
           </CardContent>
         </Card>
@@ -173,87 +168,28 @@ export default function NewPurchasePage() {
               </TableHeader>
               <TableBody>
                 {formData.items.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-10 text-muted-foreground italic">
-                      No items added. Click "Add Item Row" to start.
-                    </TableCell>
-                  </TableRow>
+                  <TableRow><TableCell colSpan={6} className="text-center py-10 text-muted-foreground italic">No items added. Click "Add Item Row" to start.</TableCell></TableRow>
                 ) : (
                   formData.items.map((item, idx) => (
                     <TableRow key={idx}>
                       <TableCell>
-                        <select 
-                          className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm"
+                        <SearchableSelect 
+                          className="h-9 text-xs"
+                          options={devices.map(d => ({ label: `${d.brand} ${d.modelName}`, value: d.id }))}
                           value={item.mobileDeviceId}
-                          onChange={e => {
+                          onChange={val => {
                             const newItems = [...formData.items];
-                            newItems[idx].mobileDeviceId = e.target.value;
+                            newItems[idx].mobileDeviceId = val;
                             setFormData({...formData, items: newItems});
                           }}
-                          required
-                        >
-                          <option value="">Select Device</option>
-                          {devices.map(d => <option key={d.id} value={d.id}>{d.brand} {d.modelName}</option>)}
-                        </select>
-                      </TableCell>
-                      <TableCell>
-                        <Input 
-                          placeholder="IMEI 1" 
-                          className="h-9 font-mono"
-                          value={item.imei1}
-                          onChange={e => {
-                            const newItems = [...formData.items];
-                            newItems[idx].imei1 = e.target.value;
-                            setFormData({...formData, items: newItems});
-                          }}
-                          required
+                          placeholder="Search Device..."
                         />
                       </TableCell>
-                      <TableCell>
-                        <Input 
-                          placeholder="IMEI 2" 
-                          className="h-9 font-mono"
-                          value={item.imei2}
-                          onChange={e => {
-                            const newItems = [...formData.items];
-                            newItems[idx].imei2 = e.target.value;
-                            setFormData({...formData, items: newItems});
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Input 
-                          type="number" 
-                          placeholder="0.00" 
-                          className="h-9"
-                          value={item.costPrice}
-                          onChange={e => {
-                            const newItems = [...formData.items];
-                            newItems[idx].costPrice = e.target.value;
-                            setFormData({...formData, items: newItems});
-                          }}
-                          required
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Input 
-                          type="number" 
-                          placeholder="0.00" 
-                          className="h-9"
-                          value={item.salePrice}
-                          onChange={e => {
-                            const newItems = [...formData.items];
-                            newItems[idx].salePrice = e.target.value;
-                            setFormData({...formData, items: newItems});
-                          }}
-                          required
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeItem(idx)}>
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </TableCell>
+                      <TableCell><Input placeholder="IMEI 1" className="h-9 font-mono" value={item.imei1} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei1 = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Input placeholder="IMEI 2" className="h-9 font-mono" value={item.imei2} onChange={e => { const newItems = [...formData.items]; newItems[idx].imei2 = e.target.value; setFormData({...formData, items: newItems}); }} /></TableCell>
+                      <TableCell><Input type="number" placeholder="0.00" className="h-9" value={item.costPrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].costPrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Input type="number" placeholder="0.00" className="h-9" value={item.salePrice} onChange={e => { const newItems = [...formData.items]; newItems[idx].salePrice = e.target.value; setFormData({...formData, items: newItems}); }} required /></TableCell>
+                      <TableCell><Button type="button" variant="ghost" size="icon" onClick={() => removeItem(idx)}><Trash2 className="h-4 w-4 text-destructive" /></Button></TableCell>
                     </TableRow>
                   ))
                 )}
@@ -261,12 +197,20 @@ export default function NewPurchasePage() {
             </Table>
           </CardContent>
           <CardFooter className="bg-slate-50 border-t justify-end py-4">
-             <Button type="submit" size="lg">
-               <Save className="mr-2 h-4 w-4" /> Finalize Purchase
-             </Button>
+             <Button type="submit" size="lg"><Save className="mr-2 h-4 w-4" /> Finalize Purchase</Button>
           </CardFooter>
         </Card>
       </form>
+
+      <QuickAddContact 
+        isOpen={isQuickAddOpen} 
+        onClose={() => setIsQuickAddOpen(false)} 
+        onSuccess={(c) => {
+          setSuppliers([...suppliers, c]);
+          setFormData({...formData, supplierId: c.id});
+        }} 
+        defaultRole="Supplier"
+      />
     </div>
   );
 }

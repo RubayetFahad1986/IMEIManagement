@@ -82,6 +82,14 @@ namespace MobileERP.API.Controllers
         [HttpDelete("contacts/{id}")] 
         public async Task<IActionResult> DeleteContact(int id) { var c = await _contactRepo.GetByIdAsync(id); if (c != null) _contactRepo.Delete(c); return Ok(); }
 
+        [HttpGet("contacts/search/{phone}")]
+        public async Task<IActionResult> SearchContactsByPhone(string phone)
+        {
+            var contacts = await _contactRepo.GetAllAsync();
+            var matched = contacts.Where(c => c.Phone.Contains(phone)).Take(5);
+            return Ok(matched);
+        }
+
         // --- AccountHead CRUD ---
         [HttpGet("accounts")] public async Task<IActionResult> GetAccounts() => Ok(await _accountRepo.GetAllAsync());
         [HttpPost("accounts")] public async Task<IActionResult> CreateAccount(AccountHead a) { a.ComId = 1; await _accountRepo.AddAsync(a); return Ok(a); }
