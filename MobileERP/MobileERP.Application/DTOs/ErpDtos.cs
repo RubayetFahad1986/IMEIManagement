@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System;
 
 namespace MobileERP.Application.DTOs
 {
@@ -15,11 +17,21 @@ namespace MobileERP.Application.DTOs
     public class PurchaseItemDto
     {
         public int MobileDeviceId { get; set; }
-        public string IMEI1 { get; set; } = string.Empty;
-        public string? IMEI2 { get; set; }
+        public List<ImeiItemDto> ImeiItems { get; set; } = new List<ImeiItemDto>();
         public decimal CostPrice { get; set; }
         public decimal SalePrice { get; set; }
         public decimal CommissionAmount { get; set; }
+        public string Condition { get; set; } = "New";
+        public string BoxStatus { get; set; } = "Intact";
+        public bool IsOfficial { get; set; } = true;
+        public int WarrantyMonths { get; set; }
+    }
+
+    public class ImeiItemDto
+    {
+        public string IMEI1 { get; set; } = string.Empty;
+        public string? IMEI2 { get; set; }
+        public string? SerialNumber { get; set; }
     }
 
     public class CommissionPaymentRequest

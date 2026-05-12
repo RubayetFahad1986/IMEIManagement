@@ -18,10 +18,10 @@ export default function Sidebar() {
   })).filter(group => group.items.length > 0);
 
   return (
-    <div className="w-64 bg-white border-r h-screen flex flex-col">
-      <div className="p-6 flex items-center gap-2 border-b">
-        <div className="bg-blue-600 p-1.5 rounded-lg">
-          <Smartphone className="h-6 w-6 text-white" />
+    <div className="w-64 bg-card border-r h-screen flex flex-col transition-all">
+      <div className="p-6 flex items-center gap-2 border-b border-border">
+        <div className="bg-primary p-1.5 rounded-lg">
+          <Smartphone className="h-6 w-6 text-primary-foreground" />
         </div>
         <span className="font-bold text-lg tracking-tight leading-tight">Dominate ERP</span>
       </div>
@@ -29,7 +29,7 @@ export default function Sidebar() {
       <div className="flex-1 overflow-y-auto py-4 px-3">
         {filteredMenu.map((group) => (
           <div key={group.group} className="mb-6">
-            <h2 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <h2 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
               {group.group}
             </h2>
             <div className="space-y-1">
@@ -43,11 +43,11 @@ export default function Sidebar() {
                     className={cn(
                       "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       isActive
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     )}
                   >
-                    <Icon className={cn("h-4 w-4", isActive ? "text-blue-600" : "text-slate-400")} />
+                    <Icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
                     {item.name}
                   </Link>
                 );
@@ -57,10 +57,10 @@ export default function Sidebar() {
         ))}
       </div>
 
-      <div className="p-4 border-t">
+      <div className="p-4 border-t border-border">
         <Button
           variant="ghost"
-          className="w-full justify-start text-slate-600 hover:text-red-600 hover:bg-red-50"
+          className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10"
           onClick={logout}
         >
           <LogOut className="h-4 w-4 mr-3" />

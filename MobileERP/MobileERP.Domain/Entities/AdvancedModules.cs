@@ -3,6 +3,33 @@ using MobileERP.Domain.Common;
 
 namespace MobileERP.Domain.Entities
 {
+    // --- Global Master Data ---
+    public class GlobalMobileMaster : BaseEntity
+    {
+        public string OEM { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
+        public string? NetworkTechnology { get; set; }
+        public string? LaunchAnnounced { get; set; }
+        public string? BodyDimensions { get; set; }
+        public string? BodyWeight { get; set; }
+        public string? BodySim { get; set; }
+        public string? DisplayType { get; set; }
+        public string? DisplaySize { get; set; }
+        public string? DisplayResolution { get; set; }
+        public string? MemoryCardSlot { get; set; }
+        public string? MemoryInternal { get; set; }
+        public string? MainCameraSingle { get; set; }
+        public string? MainCameraVideo { get; set; }
+        public string? SelfieCameraSingle { get; set; }
+        public string? PlatformOs { get; set; }
+        public string? PlatformChipset { get; set; }
+        public string? PlatformCpu { get; set; }
+        public string? PlatformGpu { get; set; }
+        public string? MiscColors { get; set; }
+        public string? MiscPrice { get; set; }
+        public string? Battery { get; set; }
+    }
+
     // --- Returns & Exchanges ---
     public class SalesReturn : TenantBaseEntity
     {

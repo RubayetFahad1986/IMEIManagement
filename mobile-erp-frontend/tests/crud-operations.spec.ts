@@ -9,7 +9,7 @@ test.describe('Mobile ERP Full CRUD Flow', () => {
   test('should complete a full business cycle', async ({ page }) => {
     // 1. Login
     await page.goto('http://localhost:3000/');
-    await page.fill('input[id="username"]', 'Admin@gmail.com');
+    await page.fill('input[id="username"]', 'admin');
     await page.fill('input[id="password"]', 'Admin123');
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL(/.*dashboard/, { timeout: 15000 });
@@ -43,24 +43,24 @@ test.describe('Mobile ERP Full CRUD Flow', () => {
     // Use a more specific selector for the dropdown item
     await page.locator('.bg-popover div:text-is("' + testContact + '")').click();
 
-    await page.fill('input[placeholder="e.g. PUR-10023"]', `INV-${testId}`);
+    await page.fill('input[placeholder="Auto-generated if empty"]', `INV-${testId}`);
     
     await page.click('button:has-text("Add New Row")');
     await page.click('button:has-text("Search Device...")');
     await page.fill('input[placeholder="Search..."]', testProduct);
-    await page.locator('.bg-popover div:text-is("' + testProduct + '")').click();
+    await page.locator(`.bg-popover div:text-is("TestBrand ${testProduct}")`).click();
     
-    await page.fill('input[placeholder="Scan IMEI 1"]', testImei);
+    await page.fill('textarea[placeholder="Paste IMEIs here (separated by comma, space, or newline)"]', testImei);
     await page.click('button:has-text("Finalize Purchase")');
-    await expect(page).toHaveURL(/.*inventory/, { timeout: 15000 });
+    await expect(page).toHaveURL(/.*reports\/invoice\/purchase/, { timeout: 15000 });
 
     // 5. Process Sale in POS
     await page.goto('http://localhost:3000/pos');
-    await page.fill('input[placeholder="Scan IMEI or Search Model..."]', testImei);
-    // The POS search uses a regular div result list
-    await page.locator('.hover\\:bg-blue-50').click();
+    await page.fill('input[placeholder="Search IMEI or Invoice..."]', testImei);
+    // The POS search uses a regular div result list, targeting the specific result
+    await page.locator('div:has-text("' + testImei + '")').first().click();
     
-    await page.fill('input[placeholder="Enter amount paid"]', '12000');
+    await page.fill('input[placeholder="0"]', '12000');
     await page.click('button:has-text("Complete Sale")');
     await expect(page.locator('text=Sale completed!')).toBeVisible({ timeout: 15000 });
 

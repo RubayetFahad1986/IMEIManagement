@@ -14,20 +14,73 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Search, FileText, Calendar, User, Trash2, Pencil } from "lucide-react";
+import { ShoppingCart, Search, FileText, Calendar, User, Trash2, Pencil, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ServerPagination } from "@/components/ui/server-pagination";
 
-interface SalesInvoice {
-  id: number;
-  invoiceNo: string;
-  salesDate: string;
-  customerName?: string;
-  netTotal: number;
-  paidAmount: number;
-  changeAmount: number;
+function SalesRow({ inv }: { inv: any }) {
+  const [expanded, setExpanded] = useState(false);
+  const [details, setDetails] = useState<any[]>([]);
+
+  const toggleExpand = async () => {
+    if (!expanded && details.length === 0) {
+      try {
+        const data = await apiFetch(`/erp/sales/${inv.id}`);
+        setDetails(data.sale.details || []);
+      } catch (e) {
+        toast.error("Failed to load details");
+      }
+    }
+    setExpanded(!expanded);
+  };
+
+  return (
+    <>
+      <TableRow className="hover:bg-accent/50 cursor-pointer" onClick={toggleExpand}>
+        <TableCell>
+          <Button variant="ghost" size="icon" className="h-6 w-6">
+            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </Button>
+        </TableCell>
+        <TableCell className="font-bold text-primary">{inv.invoiceNo}</TableCell>
+        <TableCell>{format(new Date(inv.salesDate), "dd MMM yyyy")}</TableCell>
+        <TableCell>{inv.customerName || "Walk-in"}</TableCell>
+        <TableCell className="text-right font-medium">৳{(inv.netTotal || 0).toLocaleString()}</TableCell>
+        <TableCell className="text-right">৳{(inv.paidAmount || 0).toLocaleString()}</TableCell>
+        <TableCell className="text-right">
+          <Badge variant={inv.paidAmount >= inv.netTotal ? "default" : "destructive"}>
+            {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}
+          </Badge>
+        </TableCell>
+        <TableCell className="text-right pr-6 flex justify-end gap-2">
+            <Link href={`/reports/invoice/sale/${inv.id}`}><Button variant="ghost" size="icon"><FileText className="h-4 w-4" /></Button></Link>
+            <Link href={`/pos?edit=${inv.id}`}><Button variant="ghost" size="icon"><Pencil className="h-4 w-4" /></Button></Link>
+        </TableCell>
+      </TableRow>
+      {expanded && (
+        <TableRow>
+          <TableCell colSpan={8} className="p-0 bg-muted/20">
+            <div className="p-4">
+              <p className="font-semibold mb-2 text-sm uppercase text-muted-foreground">Invoice Items:</p>
+              <Table>
+                <TableBody>
+                   {details.map((d, i) => (
+                     <TableRow key={i}>
+                       <TableCell>{d.inventoryItem?.mobileDevice?.brand} {d.inventoryItem?.mobileDevice?.modelName}</TableCell>
+                       <TableCell className="text-muted-foreground font-mono text-xs">{d.inventoryItem?.imeI1}</TableCell>
+                       <TableCell className="text-right">৳{d.unitPrice.toLocaleString()}</TableCell>
+                     </TableRow>
+                   ))}
+                </TableBody>
+              </Table>
+            </div>
+          </TableCell>
+        </TableRow>
+      )}
+    </>
+  );
 }
 
 export default function SalesListPage() {
@@ -65,8 +118,6 @@ export default function SalesListPage() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, fetchInvoices]);
 
-  const items = data.items || [];
-
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -96,8 +147,9 @@ export default function SalesListPage() {
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader className="bg-slate-50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
+                <TableHead className="w-10"></TableHead>
                 <TableHead>Invoice No</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Customer</TableHead>
@@ -109,43 +161,11 @@ export default function SalesListPage() {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={7} className="text-center py-8">Loading...</TableCell></TableRow>
-              ) : items.length === 0 ? (
-                <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No invoices found.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center py-8">Loading...</TableCell></TableRow>
+              ) : data.items.length === 0 ? (
+                <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No invoices found.</TableCell></TableRow>
               ) : (
-                items.map((inv: any) => (
-                  <TableRow key={inv.id} className="hover:bg-slate-50/50">
-                    <TableCell className="font-bold text-blue-600">{inv.invoiceNo}</TableCell>
-                    <TableCell className="text-sm">
-                      <div className="flex items-center"><Calendar className="mr-1 h-3 w-3 text-muted-foreground" /> {format(new Date(inv.salesDate), "dd MMM yyyy")}</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center text-sm"><User className="mr-1 h-3 w-3 text-muted-foreground" /> {inv.customerName || "Walk-in"}</div>
-                    </TableCell>
-                    <TableCell className="text-right font-medium">৳{(inv.netTotal || 0).toLocaleString("en-US")}</TableCell>
-                    <TableCell className="text-right">৳{(inv.paidAmount || 0).toLocaleString("en-US")}</TableCell>
-                    <TableCell className="text-right">
-                      <Badge variant={inv.paidAmount >= inv.netTotal ? "default" : "destructive"}>
-                        {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right pr-6 flex justify-end gap-2">
-                      <Link href={`/reports/invoice/sale/${inv.id}`}>
-                         <Button variant="ghost" size="icon" title="View Invoice">
-                           <FileText className="h-4 w-4" />
-                         </Button>
-                      </Link>
-                      <Link href={`/pos?edit=${inv.id}`}>
-                         <Button variant="ghost" size="icon" title="Edit Invoice">
-                           <Pencil className="h-4 w-4" />
-                         </Button>
-                      </Link>
-                      <Button variant="ghost" size="icon" title="Delete Invoice" onClick={() => console.log("Delete:", inv.id)}>
-                         <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
+                data.items.map((inv: any) => <SalesRow key={inv.id} inv={inv} />)
               )}
             </TableBody>
           </Table>

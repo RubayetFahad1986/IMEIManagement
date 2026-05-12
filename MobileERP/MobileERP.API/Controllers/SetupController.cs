@@ -45,6 +45,70 @@ namespace MobileERP.API.Controllers
             _employeeRepo = employeeRepo;
         }
 
+        // --- Global Mobile Master Catalog ---
+        [HttpGet("global-catalog")]
+        public async Task<IActionResult> GetGlobalCatalog(
+            int page = 1, 
+            int pageSize = 20, 
+            string? search = null, 
+            string? brand = null,
+            string? model = null,
+            string? network = null,
+            string? memory = null,
+            string? display = null)
+        {
+            IQueryable<GlobalMobileMaster> query = _context.GlobalMobileMasters;
+            
+            if (!string.IsNullOrEmpty(brand)) query = query.Where(g => g.OEM.ToLower().Contains(brand.ToLower()));
+            if (!string.IsNullOrEmpty(model)) query = query.Where(g => g.Model.ToLower().Contains(model.ToLower()));
+            if (!string.IsNullOrEmpty(network)) query = query.Where(g => g.NetworkTechnology!.ToLower().Contains(network.ToLower()));
+            if (!string.IsNullOrEmpty(memory)) query = query.Where(g => g.MemoryInternal!.ToLower().Contains(memory.ToLower()));
+            if (!string.IsNullOrEmpty(display)) query = query.Where(g => g.DisplayType!.ToLower().Contains(display.ToLower()));
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                query = query.Where(g => g.Model.ToLower().Contains(search) || g.OEM.ToLower().Contains(search));
+            }
+
+            int totalCount = await query.CountAsync();
+            var items = await query.OrderBy(g => g.OEM).ThenBy(g => g.Model).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
+        }
+
+        [HttpGet("global-brands")]
+        public async Task<IActionResult> GetGlobalBrands()
+        {
+            var brands = await _context.GlobalMobileMasters.Select(g => g.OEM).Distinct().OrderBy(b => b).ToListAsync();
+            return Ok(brands);
+        }
+
+        [HttpPost("import-from-global")]
+        public async Task<IActionResult> ImportFromGlobal([FromBody] List<int> globalIds)
+        {
+            var selectedItems = await _context.GlobalMobileMasters.Where(g => globalIds.Contains(g.Id)).ToListAsync();
+            foreach (var item in selectedItems)
+            {
+                // Check if already exists in local MobileDevices
+                if (await _context.MobileDevices.AnyAsync(d => d.Brand == item.OEM && d.ModelName == item.Model)) continue;
+
+                var device = new MobileDevice
+                {
+                    Brand = item.OEM,
+                    ModelName = item.Model,
+                    Color = item.MiscColors?.Split(',').FirstOrDefault()?.Trim(),
+                    RAM = item.MemoryInternal?.Split('/').FirstOrDefault()?.Trim(),
+                    Storage = item.MemoryInternal?.Split('/').LastOrDefault()?.Trim(),
+                    ComId = 1,
+                    CreateDate = DateTime.UtcNow,
+                    IsDelete = false
+                };
+                _context.MobileDevices.Add(device);
+            }
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Selected models imported to your master list." });
+        }
+
         // --- Product CRUD ---
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts(int page = 1, int pageSize = 10, string? search = null)
@@ -56,7 +120,23 @@ namespace MobileERP.API.Controllers
                 query = query.Where(p => p.Name.ToLower().Contains(search) || (p.SKU != null && p.SKU.ToLower().Contains(search)));
             }
             int totalCount = await query.CountAsync();
-            var items = await query.OrderByDescending(p => p.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await query.OrderByDescending(p => p.Id).Skip((page - 1) * pageSize).Take(pageSize)
+                .Select(p => new {
+                    p.Id,
+                    p.Name,
+                    p.SKU,
+                    p.ProductCategoryId,
+                    TotalStock = _context.Inventory.Count(i => i.ProductId == p.Id && !i.IsSold && !i.IsDelete),
+                    BranchStock = _context.Inventory
+                        .Where(i => i.ProductId == p.Id && !i.IsSold && !i.IsDelete)
+                        .GroupBy(i => i.BranchId)
+                        .Select(g => new {
+                            BranchId = g.Key,
+                            BranchName = _context.Branches.Where(b => b.Id == g.Key).Select(b => b.Name).FirstOrDefault(),
+                            Stock = g.Count()
+                        }).ToList()
+                })
+                .ToListAsync();
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
 
@@ -85,7 +165,27 @@ namespace MobileERP.API.Controllers
                 query = query.Where(d => d.Brand.ToLower().Contains(search) || d.ModelName.ToLower().Contains(search));
             }
             int totalCount = await query.CountAsync();
-            var items = await query.OrderByDescending(d => d.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await query.OrderByDescending(d => d.Id).Skip((page - 1) * pageSize).Take(pageSize)
+                .Select(d => new {
+                    d.Id,
+                    d.Brand,
+                    d.ModelName,
+                    d.Color,
+                    d.RAM,
+                    d.Storage,
+                    d.DefaultCostPrice,
+                    d.DefaultSalesPrice,
+                    TotalStock = _context.Inventory.Count(i => i.MobileDeviceId == d.Id && !i.IsSold && !i.IsDelete),
+                    BranchStock = _context.Inventory
+                        .Where(i => i.MobileDeviceId == d.Id && !i.IsSold && !i.IsDelete)
+                        .GroupBy(i => i.BranchId)
+                        .Select(g => new {
+                            BranchId = g.Key,
+                            BranchName = _context.Branches.Where(b => b.Id == g.Key).Select(b => b.Name).FirstOrDefault(),
+                            Stock = g.Count()
+                        }).ToList()
+                })
+                .ToListAsync();
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
         

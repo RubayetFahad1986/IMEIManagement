@@ -49,7 +49,7 @@ export default function ExpensesPage() {
     paymentAccountId: "" as string | number,
     expenseDate: format(new Date(), "yyyy-MM-dd"),
     remarks: "",
-    details: [{ expenseAccountId: "", amount: 0, note: "" }]
+    details: [{ expenseAccountId: "" as string | number, amount: 0, note: "" }]
   });
   
   const handleEdit = async (id: number) => {

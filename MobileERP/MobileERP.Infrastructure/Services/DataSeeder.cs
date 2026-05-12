@@ -94,9 +94,18 @@ namespace MobileERP.Infrastructure.Services
 
         public async Task SeedAdminUserAsync()
         {
-            if (await _context.Users.AnyAsync(u => u.Role == "SuperAdmin")) return;
+            var admin = await _context.Users.FirstOrDefaultAsync(u => u.Username == "admin");
+            if (admin != null)
+            {
+                if (admin.PasswordHash == "Admin123")
+                {
+                    admin.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123");
+                    await _context.SaveChangesAsync();
+                }
+                return;
+            }
 
-            var admin = new User { Username = "admin", Email = "Admin@gmail.com", PasswordHash = "Admin123", FullName = "Super Administrator", Role = "SuperAdmin", IsActive = true };
+            admin = new User { Username = "admin", Email = "Admin@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123"), FullName = "Super Administrator", Role = "SuperAdmin", IsActive = true };
             _context.Users.Add(admin);
             await _context.SaveChangesAsync();
         }

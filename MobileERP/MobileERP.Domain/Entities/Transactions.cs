@@ -58,13 +58,20 @@ namespace MobileERP.Domain.Entities
         public int PurchaseInvoiceId { get; set; }
         public int MobileDeviceId { get; set; }
         public MobileDevice? MobileDevice { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal SalePrice { get; set; }
+        public ICollection<ImeiItem> ImeiItems { get; set; } = new List<ImeiItem>();
+        public string? BatteryHealth { get; set; }
+        public string? Condition { get; set; }
+    }
+
+    public class ImeiItem : TenantBaseEntity
+    {
+        public int PurchaseDetailId { get; set; }
         public string IMEI1 { get; set; } = string.Empty;
         public string? IMEI2 { get; set; }
         public string? SerialNumber { get; set; }
-        public decimal CostPrice { get; set; }
-        public decimal SalePrice { get; set; }
-        public string? BatteryHealth { get; set; }
-        public string? Condition { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 
     public class InventoryItem : TenantBaseEntity
@@ -86,6 +93,8 @@ namespace MobileERP.Domain.Entities
         public int? BranchId { get; set; }
         public string Condition { get; set; } = "New"; // New, Used
         public string BoxStatus { get; set; } = "Intact"; // Intact, WithBox, NoBox
+        public bool IsOfficial { get; set; } = true;
+        public int WarrantyMonths { get; set; }
         public DateTime? WarrantyExpiryDate { get; set; }
     }
 
@@ -103,6 +112,7 @@ namespace MobileERP.Domain.Entities
     {
         public int BranchTransferId { get; set; }
         public int InventoryItemId { get; set; }
+        public InventoryItem? InventoryItem { get; set; }
     }
 
     public class SalesInvoice : TenantBaseEntity

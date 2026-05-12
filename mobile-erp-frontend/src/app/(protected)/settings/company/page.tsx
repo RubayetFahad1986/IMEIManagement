@@ -243,12 +243,12 @@ export default function CompanySettingsPage() {
              </CardContent>
            </Card>
 
-           <Card className="bg-slate-900 text-white overflow-hidden relative">
-             <div className="absolute top-0 right-0 p-4 opacity-5"><Building2 className="h-24 w-24" /></div>
-             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-slate-400">Subscription</CardTitle></CardHeader>
+           <Card className="bg-blue-50 border-blue-100 text-blue-900 overflow-hidden relative">
+             <div className="absolute top-0 right-0 p-4 opacity-10"><Building2 className="h-24 w-24" /></div>
+             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-blue-500">Subscription Status</CardTitle></CardHeader>
              <CardContent>
                 <div className="text-xl font-bold">Enterprise Plan</div>
-                <p className="text-xs text-slate-400 mt-1 italic">Unlimited branches & master products.</p>
+                <p className="text-xs text-blue-600/60 mt-1 italic font-medium">Unlimited branches & master products active.</p>
              </CardContent>
            </Card>
         </div>

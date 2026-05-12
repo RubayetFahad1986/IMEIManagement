@@ -24,6 +24,7 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<SalesPayment> SalesPayments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<GlobalMobileMaster> GlobalMobileMasters { get; set; }
 
         // Accounting
         public DbSet<AccountCategory> AccountCategories { get; set; }

@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog, Undo2, Repeat } from "lucide-react";
 
 export interface MenuItem {
   name: string;
@@ -18,10 +18,13 @@ export const MENU_ITEMS: MenuGroup[] = [
     { name: "POS / Sale", href: "/pos", icon: ShoppingCart },
     { name: "Master Product List", href: "/settings/products", icon: Package },
     { name: "Inventory", href: "/inventory", icon: Smartphone },
+    { name: "Branch Transfers", href: "/inventory/transfers", icon: Repeat, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
   ]},
   { group: "Transactions", items: [
     { name: "Sales History", href: "/sales", icon: History },
+    { name: "Sales Returns", href: "/sales/returns", icon: Undo2 },
     { name: "Purchases", href: "/purchases", icon: PlusSquare },
+    { name: "Purchase Returns", href: "/purchases/returns", icon: Undo2 },
   ]},
   { group: "Accounting", items: [
     { name: "Ledgers", href: "/accounting/ledgers", icon: BarChart3, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },

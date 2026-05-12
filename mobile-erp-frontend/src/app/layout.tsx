@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import RootLayoutClient from "./layout-client";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -18,15 +13,21 @@ export const metadata: Metadata = {
   description: "Advanced SaaS ERP for Mobile IMEI Tracking",
 };
 
+import { ThemeProvider } from "@/context/ThemeContext";
+
+// ... (other imports)
+
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
-        <RootLayoutClient>{children}</RootLayoutClient>
+      <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
+        <ThemeProvider>
+          <RootLayoutClient>{children}</RootLayoutClient>
+        </ThemeProvider>
       </body>
     </html>
   );
