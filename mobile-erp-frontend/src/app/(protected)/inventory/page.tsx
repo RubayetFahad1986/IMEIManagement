@@ -82,9 +82,9 @@ export default function InventoryPage() {
             </div>
             <div>
                 <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 uppercase italic">Inventory Audit</h1>
-                <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.3em] flex items-center gap-2 mt-0.5">
+                <div className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.3em] flex items-center gap-2 mt-0.5">
                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" /> Asset Lifecycle Intelligence
-                </p>
+                </div>
             </div>
         </div>
 
