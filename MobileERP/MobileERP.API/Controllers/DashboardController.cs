@@ -23,8 +23,12 @@ namespace MobileERP.API.Controllers
         {
             try
             {
-                var start = startDate.HasValue ? DateTime.SpecifyKind(startDate.Value.Date, DateTimeKind.Utc) : DateTime.UtcNow.Date;
-                var end = endDate.HasValue ? DateTime.SpecifyKind(endDate.Value.Date.AddDays(1), DateTimeKind.Utc) : start.AddDays(1);
+                // Interpret input dates as local dates and convert to UTC for DB comparison
+                var localStart = startDate.HasValue ? startDate.Value.Date : DateTime.Today;
+                var localEnd = endDate.HasValue ? endDate.Value.Date.AddDays(1) : localStart.AddDays(1);
+
+                var start = DateTime.SpecifyKind(localStart, DateTimeKind.Local).ToUniversalTime();
+                var end = DateTime.SpecifyKind(localEnd, DateTimeKind.Local).ToUniversalTime();
 
                 // 1. Key Metrics
                 var salesQuery = _context.SalesInvoices.Where(s => s.SalesDate >= start && s.SalesDate < end && !s.IsDelete);

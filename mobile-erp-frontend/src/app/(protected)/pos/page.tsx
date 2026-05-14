@@ -446,16 +446,16 @@ function POSContent() {
                                         <Smartphone className="h-5 w-5" />
                                      </div>
                                      <div>
-                                        <div className="font-black text-slate-900 leading-tight">{item.mobileDevice.brand} {item.mobileDevice.modelName}</div>
+                                        <div className="font-black text-slate-900 leading-tight">{item.mobileDevice?.brand || item.brand || "N/A"} {item.mobileDevice?.modelName || item.modelName || ""}</div>
                                         <div className="flex flex-wrap gap-2 items-center mt-1">
                                            <Badge variant="outline" className="text-[14px] px-3 h-8 font-mono font-black uppercase border-primary/40 text-primary shadow-sm">{item.imei1}</Badge>
-                                           {(item.mobileDevice.ram || item.mobileDevice.storage) && (
+                                           {(item.mobileDevice?.ram || item.ram || item.mobileDevice?.storage || item.storage) && (
                                               <span className="text-[10px] bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-600 uppercase">
-                                                 {item.mobileDevice.ram}/{item.mobileDevice.storage}
+                                                 {item.mobileDevice?.ram || item.ram}/{item.mobileDevice?.storage || item.storage}
                                               </span>
                                            )}
-                                           {item.mobileDevice.color && (
-                                              <span className="text-[10px] text-slate-400 font-bold uppercase">{item.mobileDevice.color}</span>
+                                           {(item.mobileDevice?.color || item.color) && (
+                                              <span className="text-[10px] text-slate-400 font-bold uppercase">{item.mobileDevice?.color || item.color}</span>
                                            )}
                                            <span className="text-[10px] text-slate-400 font-bold uppercase">• {item.condition} | {item.isOfficial ? "Official" : "Unofficial"}</span>
                                         </div>
