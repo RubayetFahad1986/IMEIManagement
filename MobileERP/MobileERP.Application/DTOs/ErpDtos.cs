@@ -193,6 +193,7 @@ namespace MobileERP.Application.DTOs
         public string AdminFullName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string PlanType { get; set; } = "Monthly"; // Monthly, Quarterly, HalfYearly, Yearly
+        public string? PromoCode { get; set; }
     }
 
     public class OtpVerificationRequest

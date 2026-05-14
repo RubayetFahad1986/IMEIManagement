@@ -26,6 +26,10 @@ namespace MobileERP.Domain.Entities
         public bool IsServiceChargeEnabled { get; set; }
         public decimal ServiceChargePercentage { get; set; }
 
+        // --- Reseller System ---
+        public int? ResellerId { get; set; } // Reference to the User ID of the Reseller
+        public User? Reseller { get; set; }
+
         public ICollection<Branch> Branches { get; set; } = new List<Branch>();
     }
 
@@ -49,6 +53,10 @@ namespace MobileERP.Domain.Entities
         public bool IsActive { get; set; } = true;
         public bool IsShowCosting { get; set; } = false; // "Can view cost price"
         public bool CanSeeOthersEntry { get; set; } = true; // "See other person entry"
+
+        // --- Reseller System ---
+        public string? PromoCode { get; set; }
+        public int AvailableCopies { get; set; }
     }
 
     public class Employee : TenantBaseEntity

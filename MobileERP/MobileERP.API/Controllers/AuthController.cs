@@ -108,6 +108,13 @@ namespace MobileERP.API.Controllers
             Console.WriteLine($"[DEBUG] Transaction started");
             try
             {
+                User? reseller = null;
+                if (!string.IsNullOrEmpty(request.PromoCode))
+                {
+                    reseller = await _context.Users.FirstOrDefaultAsync(u => u.PromoCode == request.PromoCode && u.Role == "Reseller");
+                    if (reseller == null) return BadRequest("Invalid Promo Code.");
+                }
+
                 var otp = request.Email.EndsWith("@test.com") ? "111111" : new Random().Next(100000, 999999).ToString();
                 
                 var company = new Company
@@ -118,14 +125,16 @@ namespace MobileERP.API.Controllers
                     PlanType = request.PlanType,
                     IsVerified = false,
                     VerificationOtp = otp,
-                    SubscriptionExpiryDate = request.PlanType switch
+                    IsActive = reseller == null, // Inactive if using reseller promo code until activated
+                    ResellerId = reseller?.Id,
+                    SubscriptionExpiryDate = reseller != null ? null : (request.PlanType switch
                     {
                         "Monthly" => DateTime.UtcNow.AddMonths(1),
                         "Quarterly" => DateTime.UtcNow.AddMonths(3),
                         "HalfYearly" => DateTime.UtcNow.AddMonths(6),
                         "Yearly" => DateTime.UtcNow.AddYears(1),
                         _ => DateTime.UtcNow.AddMonths(1)
-                    },
+                    }),
                     CreateDate = DateTime.UtcNow
                 };
 

@@ -41,9 +41,11 @@ export const MENU_ITEMS: MenuGroup[] = [
   ]},
   { group: "Security", items: [
     { name: "Stolen Registry", href: "/stolen-check", icon: ShieldAlert },
+    { name: "Reseller Portal", href: "/reseller", icon: Building2, roles: ["SuperAdmin", "Reseller"] },
   ]},
   { group: "System", items: [
     { name: "Subscription Management", href: "/settings/subscriptions", icon: ShieldCheck, roles: ["SuperAdmin"] },
+    { name: "Reseller Management", href: "/settings/resellers", icon: UserPlus, roles: ["SuperAdmin"] },
     { name: "Reports", href: "/reports", icon: BarChart3 },
     { name: "Sample Data Seeder", href: "/settings/sample-data", icon: PlusSquare, roles: ["SuperAdmin", "CompanyAdmin"] },
     { name: "Company Settings", href: "/settings/company", icon: Settings, roles: ["SuperAdmin", "CompanyAdmin"] },

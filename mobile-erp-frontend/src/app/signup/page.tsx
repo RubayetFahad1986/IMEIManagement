@@ -22,6 +22,7 @@ function SignupContent() {
     phone: "",
     adminFullName: "",
     password: "",
+    promoCode: "",
     planType: selectedPlan
   });
 
@@ -116,9 +117,13 @@ function SignupContent() {
                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Admin Full Name</Label>
                         <Input required placeholder="MD. Rashid Ali" className="h-12 rounded-xl border-slate-100 bg-slate-50 font-bold" value={formData.adminFullName} onChange={e => setFormData({...formData, adminFullName: e.target.value})} />
                     </div>
-                    <div className="space-y-1.5 pb-4">
+                    <div className="space-y-1.5 pb-2">
                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Set Password</Label>
                         <Input required type="password" placeholder="••••••••" className="h-12 rounded-xl border-slate-100 bg-slate-50 font-bold" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} />
+                    </div>
+                    <div className="space-y-1.5 pb-4">
+                        <Label className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Reseller / Promo Code (Optional)</Label>
+                        <Input placeholder="e.g. SAVE100" className="h-12 rounded-xl border-blue-50 bg-blue-50/20 font-bold text-blue-700" value={formData.promoCode} onChange={e => setFormData({...formData, promoCode: e.target.value})} />
                     </div>
 
                     <Button type="submit" disabled={isLoading} className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase italic tracking-widest rounded-xl shadow-xl shadow-blue-100 transition-all active:scale-95">

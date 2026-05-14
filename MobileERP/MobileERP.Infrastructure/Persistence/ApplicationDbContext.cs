@@ -60,6 +60,7 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<BranchTransfer> BranchTransfers { get; set; }
         public DbSet<BranchTransferDetail> BranchTransferDetails { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
+        public DbSet<ResellerTransaction> ResellerTransactions { get; set; }
 
         public int? CurrentComId => _currentUserService.ComId;
         public string? CurrentRole => _currentUserService.Role;
