@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, ShieldCheck, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog, Undo2, Repeat, Wallet } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, ShieldCheck, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog, Undo2, Repeat, Wallet, UserPlus } from "lucide-react";
 
 export interface MenuItem {
   name: string;

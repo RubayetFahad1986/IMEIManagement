@@ -52,7 +52,7 @@ interface InventoryItem {
   imeiItemId?: number;
   mobileDeviceId?: number;
   productId?: number;
-  mobileDevice: { 
+  mobileDevice?: { 
     brand: string; 
     modelName: string; 
     variantName: string;
@@ -60,6 +60,12 @@ interface InventoryItem {
     storage?: string;
     color?: string;
   };
+  brand?: string;
+  modelName?: string;
+  variantName?: string;
+  ram?: string;
+  storage?: string;
+  color?: string;
   imei1: string;
   currentSalePrice: number;
   costPrice: number;
