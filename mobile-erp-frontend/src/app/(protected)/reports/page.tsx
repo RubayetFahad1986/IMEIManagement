@@ -50,83 +50,83 @@ export default function ReportsPage() {
   return (
     <div className="p-6 space-y-8">
       <div>
-        <h1 className="text-3xl font-black tracking-tight flex items-center gap-2">
+        <h1 className="text-3xl font-black tracking-tight flex items-center gap-2 text-foreground">
             <BarChart3 className="h-8 w-8 text-primary" /> Business Intelligence
         </h1>
-        <p className="text-muted-foreground">Comprehensive overview of stock, finance, and human resources.</p>
+        <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest">Comprehensive overview of stock, finance, and human resources.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-blue-50/50 border-blue-100">
+        <Card className="bg-blue-500/10 border-blue-500/20 shadow-lg shadow-blue-500/5">
             <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold uppercase tracking-wider text-blue-600">Total Units in Stock</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">Total Units in Stock</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="text-3xl font-black">{stockSummary?.totalImeisInStock || 0}</div>
-                <p className="text-[10px] text-blue-500 font-medium mt-1 italic">Across all branches and categories</p>
+                <div className="text-4xl font-black tracking-tight">{stockSummary?.totalImeisInStock || 0}</div>
+                <p className="text-[10px] text-blue-400 font-bold mt-2 italic opacity-60">Across all branches and categories</p>
             </CardContent>
         </Card>
-        <Card className="bg-emerald-50/50 border-emerald-100">
+        <Card className="bg-emerald-500/10 border-emerald-500/20 shadow-lg shadow-emerald-500/5">
             <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold uppercase tracking-wider text-emerald-600">Total Receivables</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">Total Receivables</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="text-3xl font-black text-emerald-700">
+                <div className="text-4xl font-black tracking-tight text-emerald-600 dark:text-emerald-400">
                     ৳{(ledgerBalances?.customers?.reduce((sum: number, c: any) => sum + (c.currentBalance || 0), 0) || 0).toLocaleString()}
                 </div>
-                <p className="text-[10px] text-emerald-500 font-medium mt-1 italic">From {ledgerBalances?.customers?.length || 0} active customers</p>
+                <p className="text-[10px] text-emerald-400 font-bold mt-2 italic opacity-60">From {ledgerBalances?.customers?.length || 0} active customers</p>
             </CardContent>
         </Card>
-        <Card className="bg-rose-50/50 border-rose-100">
+        <Card className="bg-rose-500/10 border-rose-500/20 shadow-lg shadow-rose-500/5">
             <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold uppercase tracking-wider text-rose-600">Total Payables</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500">Total Payables</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="text-3xl font-black text-rose-700">
+                <div className="text-4xl font-black tracking-tight text-rose-600 dark:text-rose-400">
                     ৳{(ledgerBalances?.suppliers?.reduce((sum: number, s: any) => sum + (s.currentBalance || 0), 0) || 0).toLocaleString()}
                 </div>
-                <p className="text-[10px] text-rose-500 font-medium mt-1 italic">To {ledgerBalances?.suppliers?.length || 0} active suppliers</p>
+                <p className="text-[10px] text-rose-400 font-bold mt-2 italic opacity-60">To {ledgerBalances?.suppliers?.length || 0} active suppliers</p>
             </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="inventory" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8 h-12">
-          <TabsTrigger value="inventory" className="font-bold gap-2"><Smartphone className="h-4 w-4" /> Stock Audit</TabsTrigger>
-          <TabsTrigger value="finance" className="font-bold gap-2"><BadgeDollarSign className="h-4 w-4" /> Debtors & Creditors</TabsTrigger>
-          <TabsTrigger value="staff" className="font-bold gap-2"><UserCircle className="h-4 w-4" /> HR & Commissions</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 mb-8 h-14 bg-muted/50 p-1 rounded-2xl">
+          <TabsTrigger value="inventory" className="font-black uppercase italic tracking-tighter gap-2 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"><Smartphone className="h-4 w-4" /> Stock Audit</TabsTrigger>
+          <TabsTrigger value="finance" className="font-black uppercase italic tracking-tighter gap-2 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"><BadgeDollarSign className="h-4 w-4" /> Debtors & Creditors</TabsTrigger>
+          <TabsTrigger value="staff" className="font-black uppercase italic tracking-tighter gap-2 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800"><UserCircle className="h-4 w-4" /> HR & Commissions</TabsTrigger>
         </TabsList>
 
         <TabsContent value="inventory" className="space-y-4">
-            <Card className="border-none shadow-sm overflow-hidden">
-                <CardHeader className="bg-slate-50 border-b">
-                    <CardTitle>Item-wise Stock Summary</CardTitle>
-                    <CardDescription>Quantities available for each mobile model and general product.</CardDescription>
+            <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden bg-card">
+                <CardHeader className="bg-muted/30 border-b border-border py-6 px-8">
+                    <CardTitle className="text-lg font-black uppercase italic tracking-tighter">Item-wise Stock Summary</CardTitle>
+                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground opacity-60">Quantities available for each mobile model and general product.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                     <Table>
-                        <TableHeader className="bg-white">
-                            <TableRow>
-                                <TableHead className="pl-6">Item Description</TableHead>
-                                <TableHead className="text-center">Current Stock</TableHead>
-                                <TableHead className="text-right pr-6">Management</TableHead>
+                        <TableHeader className="bg-muted/10">
+                            <TableRow className="border-none">
+                                <TableHead className="pl-8 text-[10px] font-black uppercase tracking-widest h-12 text-muted-foreground">Item Description</TableHead>
+                                <TableHead className="text-center text-[10px] font-black uppercase tracking-widest h-12 text-muted-foreground">Current Stock</TableHead>
+                                <TableHead className="text-right pr-8 text-[10px] font-black uppercase tracking-widest h-12 text-muted-foreground">Management</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {stockSummary?.itemWiseStock?.map((item: any, idx: number) => (
-                                <TableRow key={idx}>
-                                    <TableCell className="pl-6">
-                                        <div className="font-bold">{item.itemName}</div>
-                                        <div className="text-[10px] text-muted-foreground uppercase">{item.mobileDeviceId ? "Mobile Device" : "General Product"}</div>
+                                <TableRow key={idx} className="hover:bg-muted/5 border-border">
+                                    <TableCell className="pl-8 py-4">
+                                        <div className="font-black text-sm uppercase tracking-tight">{item.itemName}</div>
+                                        <div className="text-[9px] text-muted-foreground font-black uppercase tracking-widest opacity-60">{item.mobileDeviceId ? "Mobile Device" : "General Product"}</div>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        <Badge variant={item.stockCount > 5 ? "secondary" : "destructive"} className="font-mono text-sm px-3">
+                                        <Badge variant={item.stockCount > 5 ? "secondary" : "destructive"} className="font-mono text-sm px-4 h-8 rounded-lg font-black border-none shadow-sm">
                                             {item.stockCount}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell className="text-right pr-6">
+                                    <TableCell className="text-right pr-8">
                                         <Link href="/inventory">
-                                            <Button variant="ghost" size="sm" className="gap-2">Audit <ArrowRight className="h-3 w-3" /></Button>
+                                            <Button variant="ghost" size="sm" className="gap-2 font-black uppercase italic text-[10px] tracking-widest h-9 rounded-xl hover:bg-primary/10 hover:text-primary transition-all">Audit <ArrowRight className="h-3.5 w-3.5" /></Button>
                                         </Link>
                                     </TableCell>
                                 </TableRow>
@@ -138,18 +138,18 @@ export default function ReportsPage() {
         </TabsContent>
 
         <TabsContent value="finance" className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-none shadow-sm overflow-hidden">
-                <CardHeader className="bg-emerald-50/30 border-b">
-                    <CardTitle className="text-emerald-900">Top Receivables</CardTitle>
-                    <CardDescription>Customers with outstanding balances.</CardDescription>
+            <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden bg-card">
+                <CardHeader className="bg-emerald-500/10 border-b border-emerald-500/10 py-6 px-8">
+                    <CardTitle className="text-lg font-black uppercase italic tracking-tighter text-emerald-600 dark:text-emerald-400">Top Receivables</CardTitle>
+                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 opacity-60">Customers with outstanding balances.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                     <Table>
                         <TableBody>
                             {ledgerBalances?.customers?.sort((a: any, b: any) => b.currentBalance - a.currentBalance).slice(0, 10).map((c: any) => (
-                                <TableRow key={c.id}>
-                                    <TableCell className="pl-6 font-medium">{c.name}</TableCell>
-                                    <TableCell className="text-right pr-6 font-black font-mono text-emerald-600">৳{c.currentBalance.toLocaleString()}</TableCell>
+                                <TableRow key={c.id} className="hover:bg-emerald-500/5 border-emerald-500/5">
+                                    <TableCell className="pl-8 py-4 font-black text-sm uppercase tracking-tight">{c.name}</TableCell>
+                                    <TableCell className="text-right pr-8 font-black font-mono text-lg text-emerald-600 dark:text-emerald-400">৳{c.currentBalance.toLocaleString()}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -157,18 +157,18 @@ export default function ReportsPage() {
                 </CardContent>
             </Card>
 
-            <Card className="border-none shadow-sm overflow-hidden">
-                <CardHeader className="bg-rose-50/30 border-b">
-                    <CardTitle className="text-rose-900">Top Payables</CardTitle>
-                    <CardDescription>Suppliers with pending payments.</CardDescription>
+            <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden bg-card">
+                <CardHeader className="bg-rose-500/10 border-b border-rose-500/10 py-6 px-8">
+                    <CardTitle className="text-lg font-black uppercase italic tracking-tighter text-rose-600 dark:text-rose-400">Top Payables</CardTitle>
+                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-rose-500 opacity-60">Suppliers with pending payments.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                     <Table>
                         <TableBody>
                             {ledgerBalances?.suppliers?.sort((a: any, b: any) => b.currentBalance - a.currentBalance).slice(0, 10).map((s: any) => (
-                                <TableRow key={s.id}>
-                                    <TableCell className="pl-6 font-medium">{s.name}</TableCell>
-                                    <TableCell className="text-right pr-6 font-black font-mono text-rose-600">৳{s.currentBalance.toLocaleString()}</TableCell>
+                                <TableRow key={s.id} className="hover:bg-rose-500/5 border-rose-500/5">
+                                    <TableCell className="pl-8 py-4 font-black text-sm uppercase tracking-tight">{s.name}</TableCell>
+                                    <TableCell className="text-right pr-8 font-black font-mono text-lg text-rose-600 dark:text-rose-400">৳{s.currentBalance.toLocaleString()}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -178,30 +178,30 @@ export default function ReportsPage() {
         </TabsContent>
 
         <TabsContent value="staff" className="space-y-4">
-            <Card className="border-none shadow-sm overflow-hidden">
-                <CardHeader className="bg-violet-50/30 border-b">
-                    <CardTitle className="text-violet-900">Staff Commission Ledger</CardTitle>
-                    <CardDescription>Sales incentives and payment status for all employees.</CardDescription>
+            <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden bg-card">
+                <CardHeader className="bg-violet-500/10 border-b border-violet-500/10 py-6 px-8">
+                    <CardTitle className="text-lg font-black uppercase italic tracking-tighter text-violet-600 dark:text-violet-400">Staff Commission Ledger</CardTitle>
+                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-violet-500 opacity-60">Sales incentives and payment status for all employees.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                     <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="pl-6">Employee</TableHead>
-                                <TableHead>Designation</TableHead>
-                                <TableHead className="text-right">Total Earned</TableHead>
-                                <TableHead className="text-right">Total Paid</TableHead>
-                                <TableHead className="text-right pr-6">Balance</TableHead>
+                        <TableHeader className="bg-muted/10">
+                            <TableRow className="border-none">
+                                <TableHead className="pl-8 text-[10px] font-black uppercase tracking-widest h-12">Employee</TableHead>
+                                <TableHead className="text-[10px] font-black uppercase tracking-widest h-12">Designation</TableHead>
+                                <TableHead className="text-right text-[10px] font-black uppercase tracking-widest h-12">Total Earned</TableHead>
+                                <TableHead className="text-right text-[10px] font-black uppercase tracking-widest h-12">Total Paid</TableHead>
+                                <TableHead className="text-right pr-8 text-[10px] font-black uppercase tracking-widest h-12">Balance</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {commissions.map((e: any) => (
-                                <TableRow key={e.id}>
-                                    <TableCell className="pl-6 font-bold">{e.name}</TableCell>
-                                    <TableCell className="text-xs text-muted-foreground uppercase">{e.designation}</TableCell>
-                                    <TableCell className="text-right font-mono">৳{e.totalCommissionEarned.toLocaleString()}</TableCell>
-                                    <TableCell className="text-right font-mono">৳{e.totalCommissionPaid.toLocaleString()}</TableCell>
-                                    <TableCell className="text-right pr-6 font-black font-mono text-primary">৳{e.commissionBalance.toLocaleString()}</TableCell>
+                                <TableRow key={e.id} className="hover:bg-muted/5 border-border">
+                                    <TableCell className="pl-8 py-4 font-black text-sm uppercase tracking-tight">{e.name}</TableCell>
+                                    <TableCell className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.2em] opacity-60">{e.designation}</TableCell>
+                                    <TableCell className="text-right font-mono font-bold text-sm tracking-tighter">৳{e.totalCommissionEarned.toLocaleString()}</TableCell>
+                                    <TableCell className="text-right font-mono font-bold text-sm tracking-tighter">৳{e.totalCommissionPaid.toLocaleString()}</TableCell>
+                                    <TableCell className="text-right pr-8 font-black font-mono text-lg text-primary tracking-tighter">৳{e.commissionBalance.toLocaleString()}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

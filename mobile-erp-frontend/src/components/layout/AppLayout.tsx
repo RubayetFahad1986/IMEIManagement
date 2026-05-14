@@ -8,7 +8,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { toast } from "@/lib/toast";
 import { User, Bell, Search, Palette, AlertTriangle, X, Menu, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuGroup } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -68,7 +68,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex bg-slate-50 h-screen w-screen overflow-hidden text-foreground">
+    <div className="flex bg-background h-screen w-screen overflow-hidden text-foreground">
       <Sidebar 
         isCollapsed={isCollapsed} 
         onToggle={() => setIsCollapsed(!isCollapsed)}
@@ -96,7 +96,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
               <Input
                 placeholder={t('search_placeholder')}
-                className="pl-10 bg-slate-100 border-none h-10 w-full rounded-xl focus:ring-2 focus:ring-primary/20 transition-all"
+                className="pl-10 bg-muted border-none h-10 w-full rounded-xl focus:ring-2 focus:ring-primary/20 transition-all"
                 onKeyDown={handleSearch}
               />
             </div>
@@ -111,9 +111,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-2xl p-2 border-border/50">
-                        <DropdownMenuLabel className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 px-2 py-1.5">{t('switch_theme')}</DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 px-2 py-1.5">{t('switch_theme')}</DropdownMenuLabel>
+                        </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        {['default', 'ocean', 'forest', 'sunset', 'midnight'].map(theme => (
+                        {['default', 'light', 'dark', 'ocean', 'forest', 'sunset', 'midnight'].map(theme => (
                             <DropdownMenuItem key={theme} onClick={() => setTheme(theme)} className="capitalize rounded-lg font-bold gap-2 focus:bg-primary focus:text-primary-foreground">
                                 <div className={cn("h-2 w-2 rounded-full", `bg-${theme}-500`)} />
                                 {theme}
@@ -154,7 +156,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-y-auto bg-slate-50 custom-scrollbar scroll-smooth relative">
+        <main className="flex-1 overflow-y-auto bg-background custom-scrollbar scroll-smooth relative">
           <HelpGuide />
           {user?.isNearExpiry && showWarning && (
             <motion.div 

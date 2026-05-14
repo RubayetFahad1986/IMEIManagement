@@ -168,6 +168,7 @@ export default function UserManagementPage() {
                     <option value="Admin">Admin</option>
                     <option value="CompanyAdmin">Company Admin</option>
                     <option value="SuperAdmin">Super Admin</option>
+                    <option value="Reseller">Reseller</option>
                  </select>
                </div>
                
@@ -274,6 +275,7 @@ export default function UserManagementPage() {
                     <option value="Admin">Admin</option>
                     <option value="CompanyAdmin">Company Admin</option>
                     <option value="SuperAdmin">Super Admin</option>
+                    <option value="Reseller">Reseller</option>
                  </select>
               </div>
               <div className="p-4 bg-slate-50 rounded-lg space-y-4">

@@ -114,7 +114,7 @@ export default function Sidebar({ isCollapsed, onToggle, isMobileOpen, onCloseMo
                       <Icon className={cn("h-5 w-5 shrink-0", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
                       {!isCollapsed && <span className="whitespace-nowrap">{displayName}</span>}
                       {isCollapsed && (
-                        <div className="absolute left-16 bg-slate-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-bold uppercase whitespace-nowrap z-50 shadow-xl border border-white/10">
+                        <div className="absolute left-16 bg-slate-950 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-bold uppercase whitespace-nowrap z-50 shadow-xl border border-white/10">
                             {displayName}
                         </div>
                       )}

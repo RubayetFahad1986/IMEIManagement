@@ -1,205 +1,197 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Smartphone, Users, CreditCard, Ticket, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Wallet, Users, Building2, Ticket, CheckCircle2, ShieldCheck, ArrowUpRight, TrendingUp, History, UserPlus, Zap, Loader2, Globe } from "lucide-react";
 import { toast } from "@/lib/toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { format } from "date-fns";
 
-export default function ResellerPortal() {
+export default function ResellerDashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activatingId, setActivatingId] = useState<number | null>(null);
+  const [isActivating, setIsActivating] = useState<number | null>(null);
 
-  const loadData = async () => {
+  const fetchPanelData = useCallback(async () => {
     try {
       const res = await apiFetch("/reseller/my-panel");
       setData(res);
-    } catch (error: any) {
-      toast.error("Failed to load reseller data");
+    } catch (err) {
+      toast.error("Failed to load reseller panel");
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadData();
   }, []);
 
-  const handleActivate = async (companyId: number) => {
-    if (!confirm("Activate this customer? This will deduct 1 copy from your balance.")) return;
-    
-    setActivatingId(companyId);
+  useEffect(() => {
+    fetchPanelData();
+  }, [fetchPanelData]);
+
+  const handleActivate = async (id: number) => {
+    setIsActivating(id);
     try {
-      await apiFetch(`/reseller/activate-customer/${companyId}`, { method: "POST" });
+      await apiFetch(`/reseller/activate-customer/${id}`, { method: "POST" });
       toast.success("Customer activated successfully!");
-      loadData();
-    } catch (error: any) {
-      toast.error(error.message || "Activation failed");
+      fetchPanelData();
+    } catch (err: any) {
+      toast.error(err.message || "Activation failed");
     } finally {
-      setActivatingId(null);
+      setIsActivating(null);
     }
   };
 
-  if (loading) return <div className="p-10 text-center font-bold">Loading Reseller Portal...</div>;
-  if (!data) return <div className="p-10 text-center text-destructive">Unauthorized access or error loading data.</div>;
+  if (loading) return <div className="p-10 text-center font-black animate-pulse text-primary uppercase italic">Synchronizing Territory Data...</div>;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-4xl font-black tracking-tighter uppercase italic text-slate-900 flex items-center gap-3">
-          <Ticket className="h-10 w-10 text-blue-600" />
-          Reseller <span className="text-blue-600">Territory</span>
-        </h1>
-        <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-2">Manage your license inventory and customer network</p>
+    <div className="space-y-8 pb-20">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 className="text-3xl font-black tracking-tight text-foreground uppercase italic">Partner <span className="text-primary">Intelligence</span></h1>
+            <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest mt-1">Territory: {data?.fullName} | Managed Portal</p>
+        </div>
+        <div className="bg-primary/10 border border-primary/20 p-4 rounded-2xl flex items-center gap-4">
+            <div className="bg-primary p-2.5 rounded-xl shadow-lg shadow-primary/20">
+                <Ticket className="h-5 w-5 text-white" />
+            </div>
+            <div>
+                <p className="text-[10px] font-black uppercase text-primary tracking-widest opacity-60">Promo Code</p>
+                <p className="text-xl font-black tracking-tighter text-foreground uppercase">{data?.promoCode || "NOT SET"}</p>
+            </div>
+        </div>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-slate-900 text-white border-none shadow-2xl rounded-3xl overflow-hidden relative group">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform"><Ticket className="h-24 w-24" /></div>
-            <CardHeader className="pb-2">
-                <CardDescription className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em]">Promo Code</CardDescription>
-                <CardTitle className="text-3xl font-black tracking-tighter text-blue-400">{data.promoCode || "NOT SET"}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-[10px] text-slate-500 font-medium">Share this code with your clients for registration.</p>
-            </CardContent>
-        </Card>
-
-        <Card className="bg-white border-2 border-slate-100 shadow-xl rounded-3xl overflow-hidden relative group">
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform"><CreditCard className="h-24 w-24 text-blue-600" /></div>
-            <CardHeader className="pb-2">
-                <CardDescription className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em]">Available Copies</CardDescription>
-                <CardTitle className="text-4xl font-black tracking-tighter text-slate-900">{data.availableCopies}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-[10px] text-slate-400 font-medium italic">Contact Admin to purchase more in bulk.</p>
-            </CardContent>
-        </Card>
-
-        <Card className="bg-white border-2 border-slate-100 shadow-xl rounded-3xl overflow-hidden relative group">
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform"><Users className="h-24 w-24 text-blue-600" /></div>
-            <CardHeader className="pb-2">
-                <CardDescription className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em]">Total Customers</CardDescription>
-                <CardTitle className="text-4xl font-black tracking-tighter text-slate-900">{data.customers.length}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="flex gap-2">
-                    <Badge variant="outline" className="text-[9px] font-black uppercase">{data.customers.filter((c: any) => c.isActive).length} Active</Badge>
-                    <Badge variant="secondary" className="text-[9px] font-black uppercase text-amber-600">{data.customers.filter((c: any) => !c.isActive).length} Pending</Badge>
-                </div>
-            </CardContent>
-        </Card>
+      {/* Metric Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+            { label: "Permissions Allocated", value: data?.stats?.totalAllocated, icon: ShieldCheck, color: "text-blue-500", bg: "bg-blue-500/10" },
+            { label: "Active Deployments", value: data?.stats?.activatedCount, icon: Building2, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+            { label: "Remaining Balance", value: data?.stats?.remainingBalance, icon: Wallet, color: "text-orange-500", bg: "bg-orange-500/10" },
+            { label: "Total End-Users", value: data?.stats?.totalEndUsers, icon: Users, color: "text-indigo-500", bg: "bg-indigo-500/10" }
+        ].map((stat, i) => (
+            <Card key={i} className="border-none shadow-xl bg-card overflow-hidden group">
+                <CardContent className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className={cn("p-3 rounded-2xl transition-transform group-hover:scale-110", stat.bg)}>
+                            <stat.icon className={cn("h-6 w-6", stat.color)} />
+                        </div>
+                        <div className="bg-muted px-2 py-1 rounded-lg text-[9px] font-black uppercase text-muted-foreground tracking-tighter">Live Metric</div>
+                    </div>
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">{stat.label}</h3>
+                    <p className="text-3xl font-black tracking-tighter">{stat.value?.toLocaleString()}</p>
+                </CardContent>
+            </Card>
+        ))}
       </div>
 
-      {/* Customer List */}
-      <Card className="border-none shadow-2xl rounded-[2.5rem] overflow-hidden">
-        <CardHeader className="bg-slate-50 border-b p-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <CardTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-2"><Smartphone className="h-6 w-6 text-blue-600" /> Territory Network</CardTitle>
-                    <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Clients registered with your promo code</CardDescription>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Client List */}
+          <div className="lg:col-span-8 space-y-6">
+              <Card className="border-none shadow-2xl rounded-[2rem] overflow-hidden bg-card">
+                  <CardHeader className="bg-muted/30 border-b border-border py-6 px-8 flex flex-row items-center justify-between">
+                      <div>
+                        <CardTitle className="text-xl font-black uppercase italic tracking-tighter">Active Territory Clients</CardTitle>
+                        <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground opacity-60">Manage your connected businesses and activations</CardDescription>
+                      </div>
+                      <Badge variant="secondary" className="font-black px-4 rounded-full">{data?.customers?.length} Total</Badge>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                      <Table>
+                          <TableHeader className="bg-muted/10">
+                              <TableRow className="border-none">
+                                  <TableHead className="pl-8 text-[10px] font-black uppercase h-12">Business Identity</TableHead>
+                                  <TableHead className="text-[10px] font-black uppercase h-12">Status</TableHead>
+                                  <TableHead className="text-[10px] font-black uppercase h-12 text-center text-primary">Users</TableHead>
+                                  <TableHead className="text-[10px] font-black uppercase h-12 text-right pr-8">Actions</TableHead>
+                              </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                              {data?.customers?.map((customer: any) => (
+                                  <TableRow key={customer.id} className="hover:bg-muted/5 border-border">
+                                      <TableCell className="pl-8 py-4">
+                                          <div className="font-black text-sm uppercase tracking-tight">{customer.name}</div>
+                                          <div className="text-[9px] text-muted-foreground font-bold">{customer.email}</div>
+                                      </TableCell>
+                                      <TableCell>
+                                          {customer.isActive ? (
+                                              <Badge className="bg-emerald-500/10 text-emerald-600 border-none hover:bg-emerald-500/20 font-black uppercase text-[9px] tracking-widest gap-1.5">
+                                                  <CheckCircle2 className="h-3 w-3" /> Activated
+                                              </Badge>
+                                          ) : (
+                                              <Badge variant="outline" className="text-orange-500 border-orange-500/20 font-black uppercase text-[9px] tracking-widest">Pending Activation</Badge>
+                                          )}
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                          <span className="font-black text-xs px-2 py-1 bg-muted rounded-lg">{customer.userCount}</span>
+                                      </TableCell>
+                                      <TableCell className="text-right pr-8">
+                                          {!customer.isActive && (
+                                              <Button 
+                                                size="sm" 
+                                                onClick={() => handleActivate(customer.id)}
+                                                disabled={isActivating === customer.id || data.stats.remainingBalance <= 0}
+                                                className="bg-primary hover:bg-primary/90 text-white font-black uppercase italic tracking-widest text-[10px] h-9 rounded-xl shadow-lg shadow-primary/20"
+                                              >
+                                                {isActivating === customer.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <><Zap className="h-3 w-3 mr-2" /> Activate Now</>}
+                                              </Button>
+                                          )}
+                                          {customer.isActive && (
+                                              <span className="text-[10px] font-bold text-muted-foreground uppercase opacity-40">Expires: {format(new Date(customer.subscriptionExpiryDate), "dd MMM yyyy")}</span>
+                                          )}
+                                      </TableCell>
+                                  </TableRow>
+                              ))}
+                          </TableBody>
+                      </Table>
+                  </CardContent>
+              </Card>
+          </div>
+
+          {/* History / Transactions */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="bg-slate-950 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl border border-white/5">
+                <div className="absolute top-0 right-0 p-8 opacity-10"><History className="h-40 w-40" /></div>
+                <h3 className="text-lg font-black italic uppercase tracking-tighter relative z-10">License <span className="text-primary">Ledger</span></h3>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6 relative z-10">Historical Allocation Data</p>
+                
+                <div className="space-y-4 relative z-10">
+                    {data?.transactions?.slice(0, 5).map((tx: any, i: number) => (
+                        <div key={i} className="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 hover:bg-white/10 transition-all cursor-default group">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-emerald-500/20 p-2 rounded-xl text-emerald-400 group-hover:scale-110 transition-transform">
+                                    <ArrowUpRight className="h-4 w-4" />
+                                </div>
+                                <div>
+                                    <p className="text-[11px] font-black uppercase tracking-tight">+{tx.quantity} Licenses</p>
+                                    <p className="text-[9px] text-slate-500 font-bold uppercase">{format(new Date(tx.createDate), "dd MMM yyyy")}</p>
+                                </div>
+                            </div>
+                            <span className="text-xs font-mono font-black text-primary italic">৳{tx.totalPrice.toLocaleString()}</span>
+                        </div>
+                    ))}
+                    {data?.transactions?.length === 0 && <p className="text-xs text-slate-500 italic text-center py-8">No transaction history found</p>}
                 </div>
             </div>
-        </CardHeader>
-        <CardContent className="p-0">
-            <Table>
-                <TableHeader className="bg-slate-100/50">
-                    <TableRow className="border-none">
-                        <TableHead className="pl-8 text-[10px] font-black uppercase tracking-widest">Company / Admin</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Contact Info</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Registration Date</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Status</TableHead>
-                        <TableHead className="pr-8 text-right text-[10px] font-black uppercase tracking-widest">Action</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {data.customers.length === 0 ? (
-                        <TableRow>
-                            <TableCell colSpan={5} className="py-20 text-center">
-                                <div className="flex flex-col items-center gap-2 opacity-30">
-                                    <Users className="h-12 w-12" />
-                                    <p className="font-black uppercase text-xs">No territory data found</p>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ) : (
-                        data.customers.map((customer: any) => (
-                            <TableRow key={customer.id} className="hover:bg-slate-50 transition-colors border-slate-50">
-                                <TableCell className="pl-8 py-5">
-                                    <div className="flex flex-col">
-                                        <span className="font-black text-slate-900 uppercase italic">{customer.name}</span>
-                                        <span className="text-[10px] font-bold text-slate-400">{customer.email}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <span className="text-xs font-bold text-slate-600">{customer.phone}</span>
-                                </TableCell>
-                                <TableCell>
-                                    <span className="text-xs font-bold text-slate-500">{new Date(customer.createDate).toLocaleDateString()}</span>
-                                </TableCell>
-                                <TableCell>
-                                    {customer.isActive ? (
-                                        <Badge className="bg-green-500 text-white font-black text-[9px] uppercase px-2 rounded-lg">Active</Badge>
-                                    ) : (
-                                        <Badge variant="secondary" className="bg-amber-100 text-amber-700 font-black text-[9px] uppercase px-2 rounded-lg italic">Pending Activation</Badge>
-                                    )}
-                                </TableCell>
-                                <TableCell className="pr-8 text-right">
-                                    {!customer.isActive && (
-                                        <Button 
-                                            size="sm" 
-                                            className="bg-blue-600 hover:bg-blue-700 h-8 rounded-xl font-black uppercase text-[10px] italic shadow-lg shadow-blue-200"
-                                            onClick={() => handleActivate(customer.id)}
-                                            disabled={activatingId === customer.id || data.availableCopies <= 0}
-                                        >
-                                            {activatingId === customer.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <><CheckCircle2 className="h-3 w-3 mr-1" /> Activate</>}
-                                        </Button>
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))
-                    )}
-                </TableBody>
-            </Table>
-        </CardContent>
-      </Card>
 
-      {/* Bulk Transactions */}
-      <Card className="border-none shadow-xl rounded-[2.5rem] overflow-hidden">
-        <CardHeader className="bg-slate-50 border-b p-8">
-            <CardTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-2"><CreditCard className="h-6 w-6 text-blue-600" /> Bulk Purchase History</CardTitle>
-            <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Transaction logs from SuperAdmin</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-            <Table>
-                <TableHeader className="bg-slate-100/50">
-                    <TableRow className="border-none">
-                        <TableHead className="pl-8 text-[10px] font-black uppercase tracking-widest">Date</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Quantity</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Rate (৳)</TableHead>
-                        <TableHead className="text-[10px] font-black uppercase tracking-widest">Total (৳)</TableHead>
-                        <TableHead className="pr-8 text-[10px] font-black uppercase tracking-widest">Remarks</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {data.transactions.map((tx: any) => (
-                        <TableRow key={tx.id} className="border-slate-50">
-                            <TableCell className="pl-8 py-4 text-xs font-bold text-slate-500">{new Date(tx.createDate).toLocaleDateString()}</TableCell>
-                            <TableCell className="font-black text-slate-900">{tx.quantity} Copies</TableCell>
-                            <TableCell className="font-bold text-slate-600">{tx.pricePerCopy.toLocaleString()}</TableCell>
-                            <TableCell className="font-black text-blue-600">{tx.totalPrice.toLocaleString()}</TableCell>
-                            <TableCell className="pr-8 text-xs italic text-slate-400">{tx.remarks}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </CardContent>
-      </Card>
+            <Card className="border-none shadow-xl bg-primary text-white overflow-hidden relative">
+                 <div className="absolute inset-0 bg-black/10"></div>
+                 <CardContent className="p-8 relative z-10">
+                    <div className="bg-white/20 p-3 rounded-2xl w-fit mb-4">
+                        <TrendingUp className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-2xl font-black italic uppercase tracking-tighter leading-tight">Territory <br /> Performance</h3>
+                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mt-2">Conversion Rate: {data?.stats?.totalAllocated > 0 ? Math.round((data?.stats?.activatedCount / data?.stats?.totalAllocated) * 100) : 0}%</p>
+                 </CardContent>
+            </Card>
+          </div>
+      </div>
     </div>
   );
+}
+
+function cn(...classes: any[]) {
+    return classes.filter(Boolean).join(' ');
 }

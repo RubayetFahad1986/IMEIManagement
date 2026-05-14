@@ -263,26 +263,33 @@ export default function DashboardPage() {
                                 <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                             </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
-                        <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fontSize: 9, fill: '#94a3b8', fontWeight: 700}} dy={10} />
-                        <YAxis axisLine={false} tickLine={false} tick={{fontSize: 9, fill: '#94a3b8', fontWeight: 700}} />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                        <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fontSize: 9, fill: 'var(--muted-foreground)', fontWeight: 700}} dy={10} />
+                        <YAxis axisLine={false} tickLine={false} tick={{fontSize: 9, fill: 'var(--muted-foreground)', fontWeight: 700}} />
                         <Tooltip 
-                            contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', padding: '15px' }}
-                            itemStyle={{ fontWeight: 900, color: '#0f172a' }}
+                            contentStyle={{ 
+                                borderRadius: '20px', 
+                                border: 'none', 
+                                boxShadow: '0 20px 50px rgba(0,0,0,0.1)', 
+                                padding: '15px',
+                                backgroundColor: 'var(--card)',
+                                color: 'var(--foreground)'
+                            }}
+                            itemStyle={{ fontWeight: 900, color: 'var(--primary)' }}
                         />
-                        <Area type="monotone" dataKey="amount" stroke="#3b82f6" strokeWidth={4} fillOpacity={1} fill="url(#colorAmt)" />
+                        <Area type="monotone" dataKey="amount" stroke="var(--primary)" strokeWidth={4} fillOpacity={1} fill="url(#colorAmt)" />
                     </AreaChart>
                 </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-sm rounded-[2rem] overflow-hidden bg-slate-900 text-white relative">
+          <Card className="border-none shadow-sm rounded-[2rem] overflow-hidden bg-slate-950 text-white relative">
             <div className="absolute top-0 right-0 p-8 opacity-5"><Wallet className="h-40 w-40" /></div>
             <CardHeader className="border-b border-white/5 px-8 py-6">
                 <CardTitle className="flex items-center gap-2 font-black text-lg italic uppercase">
                     <Wallet className="h-5 w-5 text-blue-400" /> Liquid Reserves
                 </CardTitle>
-                <CardDescription className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Available cash & bank balances</CardDescription>
+                <CardDescription className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Available cash & bank balances</CardDescription>
             </CardHeader>
             <CardContent className="px-8 py-6 space-y-5">
                 {(data?.accountBalances || []).map((acc: any, i: number) => (
@@ -298,7 +305,7 @@ export default function DashboardPage() {
                 ))}
                 <div className="pt-6 mt-4 border-t border-white/5 flex justify-between items-end">
                     <div className="space-y-1">
-                        <span className="text-[10px] uppercase font-black text-slate-500 tracking-[0.2em]">Net Reserves</span>
+                        <span className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Net Reserves</span>
                         <p className="text-xs text-blue-400/60 font-bold italic">Safe for new stock purchase</p>
                     </div>
                     <span className="text-3xl font-black tracking-tighter text-blue-400 italic">

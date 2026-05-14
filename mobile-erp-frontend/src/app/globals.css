@@ -76,6 +76,79 @@
   --foreground: #1a1c1e;
 }
 
+[data-theme='dark'], .dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #334155;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --border: #334155;
+  --input: #334155;
+  --ring: #3b82f6;
+
+  /* Global Overrides for hardcoded Slate colors in Dark Mode */
+  --color-slate-50: #0f172a;   /* Was light gray, now dark background */
+  --color-slate-100: #1e293b;
+  --color-slate-200: #334155;
+  --color-slate-300: #475569;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #cbd5e1;
+  --color-slate-600: #e2e8f0;
+  --color-slate-700: #f1f5f9;
+  --color-slate-800: #f8fafc;
+  --color-slate-900: #f8fafc;   /* Was dark text, now light text */
+
+  --color-gray-50: #0f172a;
+  --color-gray-100: #1e293b;
+  --color-gray-200: #334155;
+  --color-gray-300: #475569;
+  --color-gray-900: #f8fafc;
+  
+  --color-white: #1e293b; 
+  --color-zinc-50: #0f172a;
+  --color-zinc-100: #1e293b;
+  --color-zinc-900: #f8fafc;
+}
+
+[data-theme='ocean'] {
+  --background: #f0f9ff;
+  --card: #ffffff;
+  --primary: #0ea5e9;
+  --ring: #0ea5e9;
+}
+
+[data-theme='forest'] {
+  --background: #f0fdf4;
+  --card: #ffffff;
+  --primary: #10b981;
+  --ring: #10b981;
+}
+
+[data-theme='sunset'] {
+  --background: #fffbeb;
+  --card: #ffffff;
+  --primary: #f59e0b;
+  --ring: #f59e0b;
+}
+
+[data-theme='midnight'] {
+  --background: #020617;
+  --foreground: #f8fafc;
+  --card: #0f172a;
+  --primary: #6366f1;
+  --ring: #6366f1;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
