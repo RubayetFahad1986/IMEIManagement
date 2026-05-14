@@ -34,6 +34,8 @@ namespace MobileERP.Domain.Entities
     public class JournalEntry : TenantBaseEntity
     {
         public int JournalVoucherId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public JournalVoucher? Voucher { get; set; }
         public int AccountHeadId { get; set; }
         public AccountHead? AccountHead { get; set; }
         public decimal Debit { get; set; }

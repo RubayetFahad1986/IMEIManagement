@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Receipt, Calendar, List, Trash2, Pencil, Printer } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { format } from "date-fns";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -79,11 +79,10 @@ export default function ExpensesPage() {
 
   const fetchAccounts = useCallback(async () => {
     try {
-      const data: AccountHead[] = await apiFetch("/setup/accounts");
-      setExpenseAccounts(data.filter(a => a.accountType === "General")); 
+      const data: AccountHead[] = await apiFetch("/setup/accounts/all");
+      setExpenseAccounts(data.filter(a => a.accountType === "General"));
       setPaymentAccounts(data.filter(a => a.accountType === "Cash" || a.accountType === "Bank"));
-    } catch (error: unknown) {
-      const e = error as Error;
+    } catch (error: unknown) {      const e = error as Error;
       toast.error("Failed to load accounts: " + e.message);
     }
   }, []);
@@ -139,6 +138,24 @@ export default function ExpensesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Strict Validation
+    if (!formData.paymentAccountId) {
+      toast.error("Please select a payment source (Cash or Bank).");
+      return;
+    }
+
+    if (formData.details.length === 0) {
+      toast.error("Please add at least one expense item.");
+      return;
+    }
+
+    const invalidDetails = formData.details.some(d => !d.expenseAccountId || (parseFloat(d.amount.toString()) || 0) <= 0);
+    if (invalidDetails) {
+      toast.error("Please ensure all items have a category and an amount greater than 0.");
+      return;
+    }
+
     try {
       const method = formData.id ? "PUT" : "POST";
       const url = formData.id ? `/accounting/expense/${formData.id}` : "/accounting/expense";
@@ -271,12 +288,13 @@ export default function ExpensesPage() {
                   </div>
                   <div className="space-y-2">
                     <Label>Payment Source</Label>
-                    <SearchableSelect 
-                      options={paymentAccounts.map(a => ({ label: a.name, value: a.id }))}
+                    <SearchableSelect
+                      options={paymentAccounts.map(a => ({ label: a.name, value: a.id.toString() }))}
                       value={formData.paymentAccountId}
-                      onChange={val => setFormData({...formData, paymentAccountId: val})}
-                      placeholder="Select Account..."
+                      onChange={val => setFormData({...formData, paymentAccountId: val.toString()})}
+                      placeholder="Select Account"
                     />
+
                   </div>
                   <div className="space-y-2">
                     <Label>General Remarks</Label>

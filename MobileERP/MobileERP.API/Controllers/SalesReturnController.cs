@@ -231,19 +231,20 @@ namespace MobileERP.API.Controllers
                     if (customer != null)
                     {
                         customer.CustomerBalance += sReturn.TotalReturnAmount;
-                        _context.ContactLedgers.Add(new ContactLedger
-                        {
-                            ContactId = customer.Id,
-                            TransactionDate = DateTime.UtcNow,
-                            Description = $"REVERSED: Sales Return for Invoice {invoice.InvoiceNo}",
-                            ReferenceNo = invoice.InvoiceNo,
-                            Debit = sReturn.TotalReturnAmount,
-                            Credit = 0,
-                            Balance = customer.CustomerBalance,
-                            TransactionType = "SalesReturnDelete",
-                            ComId = 1
-                        });
+                        // Mark the original ledger entry as deleted to hide it
+                        var oldLedgers = await _context.ContactLedgers
+                            .Where(l => l.ReferenceNo == invoice.InvoiceNo && l.ContactId == customer.Id && (l.TransactionType == "SalesReturn" || l.TransactionType == "SalesReturnDelete") && !l.IsDelete)
+                            .ToListAsync();
+                        foreach(var l in oldLedgers) l.IsDelete = true;
                     }
+                }
+
+                // Find and delete related Journal Voucher
+                var jv = await _context.JournalVouchers.Include(v => v.Entries).FirstOrDefaultAsync(j => j.ReferenceNo == invoice.InvoiceNo && j.ReferenceType == "SalesReturn");
+                if (jv != null)
+                {
+                    jv.IsDelete = true;
+                    foreach (var entry in jv.Entries) entry.IsDelete = true;
                 }
 
                 sReturn.IsDelete = true;

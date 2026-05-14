@@ -38,6 +38,8 @@ namespace MobileERP.Domain.Entities
         public int ProductCategoryId { get; set; }
         public bool HasIMEI { get; set; } // True for Mobile, False for Accessories
         public string? SKU { get; set; }
+        public string? Barcode { get; set; }
+        public string? Unit { get; set; } // Kg, Pcs, Box, Litre
         public string? ImageLink { get; set; }
     }
 
@@ -56,13 +58,25 @@ namespace MobileERP.Domain.Entities
     public class PurchaseDetail : TenantBaseEntity
     {
         public int PurchaseInvoiceId { get; set; }
-        public int MobileDeviceId { get; set; }
+        public int? MobileDeviceId { get; set; }
         public MobileDevice? MobileDevice { get; set; }
+        public int? ProductId { get; set; }
+        public Product? Product { get; set; }
         public decimal CostPrice { get; set; }
         public decimal SalePrice { get; set; }
+        public decimal Quantity { get; set; } = 1;
         public ICollection<ImeiItem> ImeiItems { get; set; } = new List<ImeiItem>();
+        public ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
         public string? BatteryHealth { get; set; }
         public string? Condition { get; set; }
+
+        // --- New Master Data ---
+        public int? WarrantyTypeId { get; set; }
+        public int? WarrantyDurationId { get; set; }
+        public int? WarrantyCoverageId { get; set; }
+        public int? ConditionId { get; set; }
+        public int? MarketTypeId { get; set; }
+        public string? WarrantyRemarks { get; set; }
     }
 
     public class ImeiItem : TenantBaseEntity
@@ -76,10 +90,14 @@ namespace MobileERP.Domain.Entities
 
     public class InventoryItem : TenantBaseEntity
     {
+        public int? PurchaseDetailId { get; set; }
+        public PurchaseDetail? PurchaseDetail { get; set; }
         public int? MobileDeviceId { get; set; }
         public MobileDevice? MobileDevice { get; set; }
         public int? ProductId { get; set; }
         public Product? Product { get; set; }
+        public int? ImeiItemId { get; set; }
+        public ImeiItem? ImeiItem { get; set; }
         public string? IMEI1 { get; set; }
         public string? IMEI2 { get; set; }
         public string? SerialNumber { get; set; }
@@ -89,13 +107,23 @@ namespace MobileERP.Domain.Entities
         public decimal Quantity { get; set; } = 1;
         public bool IsSold { get; set; }
         public int? PurchaseInvoiceId { get; set; }
+        public PurchaseInvoice? PurchaseInvoice { get; set; }
         public int? SalesInvoiceId { get; set; }
         public int? BranchId { get; set; }
-        public string Condition { get; set; } = "New"; // New, Used
-        public string BoxStatus { get; set; } = "Intact"; // Intact, WithBox, NoBox
-        public bool IsOfficial { get; set; } = true;
-        public int WarrantyMonths { get; set; }
-        public DateTime? WarrantyExpiryDate { get; set; }
+        public string Condition { get; set; } = "New"; // Deprecated
+        public string BoxStatus { get; set; } = "Intact"; // Deprecated
+        public bool IsOfficial { get; set; } = true; // Deprecated
+        public int WarrantyMonths { get; set; } // Deprecated
+        
+        // --- New Master Data ---
+        public int? WarrantyTypeId { get; set; }
+        public int? WarrantyDurationId { get; set; }
+        public int? WarrantyCoverageId { get; set; }
+        public int? ConditionId { get; set; }
+        public int? MarketTypeId { get; set; }
+        public DateTime? WarrantyStartDate { get; set; }
+        public DateTime? WarrantyEndDate { get; set; }
+        public string? WarrantyRemarks { get; set; }
     }
 
     public class BranchTransfer : TenantBaseEntity
@@ -123,9 +151,17 @@ namespace MobileERP.Domain.Entities
         public int? SalesPersonId { get; set; } // Linked to Employee
         public decimal SubTotal { get; set; }
         public decimal Discount { get; set; }
+        public decimal ServiceCharge { get; set; }
+        public decimal VAT { get; set; }
         public decimal NetTotal { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal ChangeAmount { get; set; }
+        
+        // --- Walk-in Customer Info ---
+        public string? WalkInName { get; set; }
+        public string? WalkInPhone { get; set; }
+        public string? WalkInAddress { get; set; }
+
         public ICollection<SalesDetail> Details { get; set; } = new List<SalesDetail>();
         public ICollection<SalesPayment> Payments { get; set; } = new List<SalesPayment>();
     }
@@ -143,6 +179,8 @@ namespace MobileERP.Domain.Entities
         public int SalesInvoiceId { get; set; }
         public int InventoryItemId { get; set; }
         public InventoryItem? InventoryItem { get; set; }
+        public int? ImeiItemId { get; set; }
+        public ImeiItem? ImeiItem { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal CostPrice { get; set; }
         public decimal CommissionAmount { get; set; } // Actual commission earned for this item

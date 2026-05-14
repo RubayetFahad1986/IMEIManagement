@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Users, Plus, Search, Phone, Repeat, UserCheck } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface Customer {

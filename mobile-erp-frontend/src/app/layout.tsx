@@ -14,20 +14,24 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/context/ThemeContext";
-
-// ... (other imports)
+import { LanguageProvider } from "@/context/LanguageContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
-        <ThemeProvider>
-          <RootLayoutClient>{children}</RootLayoutClient>
-        </ThemeProvider>
+        <GoogleOAuthProvider clientId="647349813371-ur9jsvrncn7gl7ukm7ku17g6g5flo79p.apps.googleusercontent.com">
+          <LanguageProvider>
+            <ThemeProvider>
+              <RootLayoutClient>{children}</RootLayoutClient>
+            </ThemeProvider>
+          </LanguageProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

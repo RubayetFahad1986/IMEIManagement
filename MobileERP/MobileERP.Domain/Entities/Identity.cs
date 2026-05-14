@@ -13,6 +13,19 @@ namespace MobileERP.Domain.Entities
         public string? HeaderImagePath { get; set; }
         public string? TermsAndConditions { get; set; }
         public bool IsActive { get; set; } = true;
+
+        // --- Subscription & Verification ---
+        public DateTime? SubscriptionExpiryDate { get; set; }
+        public string? PlanType { get; set; } // Monthly, Quarterly, HalfYearly, Yearly
+        public bool IsVerified { get; set; } = false;
+        public string? VerificationOtp { get; set; }
+
+        // --- Tax & Service Settings ---
+        public bool IsVatEnabled { get; set; }
+        public decimal VatPercentage { get; set; }
+        public bool IsServiceChargeEnabled { get; set; }
+        public decimal ServiceChargePercentage { get; set; }
+
         public ICollection<Branch> Branches { get; set; } = new List<Branch>();
     }
 

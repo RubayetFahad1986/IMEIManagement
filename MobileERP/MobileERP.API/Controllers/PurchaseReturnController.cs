@@ -240,17 +240,11 @@ namespace MobileERP.API.Controllers
                 if (supplier != null)
                 {
                     supplier.SupplierBalance += pReturn.TotalReturnAmount;
-                    _context.ContactLedgers.Add(new ContactLedger
-                    {
-                        ContactId = supplier.Id,
-                        TransactionDate = DateTime.UtcNow,
-                        Description = $"REVERSED: Purchase Return for Invoice {invoice.InvoiceNo}",
-                        ReferenceNo = invoice.InvoiceNo,
-                        Credit = pReturn.TotalReturnAmount,
-                        Balance = supplier.SupplierBalance,
-                        TransactionType = "PurchaseReturnDelete",
-                        ComId = 1
-                    });
+                    // Mark original ledger entries as deleted to hide them
+                    var oldLedgers = await _context.ContactLedgers
+                        .Where(l => l.ReferenceNo == invoice.InvoiceNo && l.ContactId == supplier.Id && (l.TransactionType == "PurchaseReturn" || l.TransactionType == "PurchaseReturnDelete") && !l.IsDelete)
+                        .ToListAsync();
+                    foreach(var l in oldLedgers) l.IsDelete = true;
                 }
 
                 // Restore Inventory Items
@@ -266,6 +260,14 @@ namespace MobileERP.API.Controllers
                 }
 
                 pReturn.IsDelete = true;
+
+                // Find and delete original related Journal Voucher
+                var oldJv = await _context.JournalVouchers.Include(v => v.Entries).FirstOrDefaultAsync(j => j.ReferenceNo == invoice.InvoiceNo && j.ReferenceType == "PurchaseReturn");
+                if (oldJv != null)
+                {
+                    oldJv.IsDelete = true;
+                    foreach (var entry in oldJv.Entries) entry.IsDelete = true;
+                }
 
                 // Accounting reversal (Simplified: just add a reversing JV)
                 int invAccId = await GetOrCreateAccountAsync("Inventory", "Asset");

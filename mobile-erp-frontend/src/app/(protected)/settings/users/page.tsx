@@ -128,7 +128,11 @@ export default function UserManagementPage() {
         method: "DELETE",
       });
       toast.success("User removed!");
-      fetchUsers(data.pageNumber, searchTerm);
+      setData((prev: any) => ({
+        ...prev,
+        items: prev.items.filter((u: any) => u.id !== id),
+        totalCount: prev.totalCount - 1
+      }));
     } catch (error: any) {
       toast.error("Delete failed: " + error.message);
     }
@@ -145,7 +149,7 @@ export default function UserManagementPage() {
         </div>
         
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogTrigger render={<Button><Plus className="mr-2 h-4 w-4" /> Create User</Button>} />
+          <DialogTrigger asChild><Button><Plus className="mr-2 h-4 w-4" /> Create User</Button></DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader><DialogTitle>New User Account</DialogTitle></DialogHeader>
             <div className="space-y-4 py-4">

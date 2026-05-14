@@ -65,7 +65,7 @@ namespace MobileERP.API.Controllers
 
                     globalMasters.Add(new GlobalMobileMaster
                     {
-                        OEM = idxOem >= 0 && idxOem < parts.Length ? parts[idxOem] : "Unknown",
+                        Brand = idxOem >= 0 && idxOem < parts.Length ? parts[idxOem] : "Unknown",
                         Model = idxModel >= 0 && idxModel < parts.Length ? parts[idxModel] : "Unknown",
                         NetworkTechnology = idxNet >= 0 && idxNet < parts.Length ? parts[idxNet] : null,
                         LaunchAnnounced = idxLaunch >= 0 && idxLaunch < parts.Length ? parts[idxLaunch] : null,
@@ -113,6 +113,72 @@ namespace MobileERP.API.Controllers
             }
         }
 
+        [HttpPost("reset-data")]
+        public async Task<IActionResult> ResetData([FromBody] ResetRequest request)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                if (request.Modules.Contains("Sales"))
+                {
+                    _context.SalesDetails.RemoveRange(_context.SalesDetails);
+                    _context.SalesInvoices.RemoveRange(_context.SalesInvoices);
+                    _context.SalesReturnDetails.RemoveRange(_context.SalesReturnDetails);
+                    _context.SalesReturns.RemoveRange(_context.SalesReturns);
+                }
+
+                if (request.Modules.Contains("Purchases"))
+                {
+                    _context.PurchaseDetails.RemoveRange(_context.PurchaseDetails);
+                    _context.PurchaseInvoices.RemoveRange(_context.PurchaseInvoices);
+                    _context.PurchaseReturnDetails.RemoveRange(_context.PurchaseReturnDetails);
+                    _context.PurchaseReturns.RemoveRange(_context.PurchaseReturns);
+                }
+
+                if (request.Modules.Contains("Inventory"))
+                {
+                    _context.ProductHistories.RemoveRange(_context.ProductHistories);
+                    _context.Inventory.RemoveRange(_context.Inventory);
+                    _context.ImeiItems.RemoveRange(_context.ImeiItems);
+                }
+
+                if (request.Modules.Contains("Accounting"))
+                {
+                    _context.JournalEntries.RemoveRange(_context.JournalEntries);
+                    _context.JournalVouchers.RemoveRange(_context.JournalVouchers);
+                    _context.ExpenseDetails.RemoveRange(_context.ExpenseDetails);
+                    _context.ExpenseVouchers.RemoveRange(_context.ExpenseVouchers);
+                    _context.ContactLedgers.RemoveRange(_context.ContactLedgers);
+                    
+                    var accounts = await _context.AccountHeads.ToListAsync();
+                    foreach (var acc in accounts) acc.CurrentBalance = 0;
+                    
+                    var contacts = await _context.Contacts.ToListAsync();
+                    foreach (var c in contacts)
+                    {
+                        c.CustomerBalance = 0;
+                        c.SupplierBalance = 0;
+                    }
+                }
+
+                if (request.Modules.Contains("Contacts"))
+                {
+                    _context.Contacts.RemoveRange(_context.Contacts);
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return Ok(new { Message = "Selected data has been reset successfully." });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public class ResetRequest { public List<string> Modules { get; set; } = new List<string>(); }
+
         [HttpPost("mega-seed")]
         public async Task<IActionResult> MegaSeed()
         {
@@ -155,5 +221,36 @@ namespace MobileERP.API.Controllers
                 return Ok(new { Message = $"Success! Database wiped and {devices.Count} mobile models imported from MegaBatch CSV." });
             } catch (Exception ex) { return BadRequest(new { Error = ex.Message, Stack = ex.StackTrace }); }
         }
+
+        [HttpGet("companies")]
+        public async Task<IActionResult> GetCompanies()
+        {
+            // Only SuperAdmin (no ComId) should access this
+            var companies = await _context.Companies
+                .OrderByDescending(c => c.CreateDate)
+                .ToListAsync();
+            return Ok(companies);
+        }
+
+        [HttpPost("extend-subscription")]
+        public async Task<IActionResult> ExtendSubscription([FromBody] SubscriptionExtensionRequest request)
+        {
+            var company = await _context.Companies.FindAsync(request.CompanyId);
+            if (company == null) return NotFound("Company not found");
+
+            if (company.SubscriptionExpiryDate == null || company.SubscriptionExpiryDate < DateTime.UtcNow)
+            {
+                company.SubscriptionExpiryDate = DateTime.UtcNow.AddDays(request.Days);
+            }
+            else
+            {
+                company.SubscriptionExpiryDate = company.SubscriptionExpiryDate.Value.AddDays(request.Days);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Subscription extended successfully.", NewExpiry = company.SubscriptionExpiryDate });
+        }
+
+        public class SubscriptionExtensionRequest { public int CompanyId { get; set; } public int Days { get; set; } }
     }
 }

@@ -6,7 +6,7 @@ namespace MobileERP.Domain.Entities
     // --- Global Master Data ---
     public class GlobalMobileMaster : BaseEntity
     {
-        public string OEM { get; set; } = string.Empty;
+        public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public string? NetworkTechnology { get; set; }
         public string? LaunchAnnounced { get; set; }

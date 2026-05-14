@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { format } from "date-fns";
 import { Plus, Trash2, List, Eye, PackageMinus, X, Search, Check, ShoppingCart, ScanBarcode, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 
 interface PurchaseInvoice { id: number; invoiceNo: string; supplierName: string; purchaseDate: string; }
@@ -266,16 +267,18 @@ export default function PurchaseReturnsPage() {
                 <CardContent>
                   {returnMode === "invoice" ? (
                     <div className="space-y-4">
-                      <SearchableSelect 
-                        label="Select Original Purchase Invoice" 
-                        placeholder="Search by Invoice No or Supplier Name..."
-                        options={invoices.map(i => ({ 
-                          label: `${i.invoiceNo} | ${i.supplierName} (${format(new Date(i.purchaseDate), "dd MMM yy")})`, 
-                          value: i.id 
-                        }))} 
-                        value={selectedInvoiceId} 
-                        onChange={setSelectedInvoiceId} 
-                      />
+                      <div className="space-y-2">
+                        <Label>Select Original Purchase Invoice</Label>
+                        <SearchableSelect 
+                          placeholder="Search by Invoice No or Supplier Name..."
+                          options={invoices.map(i => ({ 
+                            label: `${i.invoiceNo} | ${i.supplierName} (${format(new Date(i.purchaseDate), "dd MMM yy")})`, 
+                            value: i.id 
+                          }))} 
+                          value={selectedInvoiceId} 
+                          onChange={(val: string | number) => setSelectedInvoiceId(val.toString())} 
+                        />
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-4">

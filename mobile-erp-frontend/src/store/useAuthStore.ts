@@ -10,6 +10,8 @@ interface User {
   branchId: number | null;
   isShowCosting: boolean;
   canSeeOthersEntry: boolean;
+  subscriptionExpiryDate?: string;
+  isNearExpiry?: boolean;
 }
 
 interface AuthState {

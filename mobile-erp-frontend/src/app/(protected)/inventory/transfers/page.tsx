@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { format } from "date-fns";
 import { Plus, Trash2, List, Eye, Edit, X, ArrowRightLeft } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 
 interface Branch { id: number; name: string; }
@@ -23,6 +24,7 @@ interface InventoryItem {
   serialNumber?: string; 
   condition: string; 
   branchId: number;
+  mobileDevice?: { brand: string; modelName: string };
 }
 
 interface TransferDetail {
@@ -274,19 +276,23 @@ export default function BranchTransfersPage() {
                 <CardDescription>Select source and destination warehouses.</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <SearchableSelect 
-                  label="From Warehouse" 
-                  options={branches.map(b => ({ label: b.name, value: b.id }))} 
-                  value={formData.fromBranchId} 
-                  onChange={v => setFormData({...formData, fromBranchId: v, details: []})} 
-                  disabled={!!editingId}
-                />
-                <SearchableSelect 
-                  label="To Warehouse" 
-                  options={branches.map(b => ({ label: b.name, value: b.id }))} 
-                  value={formData.toBranchId} 
-                  onChange={v => setFormData({...formData, toBranchId: v})} 
-                />
+                <div className="space-y-2">
+                  <Label>From Warehouse</Label>
+                  <SearchableSelect 
+                    options={branches.map(b => ({ label: b.name, value: b.id }))} 
+                    value={formData.fromBranchId} 
+                    onChange={(v: string | number) => setFormData({...formData, fromBranchId: v.toString(), details: []})} 
+                    disabled={!!editingId}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>To Warehouse</Label>
+                  <SearchableSelect 
+                    options={branches.map(b => ({ label: b.name, value: b.id }))} 
+                    value={formData.toBranchId} 
+                    onChange={(v: string | number) => setFormData({...formData, toBranchId: v.toString()})} 
+                  />
+                </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Transfer Date</label>
                   <Input type="date" value={formData.transferDate} onChange={e => setFormData({...formData, transferDate: e.target.value})} />
@@ -303,13 +309,12 @@ export default function BranchTransfersPage() {
                 <div className="flex gap-4 items-end">
                   <div className="flex-1">
                     <SearchableSelect 
-                      label="Select Item" 
                       options={availableInventory.map(i => ({ 
                         label: `${i.deviceName} (${i.imei1})`, 
                         value: i.id 
                       }))} 
                       value={selectedInventoryId} 
-                      onChange={setSelectedInventoryId} 
+                      onChange={(v: string | number) => setSelectedInventoryId(v.toString())} 
                     />
                   </div>
                   <Button type="button" onClick={addItem} disabled={!selectedInventoryId || !formData.fromBranchId}><Plus className="mr-2 h-4 w-4" /> Add Item</Button>

@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  turbopack: {},
   webpack: (config, { dev, isServer }) => {
     if (dev && !isServer) {
       // Improve HMR stability

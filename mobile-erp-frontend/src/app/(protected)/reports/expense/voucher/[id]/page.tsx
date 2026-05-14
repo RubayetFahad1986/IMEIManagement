@@ -5,7 +5,7 @@ import { apiFetch } from "@/lib/api";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Printer, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
@@ -28,7 +28,7 @@ export default function ExpenseVoucherPage({ params }: VoucherProps) {
     try {
       const [invData, accData] = await Promise.all([
         apiFetch(`/accounting/expense/${id}`),
-        apiFetch("/setup/accounts")
+        apiFetch("/setup/accounts/all")
       ]);
       setData(invData);
       setAccounts(accData);

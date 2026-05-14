@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { BookOpen, Plus, Search, Tag, Trash2, Pencil } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { ServerPagination } from "@/components/ui/server-pagination";
 
 interface AccountCategory {
@@ -107,7 +107,8 @@ export default function AccountHeadsPage() {
     try {
       await apiFetch(`/setup/accounts/${id}`, { method: "DELETE" });
       toast.success("Deleted");
-      fetchData(1, "");
+      setAccounts(prev => prev.filter(acc => acc.id !== id));
+      setPageData(prev => ({ ...prev, totalCount: prev.totalCount - 1 }));
     } catch (error: any) {
       toast.error("Failed: " + error.message);
     }

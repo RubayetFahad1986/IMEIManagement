@@ -312,6 +312,15 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsServiceChargeEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsVatEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LogoPath")
                         .HasColumnType("text");
 
@@ -328,11 +337,26 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
+                    b.Property<string>("PlanType")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("ServiceChargePercentage")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("SubscriptionExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("TermsAndConditions")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("VatPercentage")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("VerificationOtp")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -686,6 +710,10 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("BodyWeight")
                         .HasColumnType("text");
 
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -733,10 +761,6 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("NetworkTechnology")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OEM")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PlatformChipset")
@@ -808,7 +832,7 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PurchaseDetailId");
 
-                    b.ToTable("ImeiItem");
+                    b.ToTable("ImeiItems");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.InventoryItem", b =>
@@ -836,6 +860,9 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("ConditionId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("numeric");
 
@@ -851,7 +878,13 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("IMEI2")
                         .HasColumnType("text");
 
+                    b.Property<int?>("ImeiItemId")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsOfficial")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsSold")
@@ -863,10 +896,16 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("LuserIdUpdate")
                         .HasColumnType("text");
 
+                    b.Property<int?>("MarketTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MobileDeviceId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PurchaseDetailId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("PurchaseInvoiceId")
@@ -884,17 +923,42 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("WarrantyExpiryDate")
+                    b.Property<int?>("WarrantyCoverageId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WarrantyDurationId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("WarrantyEndDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("WarrantyMonths")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("WarrantyRemarks")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("WarrantyStartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("WarrantyTypeId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IMEI1")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsDelete\" = false");
+
+                    b.HasIndex("ImeiItemId");
 
                     b.HasIndex("MobileDeviceId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseDetailId");
+
+                    b.HasIndex("PurchaseInvoiceId");
 
                     b.ToTable("Inventory");
                 });
@@ -995,6 +1059,41 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.ToTable("JournalVouchers");
                 });
 
+            modelBuilder.Entity("MobileERP.Domain.Entities.MarketType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ComId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LuserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LuserIdUpdate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MarketTypes");
+                });
+
             modelBuilder.Entity("MobileERP.Domain.Entities.MobileDevice", b =>
                 {
                     b.Property<int>("Id")
@@ -1087,6 +1186,9 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Barcode")
+                        .HasColumnType("text");
+
                     b.Property<int?>("ComId")
                         .HasColumnType("integer");
 
@@ -1116,6 +1218,9 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("SKU")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Unit")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -1159,6 +1264,41 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("MobileERP.Domain.Entities.ProductCondition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ComId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LuserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LuserIdUpdate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductConditions");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.ProductHistory", b =>
@@ -1236,6 +1376,9 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("Condition")
                         .HasColumnType("text");
 
+                    b.Property<int?>("ConditionId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("numeric");
 
@@ -1251,11 +1394,20 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<string>("LuserIdUpdate")
                         .HasColumnType("text");
 
-                    b.Property<int>("MobileDeviceId")
+                    b.Property<int?>("MarketTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MobileDeviceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PurchaseInvoiceId")
                         .HasColumnType("integer");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("numeric");
@@ -1263,9 +1415,23 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("WarrantyCoverageId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WarrantyDurationId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("WarrantyRemarks")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("WarrantyTypeId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MobileDeviceId");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("PurchaseInvoiceId");
 
@@ -1430,6 +1596,9 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("ImeiItemId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("InventoryItemId")
                         .HasColumnType("integer");
 
@@ -1455,6 +1624,8 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImeiItemId");
 
                     b.HasIndex("InventoryItemId");
 
@@ -1511,11 +1682,26 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.Property<int?>("SalesPersonId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("ServiceCharge")
+                        .HasColumnType("numeric");
+
                     b.Property<decimal>("SubTotal")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("VAT")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("WalkInAddress")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WalkInName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WalkInPhone")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -1848,6 +2034,114 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                     b.ToTable("WarrantyClaims");
                 });
 
+            modelBuilder.Entity("MobileERP.Domain.Entities.WarrantyCoverage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ComId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LuserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LuserIdUpdate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WarrantyCoverages");
+                });
+
+            modelBuilder.Entity("MobileERP.Domain.Entities.WarrantyDuration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ComId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Days")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LuserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LuserIdUpdate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WarrantyDurations");
+                });
+
+            modelBuilder.Entity("MobileERP.Domain.Entities.WarrantyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ComId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LuserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LuserIdUpdate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WarrantyTypes");
+                });
+
             modelBuilder.Entity("MobileERP.Domain.Entities.AccountHead", b =>
                 {
                     b.HasOne("MobileERP.Domain.Entities.AccountCategory", "Category")
@@ -1912,6 +2206,10 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MobileERP.Domain.Entities.InventoryItem", b =>
                 {
+                    b.HasOne("MobileERP.Domain.Entities.ImeiItem", "ImeiItem")
+                        .WithMany()
+                        .HasForeignKey("ImeiItemId");
+
                     b.HasOne("MobileERP.Domain.Entities.MobileDevice", "MobileDevice")
                         .WithMany()
                         .HasForeignKey("MobileDeviceId");
@@ -1920,9 +2218,23 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId");
 
+                    b.HasOne("MobileERP.Domain.Entities.PurchaseDetail", "PurchaseDetail")
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("PurchaseDetailId");
+
+                    b.HasOne("MobileERP.Domain.Entities.PurchaseInvoice", "PurchaseInvoice")
+                        .WithMany()
+                        .HasForeignKey("PurchaseInvoiceId");
+
+                    b.Navigation("ImeiItem");
+
                     b.Navigation("MobileDevice");
 
                     b.Navigation("Product");
+
+                    b.Navigation("PurchaseDetail");
+
+                    b.Navigation("PurchaseInvoice");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.JournalEntry", b =>
@@ -1933,22 +2245,26 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MobileERP.Domain.Entities.JournalVoucher", null)
+                    b.HasOne("MobileERP.Domain.Entities.JournalVoucher", "Voucher")
                         .WithMany("Entries")
                         .HasForeignKey("JournalVoucherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AccountHead");
+
+                    b.Navigation("Voucher");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseDetail", b =>
                 {
                     b.HasOne("MobileERP.Domain.Entities.MobileDevice", "MobileDevice")
                         .WithMany()
-                        .HasForeignKey("MobileDeviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MobileDeviceId");
+
+                    b.HasOne("MobileERP.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("MobileERP.Domain.Entities.PurchaseInvoice", null)
                         .WithMany("Details")
@@ -1957,6 +2273,8 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("MobileDevice");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseReturnDetail", b =>
@@ -1970,6 +2288,10 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MobileERP.Domain.Entities.SalesDetail", b =>
                 {
+                    b.HasOne("MobileERP.Domain.Entities.ImeiItem", "ImeiItem")
+                        .WithMany()
+                        .HasForeignKey("ImeiItemId");
+
                     b.HasOne("MobileERP.Domain.Entities.InventoryItem", "InventoryItem")
                         .WithMany()
                         .HasForeignKey("InventoryItemId")
@@ -1981,6 +2303,8 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
                         .HasForeignKey("SalesInvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ImeiItem");
 
                     b.Navigation("InventoryItem");
                 });
@@ -2031,6 +2355,8 @@ namespace MobileERP.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseDetail", b =>
                 {
                     b.Navigation("ImeiItems");
+
+                    b.Navigation("InventoryItems");
                 });
 
             modelBuilder.Entity("MobileERP.Domain.Entities.PurchaseInvoice", b =>

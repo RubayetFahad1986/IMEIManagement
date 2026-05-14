@@ -8,8 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2, Image as ImageIcon, FileText } from "lucide-react";
-import { toast } from "sonner";
+import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2, Image as ImageIcon, FileText, Percent, ShieldCheck, Settings2, Database, RotateCcw, AlertTriangle } from "lucide-react";
+import { toast } from "@/lib/toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 interface Branch {
   id: number;
@@ -29,6 +32,10 @@ interface Company {
   headerImagePath: string;
   termsAndConditions: string;
   branches: Branch[];
+  isVatEnabled: boolean;
+  vatPercentage: number;
+  isServiceChargeEnabled: boolean;
+  serviceChargePercentage: number;
 }
 
 export default function CompanySettingsPage() {
@@ -38,14 +45,63 @@ export default function CompanySettingsPage() {
   const [isAddBranchOpen, setIsAddBranchOpen] = useState(false);
   const [newBranch, setNewBranch] = useState({ name: "", address: "", phone: "" });
 
+  // Reset State
+  const [isResetModalOpen, setIsResetOpen] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const [selectedModules, setSelectedModules] = useState<string[]>([]);
+
+  const modules = [
+    { id: "Sales", label: "Sales & Invoices", desc: "All sales, return invoices, and details." },
+    { id: "Purchases", label: "Purchases", desc: "All purchase invoices and supplier returns." },
+    { id: "Inventory", label: "Inventory & Stock", desc: "Current stock items, IMEI records, and history." },
+    { id: "Accounting", label: "Accounting & Ledgers", desc: "Journal entries, vouchers, and all account balances." },
+    { id: "Contacts", label: "Customer & Supplier Lists", desc: "All contacts (Employees will be preserved)." }
+  ];
+
   useEffect(() => {
     fetchCompany();
   }, []);
 
+  const handleResetData = async () => {
+    if (selectedModules.length === 0) {
+      toast.error("Please select at least one module to reset.");
+      return;
+    }
+
+    if (!confirm("Are you ABSOLUTELY sure? This will permanently delete the selected data. This action cannot be undone.")) return;
+
+    setResetting(true);
+    try {
+      await apiFetch("/admin/reset-data", {
+        method: "POST",
+        body: JSON.stringify({ modules: selectedModules }),
+      });
+      toast.success("System data reset successfully.");
+      setIsResetOpen(false);
+      setSelectedModules([]);
+    } catch (error: any) {
+      toast.error("Reset failed: " + error.message);
+    } finally {
+      setResetting(false);
+    }
+  };
+
   const fetchCompany = async () => {
     try {
       const data = await apiFetch("/company/1");
-      setCompany(data);
+      console.log("Company Data Fetched:", data);
+      
+      // Normalize data to camelCase if it comes in PascalCase
+      const normalized = {
+        ...data,
+        isVatEnabled: data.isVatEnabled ?? data.IsVatEnabled ?? false,
+        vatPercentage: data.vatPercentage ?? data.VatPercentage ?? 0,
+        isServiceChargeEnabled: data.isServiceChargeEnabled ?? data.IsServiceChargeEnabled ?? false,
+        serviceChargePercentage: data.serviceChargePercentage ?? data.ServiceChargePercentage ?? 0,
+        branches: data.branches ?? data.Branches ?? []
+      };
+      
+      setCompany(normalized);
     } catch (error: any) {
       toast.error("Failed to fetch company details: " + error.message);
     } finally {
@@ -58,11 +114,14 @@ export default function CompanySettingsPage() {
     if (!company) return;
     setSaving(true);
     try {
+      // Ensure we send PascalCase if the backend expects it, or just send the normalized object
+      // Most .NET APIs handle camelCase input automatically if configured, but let's be safe
       await apiFetch(`/company/${company.id}`, {
         method: "PUT",
         body: JSON.stringify(company),
       });
       toast.success("Company settings updated successfully!");
+      fetchCompany(); // Refresh to get latest state
     } catch (error: any) {
       toast.error("Update failed: " + error.message);
     } finally {
@@ -195,6 +254,87 @@ export default function CompanySettingsPage() {
         </div>
 
         <div className="space-y-6">
+           <Card className="border-t-4 border-t-blue-600">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center">
+                  <Settings2 className="mr-2 h-4 w-4 text-blue-600" /> Tax & Charges
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  <div 
+                    className="flex items-center justify-between cursor-pointer hover:bg-slate-50 p-2 -m-2 rounded-lg transition-colors"
+                    onClick={() => setCompany(prev => prev ? { ...prev, isVatEnabled: !prev.isVatEnabled } : null)}
+                  >
+                    <div className="space-y-0.5">
+                      <Label className="text-xs font-bold uppercase cursor-pointer">VAT / TAX</Label>
+                      <p className="text-[10px] text-muted-foreground italic">Enable auto-calculation for sales.</p>
+                    </div>
+                    <Checkbox 
+                      checked={company?.isVatEnabled === true} 
+                      onCheckedChange={(checked) => {
+                        setCompany(prev => prev ? { ...prev, isVatEnabled: !!checked } : null);
+                      }} 
+                      onClick={(e) => e.stopPropagation()} // Prevent double toggle
+                    />
+                  </div>
+                  {company?.isVatEnabled && (
+                    <div className="flex items-center gap-2 pt-2">
+                      <Percent className="h-3.5 w-3.5 text-slate-400" />
+                      <Input 
+                        type="number" 
+                        placeholder="VAT %" 
+                        className="h-10 text-sm font-black border-blue-200 focus:border-blue-600 bg-blue-50/30"
+                        value={company?.vatPercentage}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value) || 0;
+                          setCompany(prev => prev ? { ...prev, vatPercentage: val } : null);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <div 
+                    className="flex items-center justify-between cursor-pointer hover:bg-slate-50 p-2 -m-2 rounded-lg transition-colors"
+                    onClick={() => setCompany(prev => prev ? { ...prev, isServiceChargeEnabled: !prev.isServiceChargeEnabled } : null)}
+                  >
+                    <div className="space-y-0.5">
+                      <Label className="text-xs font-bold uppercase cursor-pointer">Service Charge</Label>
+                      <p className="text-[10px] text-muted-foreground italic">Default percentage for processing.</p>
+                    </div>
+                    <Checkbox 
+                      checked={company?.isServiceChargeEnabled === true} 
+                      onCheckedChange={(checked) => {
+                        setCompany(prev => prev ? { ...prev, isServiceChargeEnabled: !!checked } : null);
+                      }} 
+                      onClick={(e) => e.stopPropagation()} // Prevent double toggle
+                    />
+                  </div>
+                  {company?.isServiceChargeEnabled && (
+                    <div className="flex items-center gap-2 pt-2">
+                      <Percent className="h-3.5 w-3.5 text-slate-400" />
+                      <Input 
+                        type="number" 
+                        placeholder="Service %" 
+                        className="h-10 text-sm font-black border-blue-200 focus:border-blue-600 bg-blue-50/30"
+                        value={company?.serviceChargePercentage}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value) || 0;
+                          setCompany(prev => prev ? { ...prev, serviceChargePercentage: val } : null);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+           </Card>
+
            <Card className="border-t-4 border-t-orange-500">
              <CardHeader className="flex flex-row items-center justify-between pb-2">
                <CardTitle className="text-sm flex items-center">
@@ -202,9 +342,8 @@ export default function CompanySettingsPage() {
                </CardTitle>
                
                <Dialog open={isAddBranchOpen} onOpenChange={setIsAddBranchOpen}>
-                 <DialogTrigger render={<Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button>} />
-                 <DialogContent>
-                    <DialogHeader><DialogTitle>Register New Branch</DialogTitle></DialogHeader>
+                  <DialogTrigger asChild><Button variant="ghost" size="sm" className="h-7 px-2 text-blue-600"><Plus className="h-3 w-3 mr-1" /> Add</Button></DialogTrigger>
+                  <DialogContent>                    <DialogHeader><DialogTitle>Register New Branch</DialogTitle></DialogHeader>
                     <div className="space-y-4 py-4">
                        <div className="space-y-2">
                          <Label>Branch Name</Label>
@@ -241,6 +380,82 @@ export default function CompanySettingsPage() {
                   </div>
                 ))}
              </CardContent>
+           </Card>
+
+           <Card className="border-t-4 border-t-destructive">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center text-destructive">
+                  <AlertTriangle className="mr-2 h-4 w-4" /> Danger Zone
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                 <p className="text-[10px] text-muted-foreground italic leading-relaxed">
+                   Permanently remove transactional data while keeping your company profile and users intact.
+                 </p>
+                 <Dialog open={isResetModalOpen} onOpenChange={setIsResetOpen}>
+                    <DialogTrigger asChild>
+                       <Button variant="destructive" className="w-full h-9 text-xs font-bold uppercase tracking-wider">
+                          <RotateCcw className="mr-2 h-3.5 w-3.5" /> Reset System Data
+                       </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md">
+                       <DialogHeader>
+                          <DialogTitle className="flex items-center gap-2 text-destructive">
+                             <Database className="h-5 w-5" /> Data Reset Console
+                          </DialogTitle>
+                       </DialogHeader>
+                       <div className="py-6 space-y-6">
+                          <div className="bg-destructive/10 p-4 rounded-lg border border-destructive/20 flex gap-3">
+                             <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+                             <p className="text-xs font-medium text-destructive-foreground leading-relaxed">
+                                Warning: This action is irreversible. All selected transaction records will be permanently deleted from the database.
+                             </p>
+                          </div>
+                          
+                          <div className="space-y-4">
+                             <Label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Select Modules to Wipe:</Label>
+                             <div className="grid grid-cols-1 gap-3">
+                                {modules.map((m) => (
+                                   <div 
+                                      key={m.id} 
+                                      className={cn(
+                                         "flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer",
+                                         selectedModules.includes(m.id) ? "bg-destructive/5 border-destructive/30" : "bg-slate-50 border-slate-200"
+                                      )}
+                                      onClick={() => {
+                                         setSelectedModules(prev => 
+                                            prev.includes(m.id) ? prev.filter(x => x !== m.id) : [...prev, m.id]
+                                         );
+                                      }}
+                                   >
+                                      <Checkbox 
+                                         checked={selectedModules.includes(m.id)}
+                                         onCheckedChange={() => {}} // Handled by div click
+                                         className="mt-1"
+                                      />
+                                      <div className="space-y-1">
+                                         <p className="text-sm font-bold leading-none">{m.label}</p>
+                                         <p className="text-[10px] text-muted-foreground leading-tight">{m.desc}</p>
+                                      </div>
+                                   </div>
+                                ))}
+                             </div>
+                          </div>
+                       </div>
+                       <DialogFooter className="bg-slate-50 -m-6 mt-0 p-6">
+                          <Button variant="ghost" onClick={() => setIsResetOpen(false)} disabled={resetting}>Cancel</Button>
+                          <Button 
+                             variant="destructive" 
+                             onClick={handleResetData} 
+                             disabled={resetting || selectedModules.length === 0}
+                             className="font-black uppercase tracking-widest px-8"
+                          >
+                             {resetting ? "Wiping Data..." : "Execute Reset"}
+                          </Button>
+                       </DialogFooter>
+                    </DialogContent>
+                 </Dialog>
+              </CardContent>
            </Card>
 
            <Card className="bg-blue-50 border-blue-100 text-blue-900 overflow-hidden relative">

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using MobileERP.Infrastructure.Repositories;
+using MobileERP.Infrastructure.Services;
+using MobileERP.Application.DTOs;
 using System.Threading.Tasks;
 using System.Linq;
 using BCrypt.Net;
@@ -22,6 +24,7 @@ namespace MobileERP.API.Controllers
         private readonly IRepository<Product> _productRepo;
         private readonly IRepository<ProductCategory> _categoryRepo;
         private readonly IRepository<Employee> _employeeRepo;
+        private readonly DataSeeder _dataSeeder;
 
         public SetupController(
             ApplicationDbContext context,
@@ -32,7 +35,8 @@ namespace MobileERP.API.Controllers
             IRepository<MobileDevice> deviceRepo,
             IRepository<Product> productRepo,
             IRepository<ProductCategory> categoryRepo,
-            IRepository<Employee> employeeRepo)
+            IRepository<Employee> employeeRepo,
+            DataSeeder dataSeeder)
         {
             _context = context;
             _brandRepo = brandRepo;
@@ -43,6 +47,26 @@ namespace MobileERP.API.Controllers
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
             _employeeRepo = employeeRepo;
+            _dataSeeder = dataSeeder;
+        }
+
+        [HttpPost("seed-custom")]
+        public async Task<IActionResult> SeedCustom([FromBody] SeedCustomRequest request)
+        {
+            await _dataSeeder.SeedCustomAsync(request.BusinessType, request.Tables, _context.CurrentComId ?? 1);
+            return Ok(new { Message = "Sample data generated successfully for " + request.BusinessType });
+        }
+
+        [HttpGet("debug-auth")]
+        public IActionResult DebugAuth()
+        {
+            return Ok(new
+            {
+                UserId = _context.CurrentUserId, // I should check if I added this to context
+                ComId = _context.CurrentComId,
+                Role = _context.CurrentRole,
+                IsAuthenticated = User.Identity?.IsAuthenticated
+            });
         }
 
         // --- Global Mobile Master Catalog ---
@@ -59,7 +83,7 @@ namespace MobileERP.API.Controllers
         {
             IQueryable<GlobalMobileMaster> query = _context.GlobalMobileMasters;
             
-            if (!string.IsNullOrEmpty(brand)) query = query.Where(g => g.OEM.ToLower().Contains(brand.ToLower()));
+            if (!string.IsNullOrEmpty(brand)) query = query.Where(g => g.Brand == brand);
             if (!string.IsNullOrEmpty(model)) query = query.Where(g => g.Model.ToLower().Contains(model.ToLower()));
             if (!string.IsNullOrEmpty(network)) query = query.Where(g => g.NetworkTechnology!.ToLower().Contains(network.ToLower()));
             if (!string.IsNullOrEmpty(memory)) query = query.Where(g => g.MemoryInternal!.ToLower().Contains(memory.ToLower()));
@@ -68,18 +92,23 @@ namespace MobileERP.API.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(g => g.Model.ToLower().Contains(search) || g.OEM.ToLower().Contains(search));
+                query = query.Where(g => g.Model.ToLower().Contains(search) || g.Brand.ToLower().Contains(search));
             }
 
             int totalCount = await query.CountAsync();
-            var items = await query.OrderBy(g => g.OEM).ThenBy(g => g.Model).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await query.OrderBy(g => g.Brand).ThenBy(g => g.Model).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
 
         [HttpGet("global-brands")]
         public async Task<IActionResult> GetGlobalBrands()
         {
-            var brands = await _context.GlobalMobileMasters.Select(g => g.OEM).Distinct().OrderBy(b => b).ToListAsync();
+            var brands = await _context.GlobalMobileMasters
+                .Where(g => !string.IsNullOrEmpty(g.Brand))
+                .Select(g => g.Brand)
+                .Distinct()
+                .OrderBy(b => b)
+                .ToListAsync();
             return Ok(brands);
         }
 
@@ -90,16 +119,15 @@ namespace MobileERP.API.Controllers
             foreach (var item in selectedItems)
             {
                 // Check if already exists in local MobileDevices
-                if (await _context.MobileDevices.AnyAsync(d => d.Brand == item.OEM && d.ModelName == item.Model)) continue;
+                if (await _context.MobileDevices.AnyAsync(d => d.Brand == item.Brand && d.ModelName == item.Model && d.ComId == _context.CurrentComId)) continue;
 
                 var device = new MobileDevice
                 {
-                    Brand = item.OEM,
+                    Brand = item.Brand,
                     ModelName = item.Model,
                     Color = item.MiscColors?.Split(',').FirstOrDefault()?.Trim(),
                     RAM = item.MemoryInternal?.Split('/').FirstOrDefault()?.Trim(),
                     Storage = item.MemoryInternal?.Split('/').LastOrDefault()?.Trim(),
-                    ComId = 1,
                     CreateDate = DateTime.UtcNow,
                     IsDelete = false
                 };
@@ -125,9 +153,10 @@ namespace MobileERP.API.Controllers
                     p.Id,
                     p.Name,
                     p.SKU,
+                    p.Barcode,
+                    p.Unit,
                     p.ProductCategoryId,
-                    TotalStock = _context.Inventory.Count(i => i.ProductId == p.Id && !i.IsSold && !i.IsDelete),
-                    BranchStock = _context.Inventory
+                    TotalStock = _context.Inventory.Count(i => i.ProductId == p.Id && !i.IsSold && !i.IsDelete),                    BranchStock = _context.Inventory
                         .Where(i => i.ProductId == p.Id && !i.IsSold && !i.IsDelete)
                         .GroupBy(i => i.BranchId)
                         .Select(g => new {
@@ -140,17 +169,33 @@ namespace MobileERP.API.Controllers
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
 
-        [HttpPost("products")] public async Task<IActionResult> CreateProduct(Product product) { product.ComId = 1; await _productRepo.AddAsync(product); return Ok(product); }
+        [HttpPost("products")] 
+        public async Task<IActionResult> CreateProduct(Product product) 
+        { 
+            // Check for duplicates
+            var exists = await _context.Products.AnyAsync(p => 
+                !p.IsDelete && 
+                p.ComId == (product.ComId ?? _context.CurrentComId) && 
+                p.Name.ToLower() == product.Name.ToLower());
+
+            if (exists)
+            {
+                return BadRequest(new { message = "A product with the same name already exists." });
+            }
+
+            await _productRepo.AddAsync(product); 
+            return Ok(product); 
+        }
         [HttpPut("products")] public async Task<IActionResult> UpdateProduct(Product product) { _productRepo.Update(product); return Ok(product); }
         [HttpDelete("products/{id}")] public async Task<IActionResult> DeleteProduct(int id) { var p = await _productRepo.GetByIdAsync(id); if (p != null) _productRepo.Delete(p); return Ok(); }
 
         // --- ProductCategory CRUD ---
         [HttpGet("categories")] public async Task<IActionResult> GetProductCategories() => Ok(await _categoryRepo.GetAllAsync());
-        [HttpPost("categories")] public async Task<IActionResult> CreateProductCategory(ProductCategory cat) { cat.ComId = 1; await _categoryRepo.AddAsync(cat); return Ok(cat); }
+        [HttpPost("categories")] public async Task<IActionResult> CreateProductCategory(ProductCategory cat) { await _categoryRepo.AddAsync(cat); return Ok(cat); }
 
         // --- Brand CRUD ---
         [HttpGet("brands")] public async Task<IActionResult> GetBrands() => Ok(await _brandRepo.GetAllAsync());
-        [HttpPost("brands")] public async Task<IActionResult> CreateBrand(Brand brand) { brand.ComId = 1; await _brandRepo.AddAsync(brand); return Ok(brand); }
+        [HttpPost("brands")] public async Task<IActionResult> CreateBrand(Brand brand) { await _brandRepo.AddAsync(brand); return Ok(brand); }
         [HttpPut("brands")] public async Task<IActionResult> UpdateBrand(Brand brand) { _brandRepo.Update(brand); return Ok(brand); }
         [HttpDelete("brands/{id}")] public async Task<IActionResult> DeleteBrand(int id) { var b = await _brandRepo.GetByIdAsync(id); if (b != null) _brandRepo.Delete(b); return Ok(); }
 
@@ -189,13 +234,55 @@ namespace MobileERP.API.Controllers
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
         
-        [HttpPost("mobile-devices")] public async Task<IActionResult> CreateMobileDevice(MobileDevice device) { device.ComId = 1; await _deviceRepo.AddAsync(device); return Ok(device); }
+        [HttpPost("mobile-devices")] 
+        public async Task<IActionResult> CreateMobileDevice(MobileDevice device) 
+        { 
+            // Check for duplicates
+            var exists = await _context.MobileDevices.AnyAsync(d => 
+                !d.IsDelete &&
+                d.ComId == (device.ComId ?? _context.CurrentComId) &&
+                d.Brand.ToLower() == device.Brand.ToLower() &&
+                d.ModelName.ToLower() == device.ModelName.ToLower() &&
+                (d.Color ?? "").ToLower() == (device.Color ?? "").ToLower() &&
+                (d.RAM ?? "").ToLower() == (device.RAM ?? "").ToLower() &&
+                (d.Storage ?? "").ToLower() == (device.Storage ?? "").ToLower());
+
+            if (exists)
+            {
+                return BadRequest(new { message = "A product with the same Brand, Model, Color, RAM, and Storage already exists." });
+            }
+
+            await _deviceRepo.AddAsync(device); 
+            return Ok(device); 
+        }
         [HttpPut("mobile-devices")] public async Task<IActionResult> UpdateMobileDevice(MobileDevice device) { _deviceRepo.Update(device); return Ok(device); }
-        [HttpDelete("mobile-devices/{id}")] public async Task<IActionResult> DeleteMobileDevice(int id) { var d = await _deviceRepo.GetByIdAsync(id); if (d != null) _deviceRepo.Delete(d); return Ok(); }
+        [HttpDelete("mobile-devices/{id}")] 
+        public async Task<IActionResult> DeleteMobileDevice(int id) 
+        { 
+            var d = await _deviceRepo.GetByIdAsync(id); 
+            if (d == null) return NotFound();
+
+            // Check if used in Inventory
+            var isUsedInInventory = await _context.Inventory.AnyAsync(i => i.MobileDeviceId == id && !i.IsDelete);
+            if (isUsedInInventory)
+            {
+                return BadRequest(new { message = "Cannot delete this model because it is currently used in inventory. Please remove or transfer related inventory items first." });
+            }
+
+            // Check if used in PurchaseDetails
+            var isUsedInPurchases = await _context.PurchaseDetails.AnyAsync(pd => pd.MobileDeviceId == id && !pd.IsDelete);
+            if (isUsedInPurchases)
+            {
+                return BadRequest(new { message = "Cannot delete this model because it is referenced in purchase records." });
+            }
+
+            _deviceRepo.Delete(d); 
+            return Ok(); 
+        }
 
         // --- Branch CRUD ---
         [HttpGet("branches")] public async Task<IActionResult> GetBranches() => Ok(await _branchRepo.GetAllAsync());
-        [HttpPost("branches")] public async Task<IActionResult> CreateBranch(Branch branch) { branch.ComId = 1; await _branchRepo.AddAsync(branch); return Ok(branch); }
+        [HttpPost("branches")] public async Task<IActionResult> CreateBranch(Branch branch) { await _branchRepo.AddAsync(branch); return Ok(branch); }
         [HttpPut("branches")] public async Task<IActionResult> UpdateBranch(Branch branch) { _branchRepo.Update(branch); return Ok(branch); }
         [HttpDelete("branches/{id}")] public async Task<IActionResult> DeleteBranch(int id) { var b = await _branchRepo.GetByIdAsync(id); if (b != null) _branchRepo.Delete(b); return Ok(); }
 
@@ -207,7 +294,7 @@ namespace MobileERP.API.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
-                query = query.Where(c => c.Name.ToLower().Contains(search) || c.Phone.ToLower().Contains(search));
+                query = query.Where(c => (c.Name != null && c.Name.ToLower().Contains(search)) || (c.Phone != null && c.Phone.ToLower().Contains(search)));
             }
             if (isCustomer.HasValue) query = query.Where(c => c.IsCustomer == isCustomer.Value);
             if (isSupplier.HasValue) query = query.Where(c => c.IsSupplier == isSupplier.Value);
@@ -224,7 +311,21 @@ namespace MobileERP.API.Controllers
         public async Task<IActionResult> GetCustomers() => Ok(await _contactRepo.FindAsync(c => c.IsCustomer));
 
         [HttpPost("contacts")] 
-        public async Task<IActionResult> CreateContact(Contact contact) { contact.ComId = 1; await _contactRepo.AddAsync(contact); return Ok(contact); }
+        public async Task<IActionResult> CreateContact(Contact contact) 
+        { 
+            // Check for duplicate name or phone
+            var exists = await _context.Contacts.AnyAsync(c => 
+                c.Name.ToLower() == contact.Name.ToLower() || 
+                c.Phone == contact.Phone);
+            
+            if (exists)
+            {
+                return BadRequest(new { message = "A contact with this Name or Phone already exists." });
+            }
+
+            await _contactRepo.AddAsync(contact); 
+            return Ok(contact); 
+        }
         
         [HttpPut("contacts")] 
         public async Task<IActionResult> UpdateContact(Contact contact) { _contactRepo.Update(contact); return Ok(contact); }
@@ -301,9 +402,17 @@ namespace MobileERP.API.Controllers
             var items = await query.OrderByDescending(e => e.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
-        [HttpPost("staff")] public async Task<IActionResult> CreateStaff(Employee emp) { emp.ComId = 1; await _employeeRepo.AddAsync(emp); return Ok(emp); }
+        [HttpGet("staff/all")] public async Task<IActionResult> GetStaffAll() => Ok(await _employeeRepo.GetAllAsync());
+        [HttpPost("staff")] public async Task<IActionResult> CreateStaff(Employee emp) { await _employeeRepo.AddAsync(emp); return Ok(emp); }
         [HttpPut("staff")] public async Task<IActionResult> UpdateStaff(Employee emp) { _employeeRepo.Update(emp); return Ok(emp); }
         [HttpDelete("staff/{id}")] public async Task<IActionResult> DeleteStaff(int id) { var e = await _employeeRepo.GetByIdAsync(id); if (e != null) _employeeRepo.Delete(e); return Ok(); }
+
+        [HttpGet("accounts/all")]
+        public async Task<IActionResult> GetAccountsAll()
+        {
+            var items = await _context.AccountHeads.OrderBy(a => a.Name).ToListAsync();
+            return Ok(items);
+        }
 
         // --- AccountHead CRUD ---
         [HttpGet("accounts")]
@@ -319,8 +428,47 @@ namespace MobileERP.API.Controllers
             var items = await query.OrderByDescending(a => a.Id).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return Ok(new { Items = items, TotalCount = totalCount, PageNumber = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) });
         }
-        [HttpPost("accounts")] public async Task<IActionResult> CreateAccount(AccountHead a) { a.ComId = 1; await _accountRepo.AddAsync(a); return Ok(a); }
+        [HttpPost("accounts")] public async Task<IActionResult> CreateAccount(AccountHead a) { await _accountRepo.AddAsync(a); return Ok(a); }
         [HttpPut("accounts")] public async Task<IActionResult> UpdateAccount(AccountHead a) { _accountRepo.Update(a); return Ok(a); }
         [HttpDelete("accounts/{id}")] public async Task<IActionResult> DeleteAccount(int id) { var a = await _accountRepo.GetByIdAsync(id); if (a != null) _accountRepo.Delete(a); return Ok(); }
-    }
-}
+
+        // --- Warranty & Condition Master Data ---
+        [HttpGet("warranty-types")] public async Task<IActionResult> GetWarrantyTypes() => Ok(await _context.WarrantyTypes.OrderBy(i => i.Id).ToListAsync());
+        [HttpGet("warranty-durations")] public async Task<IActionResult> GetWarrantyDurations() => Ok(await _context.WarrantyDurations.OrderBy(i => i.Id).ToListAsync());
+        [HttpGet("warranty-coverages")] public async Task<IActionResult> GetWarrantyCoverages() => Ok(await _context.WarrantyCoverages.OrderBy(i => i.Id).ToListAsync());
+        [HttpGet("product-conditions")] public async Task<IActionResult> GetProductConditions() => Ok(await _context.ProductConditions.OrderBy(i => i.Id).ToListAsync());
+        [HttpGet("market-types")] public async Task<IActionResult> GetMarketTypes() => Ok(await _context.MarketTypes.OrderBy(i => i.Id).ToListAsync());
+
+        [HttpPost("cleanup-duplicates")]
+        public async Task<IActionResult> CleanupDuplicates()
+        {
+            var allContacts = await _context.Contacts.ToListAsync();
+            var duplicates = allContacts
+                .GroupBy(c => new { 
+                    Name = c.Name.Trim().ToLower(), 
+                    Phone = new string(c.Phone.Where(char.IsDigit).ToArray()) 
+                })
+                .Where(g => g.Count() > 1)
+                .Select(g => g.OrderBy(c => c.Id).Skip(1).ToList())
+                .ToList();
+
+            int count = 0;
+            foreach (var dups in duplicates)
+            {
+                foreach (var dup in dups)
+                {
+                    bool isUsed = await _context.SalesInvoices.AnyAsync(s => s.CustomerId == dup.Id) ||
+                                  await _context.PurchaseInvoices.AnyAsync(p => p.SupplierId == dup.Id) ||
+                                  await _context.ContactLedgers.AnyAsync(l => l.ContactId == dup.Id);
+
+                    if (!isUsed)
+                    {
+                        _context.Contacts.Remove(dup);
+                        count++;
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = $"Removed {count} duplicate contacts." });
+        }            }
+            }

@@ -2,13 +2,17 @@ using Microsoft.EntityFrameworkCore;
 using MobileERP.Domain.Entities;
 using MobileERP.Domain.Common;
 using System.Linq.Expressions;
+using MobileERP.Application.Services;
 
 namespace MobileERP.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private readonly ICurrentUserService _currentUserService;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUserService) : base(options)
         {
+            _currentUserService = currentUserService;
         }
 
         public DbSet<Company> Companies { get; set; }
@@ -19,12 +23,20 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
         public DbSet<InventoryItem> Inventory { get; set; }
+        public DbSet<ImeiItem> ImeiItems { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesDetail> SalesDetails { get; set; }
         public DbSet<SalesPayment> SalesPayments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<GlobalMobileMaster> GlobalMobileMasters { get; set; }
+
+        // Master Data
+        public DbSet<WarrantyType> WarrantyTypes { get; set; }
+        public DbSet<WarrantyDuration> WarrantyDurations { get; set; }
+        public DbSet<WarrantyCoverage> WarrantyCoverages { get; set; }
+        public DbSet<ProductCondition> ProductConditions { get; set; }
+        public DbSet<MarketType> MarketTypes { get; set; }
 
         // Accounting
         public DbSet<AccountCategory> AccountCategories { get; set; }
@@ -49,6 +61,10 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<BranchTransferDetail> BranchTransferDetails { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
 
+        public int? CurrentComId => _currentUserService.ComId;
+        public string? CurrentRole => _currentUserService.Role;
+        public string? CurrentUserId => _currentUserService.UserId;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -56,6 +72,7 @@ namespace MobileERP.Infrastructure.Persistence
             // Configure relationships and indexes
             modelBuilder.Entity<InventoryItem>()
                 .HasIndex(i => i.IMEI1)
+                .HasFilter("\"IsDelete\" = false")
                 .IsUnique();
 
             modelBuilder.Entity<PurchaseInvoice>()
@@ -68,22 +85,66 @@ namespace MobileERP.Infrastructure.Persistence
                 .WithOne()
                 .HasForeignKey(d => d.SalesInvoiceId);
 
-            // Global Soft Delete Filter
+            // Global Soft Delete and Tenant Filter
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
                 {
-                    modelBuilder.Entity(entityType.ClrType).HasQueryFilter(ConvertFilterExpression(entityType.ClrType));
+                    var isDeleteProperty = entityType.ClrType.GetProperty(nameof(BaseEntity.IsDelete));
+                    var comIdProperty = entityType.ClrType.GetProperty("ComId");
+
+                    var parameter = Expression.Parameter(entityType.ClrType, "e");
+                    Expression? filter = null;
+
+                    if (isDeleteProperty != null)
+                    {
+                        var isDeleteExpression = Expression.Not(Expression.Property(parameter, isDeleteProperty));
+                        filter = isDeleteExpression;
+                    }
+
+                    if (comIdProperty != null && typeof(TenantBaseEntity).IsAssignableFrom(entityType.ClrType))
+                    {
+                        var currentComIdProp = typeof(ApplicationDbContext).GetProperty(nameof(CurrentComId));
+                        var currentRoleProp = typeof(ApplicationDbContext).GetProperty(nameof(CurrentRole));
+
+                        // (Role == "SuperAdmin")
+                        var isSuperAdminExpression = Expression.Equal(
+                            Expression.Property(Expression.Constant(this), currentRoleProp!),
+                            Expression.Constant("SuperAdmin")
+                        );
+
+                        // (e.ComId == this.CurrentComId)
+                        var comIdExpression = Expression.Equal(
+                            Expression.Property(parameter, comIdProperty),
+                            Expression.Property(Expression.Constant(this), currentComIdProp!)
+                        );
+
+                        // (e.ComId == null)
+                        var globalExpression = Expression.Equal(
+                            Expression.Property(parameter, comIdProperty), 
+                            Expression.Constant(null, typeof(int?))
+                        );
+
+                        // Final Tenant Filter: Role == "SuperAdmin" || ComId == CurrentComId || ComId == null
+                        var tenantFilter = Expression.OrElse(isSuperAdminExpression, 
+                            Expression.OrElse(comIdExpression, globalExpression));
+
+                        if (filter == null)
+                        {
+                            filter = tenantFilter;
+                        }
+                        else
+                        {
+                            filter = Expression.AndAlso(filter, tenantFilter);
+                        }
+                    }
+
+                    if (filter != null)
+                    {
+                        modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(filter, parameter));
+                    }
                 }
             }
-        }
-
-        private static LambdaExpression ConvertFilterExpression(Type type)
-        {
-            var parameter = Expression.Parameter(type, "e");
-            var property = Expression.Property(parameter, nameof(BaseEntity.IsDelete));
-            var notExpression = Expression.Not(property);
-            return Expression.Lambda(notExpression, parameter);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -94,17 +155,23 @@ namespace MobileERP.Infrastructure.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreateDate = DateTime.UtcNow;
-                        // entry.Entity.LuserId = _currentUserService.UserId; // To be implemented with Auth
+                        entry.Entity.LuserId = _currentUserService.UserId;
                         entry.Entity.IsDelete = false;
+                        
+                        if (entry.Entity is TenantBaseEntity tenantEntity && !tenantEntity.ComId.HasValue)
+                        {
+                            tenantEntity.ComId = _currentUserService.ComId;
+                        }
                         break;
                     case EntityState.Modified:
                         entry.Entity.UpdateDate = DateTime.UtcNow;
-                        // entry.Entity.LuserIdUpdate = _currentUserService.UserId;
+                        entry.Entity.LuserIdUpdate = _currentUserService.UserId;
                         break;
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
                         entry.Entity.IsDelete = true;
                         entry.Entity.UpdateDate = DateTime.UtcNow;
+                        entry.Entity.LuserIdUpdate = _currentUserService.UserId;
                         break;
                 }
             }

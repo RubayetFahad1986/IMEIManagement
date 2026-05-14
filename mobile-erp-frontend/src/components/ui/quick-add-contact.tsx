@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { apiFetch } from "@/lib/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -15,19 +15,34 @@ interface QuickAddContactProps {
   onClose: () => void;
   onSuccess: (contact: any) => void;
   defaultRole?: "Customer" | "Supplier";
+  initialName?: string;
 }
 
-export function QuickAddContact({ isOpen, onClose, onSuccess, defaultRole = "Customer" }: QuickAddContactProps) {
+export function QuickAddContact({ isOpen, onClose, onSuccess, defaultRole = "Customer", initialName = "" }: QuickAddContactProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    name: initialName,
     phone: "",
     address: "",
     isCustomer: defaultRole === "Customer",
     isSupplier: defaultRole === "Supplier",
   });
 
+  // Reset form when opening with new initialName
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: initialName,
+        phone: "",
+        address: "",
+        isCustomer: defaultRole === "Customer",
+        isSupplier: defaultRole === "Supplier",
+      });
+    }
+  }, [isOpen, initialName, defaultRole]);
+
   const handleSave = async () => {
+    if (loading) return; // Prevent double submission
     if (!formData.name || !formData.phone) {
       toast.error("Name and Phone are required.");
       return;

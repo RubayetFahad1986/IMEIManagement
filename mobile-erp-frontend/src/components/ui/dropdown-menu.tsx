@@ -5,6 +5,7 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 
 import { cn } from "@/lib/utils"
 import { ChevronRightIcon, CheckIcon } from "lucide-react"
+import { playSound } from "@/lib/sound"
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
@@ -96,12 +97,18 @@ function DropdownMenuItem({
   variant = "default",
   asChild,
   children,
+  onClick,
   ...props
 }: MenuPrimitive.Item.Props & {
   inset?: boolean
   variant?: "default" | "destructive"
   asChild?: boolean
 }) {
+  const handleClick = (e: any) => {
+    playSound('click');
+    if (onClick) onClick(e);
+  };
+
   if (asChild && React.isValidElement(children)) {
     return (
       <MenuPrimitive.Item
@@ -113,6 +120,7 @@ function DropdownMenuItem({
           className
         )}
         render={children}
+        onClick={handleClick}
         {...props}
       />
     )
@@ -127,6 +135,7 @@ function DropdownMenuItem({
         "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive",
         className
       )}
+      onClick={handleClick}
       {...props}
     >
       {children}

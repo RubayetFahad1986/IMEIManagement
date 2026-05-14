@@ -1,5 +1,6 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
+import { playSound } from "@/lib/sound"
 
 import { cn } from "@/lib/utils"
 
@@ -44,12 +45,19 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  onClick,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    playSound('click');
+    if (onClick) onClick(e);
+  };
+
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      onClick={handleClick}
       {...props}
     />
   )

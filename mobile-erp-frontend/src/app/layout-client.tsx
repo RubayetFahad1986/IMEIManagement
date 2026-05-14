@@ -22,11 +22,11 @@ export default function RootLayoutClient({
   useEffect(() => {
     if (!mounted) return;
 
-    const publicPaths = ["/"];
+    const publicPaths = ["/", "/login", "/signup", "/verify-otp"];
     
     if (!isAuthenticated && !publicPaths.includes(pathname)) {
       router.replace("/");
-    } else if (isAuthenticated && pathname === "/") {
+    } else if (isAuthenticated && (pathname === "/" || pathname === "/login" || pathname === "/signup")) {
       router.replace("/dashboard");
     }
   }, [isAuthenticated, pathname, router, mounted]);

@@ -70,9 +70,10 @@ export function ServerPagination({
         <div className="flex items-center gap-2">
             <span className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Rows per page</span>
             <Select 
-                value={safePageSize.toString()} 
-                onValueChange={(v) => onPageSizeChange(parseInt(v))}
+              value={safePageSize.toString()} 
+              onValueChange={(v: string | null) => onPageSizeChange(parseInt(v || "10"))}
             >
+
                 <SelectTrigger className="h-8 w-[70px] text-xs font-bold bg-white border-slate-200">
                     <SelectValue />
                 </SelectTrigger>

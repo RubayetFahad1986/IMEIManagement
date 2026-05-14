@@ -130,7 +130,7 @@ export default function StaffPage() {
         </div>
         
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogTrigger render={<Button><Plus className="mr-2 h-4 w-4" /> Add Employee</Button>} />
+          <DialogTrigger asChild><Button><Plus className="mr-2 h-4 w-4" /> Add Employee</Button></DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader><DialogTitle className="flex items-center"><UserPlus className="mr-2 h-5 w-5" /> New Employee</DialogTitle></DialogHeader>
             <div className="space-y-4 py-4">

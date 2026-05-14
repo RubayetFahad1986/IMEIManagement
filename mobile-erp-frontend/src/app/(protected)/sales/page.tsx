@@ -15,14 +15,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Search, FileText, Calendar, User, Trash2, Pencil, ChevronDown, ChevronUp } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ServerPagination } from "@/components/ui/server-pagination";
 
-function SalesRow({ inv }: { inv: any }) {
+function SalesRow({ inv, onDelete }: { inv: any, onDelete: () => void }) {
   const [expanded, setExpanded] = useState(false);
   const [details, setDetails] = useState<any[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const toggleExpand = async () => {
     if (!expanded && details.length === 0) {
@@ -34,6 +35,22 @@ function SalesRow({ inv }: { inv: any }) {
       }
     }
     setExpanded(!expanded);
+  };
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!confirm(`Are you sure you want to delete invoice ${inv.invoiceNo}? This will return all items to stock.`)) return;
+    
+    setIsDeleting(true);
+    try {
+        await apiFetch(`/erp/sales/${inv.id}`, { method: "DELETE" });
+        toast.success("Sale deleted and items returned to stock.");
+        onDelete();
+    } catch (error: any) {
+        toast.error("Deletion failed: " + error.message);
+    } finally {
+        setIsDeleting(false);
+    }
   };
 
   return (
@@ -54,9 +71,14 @@ function SalesRow({ inv }: { inv: any }) {
             {inv.paidAmount >= inv.netTotal ? "Paid" : "Due"}
           </Badge>
         </TableCell>
-        <TableCell className="text-right pr-6 flex justify-end gap-2">
-            <Link href={`/reports/invoice/sale/${inv.id}`}><Button variant="ghost" size="icon"><FileText className="h-4 w-4" /></Button></Link>
-            <Link href={`/pos?edit=${inv.id}`}><Button variant="ghost" size="icon"><Pencil className="h-4 w-4" /></Button></Link>
+        <TableCell className="text-right pr-6">
+           <div className="flex justify-end gap-2" onClick={e => e.stopPropagation()}>
+              <Link href={`/reports/invoice/sale/${inv.id}`}><Button variant="ghost" size="icon" title="View Invoice"><FileText className="h-4 w-4" /></Button></Link>
+              <Link href={`/pos?edit=${inv.id}`}><Button variant="ghost" size="icon" title="Edit Sale"><Pencil className="h-4 w-4" /></Button></Link>
+              <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10" onClick={handleDelete} disabled={isDeleting} title="Delete Sale">
+                  <Trash2 className="h-4 w-4" />
+              </Button>
+           </div>
         </TableCell>
       </TableRow>
       {expanded && (
@@ -165,7 +187,7 @@ export default function SalesListPage() {
               ) : data.items.length === 0 ? (
                 <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No invoices found.</TableCell></TableRow>
               ) : (
-                data.items.map((inv: any) => <SalesRow key={inv.id} inv={inv} />)
+                data.items.map((inv: any) => <SalesRow key={inv.id} inv={inv} onDelete={() => fetchInvoices(data.pageNumber, searchTerm)} />)
               )}
             </TableBody>
           </Table>

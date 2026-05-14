@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog, Undo2, Repeat } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Truck, ShieldAlert, ShieldCheck, BarChart3, Settings, LogOut, Building2, UserCircle, History, PlusSquare, BookOpen, Contact, Smartphone, UserCog, Undo2, Repeat, Wallet } from "lucide-react";
 
 export interface MenuItem {
   name: string;
@@ -27,7 +27,10 @@ export const MENU_ITEMS: MenuGroup[] = [
     { name: "Purchase Returns", href: "/purchases/returns", icon: Undo2 },
   ]},
   { group: "Accounting", items: [
-    { name: "Ledgers", href: "/accounting/ledgers", icon: BarChart3, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
+    { name: "Daily Transactions", href: "/accounting/smart-transaction", icon: Building2, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
+    { name: "General Ledger", href: "/accounting/ledgers", icon: BarChart3, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
+    { name: "Contact Ledger", href: "/accounting/contact-ledger", icon: Contact, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
+    { name: "Due Management", href: "/accounting/due-management", icon: Wallet, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
     { name: "Expenses", href: "/accounting/expenses", icon: Building2 },
     { name: "Chart of Accounts", href: "/settings/accounts", icon: BookOpen, roles: ["SuperAdmin", "CompanyAdmin"] },
   ]},
@@ -40,6 +43,9 @@ export const MENU_ITEMS: MenuGroup[] = [
     { name: "Stolen Registry", href: "/stolen-check", icon: ShieldAlert },
   ]},
   { group: "System", items: [
+    { name: "Subscription Management", href: "/settings/subscriptions", icon: ShieldCheck, roles: ["SuperAdmin"] },
+    { name: "Reports", href: "/reports", icon: BarChart3 },
+    { name: "Sample Data Seeder", href: "/settings/sample-data", icon: PlusSquare, roles: ["SuperAdmin", "CompanyAdmin"] },
     { name: "Company Settings", href: "/settings/company", icon: Settings, roles: ["SuperAdmin", "CompanyAdmin"] },
   ]}
 ];

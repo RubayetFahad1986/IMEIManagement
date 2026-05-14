@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { format } from "date-fns";
 import { Plus, Trash2, List, Eye, RotateCcw, X, Search, Check, ShoppingCart, ScanLine, ArrowRightLeft, History } from "lucide-react";
@@ -227,16 +227,18 @@ export default function SalesReturnsPage() {
                      <CardDescription>Select the invoice from which items are being returned.</CardDescription>
                   </CardHeader>
                   <CardContent>
-                     <SearchableSelect 
-                        label="Invoice Number" 
-                        placeholder="Search SAL-..."
-                        options={invoices.map(i => ({ 
-                           label: `${i.invoiceNo} | ${i.customerName} (${format(new Date(i.salesDate), "dd MMM yy")})`, 
-                           value: i.id 
-                        }))} 
-                        value={selectedInvoiceId} 
-                        onChange={handleInvoiceChange} 
-                     />
+                     <div className="space-y-2">
+                        <Label>Invoice Number</Label>
+                        <SearchableSelect 
+                           placeholder="Search SAL-..."
+                           options={invoices.map(i => ({ 
+                              label: `${i.invoiceNo} | ${i.customerName} (${format(new Date(i.salesDate), "dd MMM yy")})`, 
+                              value: i.id 
+                           }))} 
+                           value={selectedInvoiceId} 
+                           onChange={(val: string | number) => handleInvoiceChange(val.toString())} 
+                        />
+                     </div>
                   </CardContent>
                </Card>
 
