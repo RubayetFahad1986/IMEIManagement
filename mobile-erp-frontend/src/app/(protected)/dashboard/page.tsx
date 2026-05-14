@@ -46,11 +46,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/LanguageContext";
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
@@ -102,7 +104,7 @@ export default function DashboardPage() {
 
   const metrics = [
     { 
-      title: "Today's Sales", 
+      title: t('todays_sales'), 
       value: `৳${(data?.metrics?.todaySales ?? 0).toLocaleString()}`, 
       icon: ShoppingCart, 
       color: "text-blue-600", 
@@ -111,25 +113,25 @@ export default function DashboardPage() {
       onClick: () => router.push("/sales")
     },
     { 
-      title: "Today's Purchase", 
+      title: t('todays_purchase'), 
       value: `৳${(data?.metrics?.todayPurchase ?? 0).toLocaleString()}`, 
       icon: Truck, 
       color: "text-orange-600", 
       bg: "bg-orange-50", 
-      trend: "Inventory In",
+      trend: t('inventory_in'),
       onClick: () => router.push("/purchases")
     },
     { 
-      title: "Operational Profit", 
+      title: t('operational_profit'), 
       value: `৳${(data?.metrics?.todayProfit ?? 0).toLocaleString()}`, 
       icon: TrendingUp, 
       color: "text-emerald-600", 
       bg: "bg-emerald-50", 
-      trend: "Net Earnings",
+      trend: t('net_earnings'),
       onClick: () => router.push("/reports")
     },
     { 
-      title: "Today's Expenses", 
+      title: t('todays_expenses'), 
       value: `৳${(data?.metrics?.todayExpenses || 0).toLocaleString()}`, 
       icon: ReceiptText, 
       color: "text-rose-600", 
@@ -138,39 +140,39 @@ export default function DashboardPage() {
       onClick: () => router.push("/accounting/expenses")
     },
     { 
-        title: "Cash Received", 
+        title: t('cash_received'), 
         value: `৳${(data?.metrics?.todayReceive ?? 0).toLocaleString()}`, 
         icon: Wallet, 
         color: "text-indigo-600", 
         bg: "bg-indigo-50", 
-        trend: "Total Inflow",
+        trend: t('total_inflow'),
         onClick: () => router.push("/accounting/ledgers")
       },
       { 
-        title: "Total Payments", 
+        title: t('total_payments'), 
         value: `৳${(data?.metrics?.todayPayment ?? 0).toLocaleString()}`, 
         icon: BadgeDollarSign, 
         color: "text-amber-600", 
         bg: "bg-amber-50", 
-        trend: "Total Outflow",
+        trend: t('total_outflow'),
         onClick: () => router.push("/accounting/ledgers")
       },
     { 
-      title: "Stock Value", 
+      title: t('stock_value'), 
       value: `৳${(data?.metrics?.stockValue ?? 0).toLocaleString()}`, 
       icon: Package, 
       color: "text-slate-600", 
       bg: "bg-slate-50", 
-      trend: "Live Inventory", 
+      trend: t('live_inventory'), 
       onClick: fetchStockDetails 
     },
     { 
-      title: "Active Customers", 
+      title: t('active_customers'), 
       value: data?.metrics?.customerCount ?? 0, 
       icon: Users, 
       color: "text-violet-600", 
       bg: "bg-violet-50", 
-      trend: "Total Database",
+      trend: t('total_database'),
       onClick: () => router.push("/contacts")
     },
   ];
@@ -179,17 +181,17 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">Intelligence <span className="text-primary italic">Console</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">{t('intelligence_console').split(' ')[0]} <span className="text-primary italic">{t('intelligence_console').split(' ')[1]}</span></h1>
           <div className="flex items-center gap-2 mt-1">
              <div className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-             <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">Real-time Metrics Live</p>
+             <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">{t('realtime_metrics_live')}</p>
           </div>
         </div>
 
         <Card className="p-2 border-none shadow-xl bg-white/50 backdrop-blur-sm rounded-2xl flex flex-wrap items-center gap-2 sm:gap-4 overflow-hidden">
             <div className="flex items-center gap-2 px-3 py-1.5 border-r border-slate-200">
                 <Calendar className="h-4 w-4 text-primary" />
-                <span className="text-[10px] font-black uppercase text-slate-400">Date Range</span>
+                <span className="text-[10px] font-black uppercase text-slate-400">{t('date_range')}</span>
             </div>
             <div className="flex items-center gap-2">
                 <Input 
@@ -207,7 +209,7 @@ export default function DashboardPage() {
                 />
             </div>
             <Button size="sm" onClick={fetchDashboardData} className="h-8 rounded-xl font-black text-[10px] uppercase tracking-widest ml-2 px-4">
-                <Filter className="mr-2 h-3 w-3" /> Load Data
+                <Filter className="mr-2 h-3 w-3" /> {t('load_data')}
             </Button>
         </Card>
       </div>
@@ -404,10 +406,10 @@ export default function DashboardPage() {
         <DialogContent className="max-w-5xl max-h-[90vh] flex flex-col p-0 overflow-hidden border-none rounded-[2rem] shadow-2xl">
           <DialogHeader className="p-8 pb-4 bg-slate-900 text-white">
             <DialogTitle className="text-2xl font-black flex items-center gap-3">
-                <Package className="h-7 w-7 text-blue-400" /> Stock Audit Console
+                <Package className="h-7 w-7 text-blue-400" /> {t('stock_audit_console')}
             </DialogTitle>
             <DialogDescription className="font-bold text-slate-400 uppercase tracking-widest text-[10px]">
-                Detailed list of all items currently in stock | Current Value: <span className="text-blue-400">৳{data?.metrics?.stockValue?.toLocaleString()}</span>
+                {t('detailed_item_list')} | {t('stock_value')}: <span className="text-blue-400">৳{data?.metrics?.stockValue?.toLocaleString()}</span>
             </DialogDescription>
           </DialogHeader>
           
@@ -463,16 +465,16 @@ export default function DashboardPage() {
           <div className="p-8 bg-slate-900 border-t border-white/5 flex justify-between items-center">
              <div className="flex gap-4 items-center">
                 <div className="text-center">
-                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Total Units</p>
+                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('total_units')}</p>
                     <p className="text-xl font-black text-white">{stockDetails.length}</p>
                 </div>
                 <div className="h-8 w-px bg-white/10" />
                 <div className="text-center">
-                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Net Asset Value</p>
+                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('net_asset_value')}</p>
                     <p className="text-xl font-black text-emerald-400 italic">৳{stockDetails.reduce((sum, i) => sum + i.costPrice, 0).toLocaleString()}</p>
                 </div>
              </div>
-             <Button variant="ghost" onClick={() => setIsStockDetailsOpen(false)} className="text-white hover:bg-white/10 rounded-xl font-black uppercase text-xs">Close Audit</Button>
+             <Button variant="ghost" onClick={() => setIsStockDetailsOpen(false)} className="text-white hover:bg-white/10 rounded-xl font-black uppercase text-xs">{t('close_audit')}</Button>
           </div>
         </DialogContent>
       </Dialog>

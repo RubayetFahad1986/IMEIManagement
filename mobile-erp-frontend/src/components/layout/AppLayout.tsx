@@ -5,7 +5,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { apiFetch } from "@/lib/api";
 import Sidebar from "./Sidebar";
 import { useTheme } from "@/context/ThemeContext";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { User, Bell, Search, Palette, AlertTriangle, X, Menu, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";

@@ -24,6 +24,20 @@ export function PageTour({ steps, isOpen, onClose }: PageTourProps) {
   const { t } = useLanguage();
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
 
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      onClose();
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
       const updateRect = () => {
@@ -38,24 +52,6 @@ export function PageTour({ steps, isOpen, onClose }: PageTourProps) {
       return () => window.removeEventListener('resize', updateRect);
     }
   }, [isOpen, currentStep, steps]);
-
-  if (!isOpen || !targetRect) return null;
-
-  const step = steps[currentStep];
-
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      onClose();
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
 
   useEffect(() => {
     if (isOpen) {
@@ -75,6 +71,10 @@ export function PageTour({ steps, isOpen, onClose }: PageTourProps) {
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
   }, [isOpen, currentStep, steps.length]);
+
+  if (!isOpen || !targetRect || !steps[currentStep]) return null;
+
+  const step = steps[currentStep];
 
   return (
     <div className="fixed inset-0 z-[100] pointer-events-none">

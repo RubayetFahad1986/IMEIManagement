@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ServerPagination } from "@/components/ui/server-pagination";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AccountHead {
   id: number;
@@ -33,6 +34,7 @@ interface ExpenseData {
 }
 
 export default function ExpensesPage() {
+  const { t } = useLanguage();
   const [expenseAccounts, setExpenseAccounts] = useState<AccountHead[]>([]);
   const [paymentAccounts, setPaymentAccounts] = useState<AccountHead[]>([]);
   const [activeTab, setActiveTab] = useState("list");
@@ -191,23 +193,23 @@ export default function ExpensesPage() {
     <div className="p-6 space-y-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Expenses</h1>
-          <p className="text-muted-foreground">Manage and record daily shop expenses.</p>
+          <h1 className="text-3xl font-bold tracking-tight">{t('expenses')}</h1>
+          <p className="text-muted-foreground">{t('accounting_help')}</p>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
-          <TabsTrigger value="list" className="flex items-center"><List className="mr-2 h-4 w-4" /> Expense List</TabsTrigger>
-          <TabsTrigger value="new" className="flex items-center"><Plus className="mr-2 h-4 w-4" /> New Expense</TabsTrigger>
+          <TabsTrigger value="list" className="flex items-center"><List className="mr-2 h-4 w-4" /> {t('expense_list')}</TabsTrigger>
+          <TabsTrigger value="new" className="flex items-center"><Plus className="mr-2 h-4 w-4" /> {t('new_expense')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="list" className="space-y-4">
           <Card>
             <CardHeader className="flex flex-row justify-between items-center">
-              <CardTitle>Recent Expenses</CardTitle>
+              <CardTitle>{t('recent_expenses')}</CardTitle>
               <Input 
-                placeholder="Search voucher or remarks..." 
+                placeholder={t('search_voucher_placeholder')} 
                 className="max-w-xs mt-0" 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)} 
@@ -217,18 +219,18 @@ export default function ExpensesPage() {
               <Table>
                 <TableHeader className="bg-slate-50">
                   <TableRow>
-                    <TableHead>Voucher No</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Remarks</TableHead>
-                    <TableHead className="text-right">Total Amount</TableHead>
-                    <TableHead className="text-center w-24">Actions</TableHead>
+                    <TableHead>{t('voucher_no')}</TableHead>
+                    <TableHead>{t('date')}</TableHead>
+                    <TableHead>{t('remarks')}</TableHead>
+                    <TableHead className="text-right">{t('total')} {t('amount')}</TableHead>
+                    <TableHead className="text-center w-24">{t('action')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {listLoading ? (
-                    <TableRow><TableCell colSpan={5} className="text-center py-8">Loading expenses...</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={5} className="text-center py-8">{t('loading')}</TableCell></TableRow>
                   ) : expenses.length === 0 ? (
-                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No expenses found.</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">{t('no_record_found')}</TableCell></TableRow>
                   ) : (
                     expenses.map((exp: ExpenseData) => (
                       <TableRow key={exp.id}>
@@ -272,44 +274,44 @@ export default function ExpensesPage() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                    <div className="flex items-center">
-                     <Receipt className="mr-2 h-5 w-5" /> {formData.id ? "Edit Expense Voucher" : "New Expense Voucher"}
+                     <Receipt className="mr-2 h-5 w-5" /> {formData.id ? t('edit_expense_voucher') : t('new_expense_voucher')}
                    </div>
-                   {formData.id && <Badge variant="destructive">Editing Voucher: {formData.id}</Badge>}
+                   {formData.id && <Badge variant="destructive">{t('edit')}: {formData.id}</Badge>}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <Label>Date</Label>
+                    <Label>{t('date')}</Label>
                     <div className="relative">
                       <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input type="date" className="pl-10" value={formData.expenseDate} onChange={e => setFormData({...formData, expenseDate: e.target.value})} />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label>Payment Source</Label>
+                    <Label>{t('payment_source')}</Label>
                     <SearchableSelect
                       options={paymentAccounts.map(a => ({ label: a.name, value: a.id.toString() }))}
                       value={formData.paymentAccountId}
                       onChange={val => setFormData({...formData, paymentAccountId: val.toString()})}
-                      placeholder="Select Account"
+                      placeholder={t('search_placeholder')}
                     />
 
                   </div>
                   <div className="space-y-2">
-                    <Label>General Remarks</Label>
+                    <Label>{t('remarks')}</Label>
                     <Input placeholder="Optional notes..." value={formData.remarks} onChange={e => setFormData({...formData, remarks: e.target.value})} />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-sm uppercase text-muted-foreground tracking-wider">Expense Details</h3>
+                  <h3 className="font-semibold text-sm uppercase text-muted-foreground tracking-wider">{t('expenses')} {t('description')}</h3>
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-1/3">Expense Category</TableHead>
-                        <TableHead className="w-1/4">Amount</TableHead>
-                        <TableHead>Note</TableHead>
+                        <TableHead className="w-1/3">{t('expense_category')}</TableHead>
+                        <TableHead className="w-1/4">{t('amount')}</TableHead>
+                        <TableHead>{t('remarks')}</TableHead>
                         <TableHead className="w-10"></TableHead>
                       </TableRow>
                     </TableHeader>
@@ -325,7 +327,7 @@ export default function ExpensesPage() {
                                 newDetails[idx].expenseAccountId = val;
                                 setFormData({...formData, details: newDetails});
                               }}
-                              placeholder="Select Category..."
+                              placeholder={t('search_placeholder')}
                             />
                           </TableCell>
                           <TableCell>
@@ -352,12 +354,12 @@ export default function ExpensesPage() {
                       ))}
                     </TableBody>
                   </Table>
-                  <Button type="button" variant="outline" size="sm" onClick={handleAddRow}><Plus className="mr-2 h-4 w-4" /> Add Row</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={handleAddRow}><Plus className="mr-2 h-4 w-4" /> {t('add_row')}</Button>
                 </div>
               </CardContent>
               <CardFooter className="border-t pt-6 bg-slate-50/50">
                 <div className="flex justify-between items-center w-full">
-                  <div className="text-sm font-medium">Total: <span className="text-lg font-bold text-primary ml-2">৳{formData.details.reduce((acc, d) => acc + d.amount, 0).toLocaleString("en-US")}</span></div>
+                  <div className="text-sm font-medium">{t('total')}: <span className="text-lg font-bold text-primary ml-2">৳{formData.details.reduce((acc, d) => acc + d.amount, 0).toLocaleString("en-US")}</span></div>
                   <div className="flex gap-2">
                     <Button type="button" variant="ghost" onClick={() => {
                         setFormData({
@@ -368,9 +370,9 @@ export default function ExpensesPage() {
                             details: [{ expenseAccountId: "", amount: 0, note: "" }]
                         });
                         setActiveTab("list");
-                    }}>Cancel</Button>
+                    }}>{t('cancel')}</Button>
                     <Button type="submit" size="lg" variant={formData.id ? "secondary" : "default"}>
-                        {formData.id ? "Update Expense" : "Save Expense"}
+                        {formData.id ? t('update_expense') : t('save_expense')}
                     </Button>
                   </div>
                 </div>

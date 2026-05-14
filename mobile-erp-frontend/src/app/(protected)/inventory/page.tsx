@@ -125,10 +125,10 @@ export default function InventoryPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-semibold text-sm tracking-wide uppercase">
             <Package className="h-4 w-4" />
-            Asset Management
+            {t('asset_management')}
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">{t('inventory')}</h1>
-          <p className="text-slate-500 font-medium">Monitor and manage the lifecycle of your mobile device assets.</p>
+          <p className="text-slate-500 font-medium">{t('monitor_assets_help')}</p>
         </div>
 
         <div className="flex w-full md:w-auto gap-3">
@@ -149,7 +149,7 @@ export default function InventoryPage() {
           </div>
           <Button variant="outline" className="h-11 px-4 border-slate-200 bg-white" onClick={() => setStockStatus(null)}>
             <RefreshCcw className="h-4 w-4 mr-2" />
-            Clear
+            {t('clear')}
           </Button>
         </div>
       </div>
@@ -157,11 +157,12 @@ export default function InventoryPage() {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Total Assets", value: stats.total, icon: Package, color: "blue", status: null },
-          { label: "In Stock", value: stats.inStock, icon: CheckCircle2, color: "emerald", status: "InStock" },
-          { label: "Sold Items", value: stats.sold, icon: ArrowUpRight, color: "amber", status: "Sold" },
-          { label: "Compromised", value: stats.compromised, icon: AlertCircle, color: "rose", status: "Compromised" },
+          { label: t('total_assets'), value: stats.total, icon: Package, color: "blue", status: null },
+          { label: t('in_stock'), value: stats.inStock, icon: CheckCircle2, color: "emerald", status: "InStock" },
+          { label: t('sold_items'), value: stats.sold, icon: ArrowUpRight, color: "amber", status: "Sold" },
+          { label: t('compromised'), value: stats.compromised, icon: AlertCircle, color: "rose", status: "Compromised" },
         ].map((stat, i) => (
+
           <Card 
             key={i} 
             className={cn(

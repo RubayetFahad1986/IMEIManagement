@@ -54,6 +54,8 @@ export default function CompanySettingsPage() {
     { id: "Sales", label: "Sales & Invoices", desc: "All sales, return invoices, and details." },
     { id: "Purchases", label: "Purchases", desc: "All purchase invoices and supplier returns." },
     { id: "Inventory", label: "Inventory & Stock", desc: "Current stock items, IMEI records, and history." },
+    { id: "Products", label: "Product Master", desc: "Delete all mobile models, accessories, and brands." },
+    { id: "Categories", label: "Categories & Master Data", desc: "Delete all warranty types, conditions, and market types." },
     { id: "Accounting", label: "Accounting & Ledgers", desc: "Journal entries, vouchers, and all account balances." },
     { id: "Contacts", label: "Customer & Supplier Lists", desc: "All contacts (Employees will be preserved)." }
   ];
@@ -413,7 +415,27 @@ export default function CompanySettingsPage() {
                           </div>
                           
                           <div className="space-y-4">
-                             <Label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Select Modules to Wipe:</Label>
+                             <div className="flex items-center justify-between">
+                                <Label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Select Modules to Wipe:</Label>
+                                <div className="flex gap-2">
+                                   <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="h-6 text-[10px] font-bold uppercase text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                      onClick={() => setSelectedModules(modules.map(m => m.id))}
+                                   >
+                                      Select All
+                                   </Button>
+                                   <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="h-6 text-[10px] font-bold uppercase text-slate-500 hover:text-slate-700 hover:bg-slate-100"
+                                      onClick={() => setSelectedModules([])}
+                                   >
+                                      Clear
+                                   </Button>
+                                </div>
+                             </div>
                              <div className="grid grid-cols-1 gap-3">
                                 {modules.map((m) => (
                                    <div 

@@ -48,7 +48,7 @@ function Button({
   onClick,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: any) => {
     playSound('click');
     if (onClick) onClick(e);
   };

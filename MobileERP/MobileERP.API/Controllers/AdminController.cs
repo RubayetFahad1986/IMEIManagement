@@ -142,6 +142,26 @@ namespace MobileERP.API.Controllers
                     _context.ImeiItems.RemoveRange(_context.ImeiItems);
                 }
 
+                if (request.Modules.Contains("Products"))
+                {
+                    _context.MobileDevices.RemoveRange(_context.MobileDevices);
+                    _context.Products.RemoveRange(_context.Products);
+                    _context.ProductCategories.RemoveRange(_context.ProductCategories);
+                }
+
+                if (request.Modules.Contains("Categories"))
+                {
+                    _context.WarrantyTypes.RemoveRange(_context.WarrantyTypes);
+                    _context.WarrantyDurations.RemoveRange(_context.WarrantyDurations);
+                    _context.WarrantyCoverages.RemoveRange(_context.WarrantyCoverages);
+                    _context.ProductConditions.RemoveRange(_context.ProductConditions);
+                    _context.MarketTypes.RemoveRange(_context.MarketTypes);
+                    
+                    // Expense categories are implicitly cleared if we clear AccountHeads of type Expense
+                    var expenseAccounts = _context.AccountHeads.Where(a => a.AccountCategoryId == 4);
+                    _context.AccountHeads.RemoveRange(expenseAccounts);
+                }
+
                 if (request.Modules.Contains("Accounting"))
                 {
                     _context.JournalEntries.RemoveRange(_context.JournalEntries);
