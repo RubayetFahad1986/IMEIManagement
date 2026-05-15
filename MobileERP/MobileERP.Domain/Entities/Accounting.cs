@@ -27,6 +27,8 @@ namespace MobileERP.Domain.Entities
         public DateTime VoucherDate { get; set; }
         public string ReferenceType { get; set; } = string.Empty; // Purchase, Sale, Expense, Payment, Receipt
         public string ReferenceNo { get; set; } = string.Empty;
+        public int? ReferenceId { get; set; } // The ID of the Invoice/Voucher (PurchaseInvoiceId, etc)
+        public int? ContactId { get; set; } // The Contact (Customer/Supplier) associated
         public string? Remarks { get; set; }
         public ICollection<JournalEntry> Entries { get; set; } = new List<JournalEntry>();
     }
@@ -38,6 +40,7 @@ namespace MobileERP.Domain.Entities
         public JournalVoucher? Voucher { get; set; }
         public int AccountHeadId { get; set; }
         public AccountHead? AccountHead { get; set; }
+        public int? ContactId { get; set; } // Link to Contact for Contact Ledger
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
     }

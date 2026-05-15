@@ -66,6 +66,53 @@ namespace MobileERP.API.Controllers
             });
         }
 
+        [HttpPost("journal")]
+        public async Task<IActionResult> CreateManualJournal([FromBody] JournalVoucher voucher)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                voucher.VoucherNo = await _sequenceService.GetNextSequenceAsync("Journal");
+                voucher.VoucherDate = voucher.VoucherDate.ToUniversalTime();
+                voucher.CreateDate = DateTime.UtcNow;
+                
+                foreach (var entry in voucher.Entries)
+                {
+                    entry.CreateDate = DateTime.UtcNow;
+                }
+
+                _context.JournalVouchers.Add(voucher);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return Ok(new { Message = "Manual Journal recorded.", VoucherNo = voucher.VoucherNo });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("vouchers/{id}")]
+        public async Task<IActionResult> DeleteVoucher(int id)
+        {
+            var voucher = await _context.JournalVouchers
+                .Include(v => v.Entries)
+                .FirstOrDefaultAsync(v => v.Id == id);
+
+            if (voucher == null) return NotFound();
+
+            // Mark as deleted instead of physical removal for audit
+            voucher.IsDelete = true;
+            foreach (var entry in voucher.Entries)
+            {
+                entry.IsDelete = true;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Voucher voided successfully." });
+        }
+
         [HttpPost("expense")]
         public async Task<IActionResult> CreateExpense(ExpenseRequest request)
         {
@@ -164,17 +211,6 @@ namespace MobileERP.API.Controllers
                 PageSize = pageSize,
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             });
-        }
-
-        [HttpGet("expense/{id}")]
-        public async Task<IActionResult> GetExpense(int id)
-        {
-            var expense = await _context.ExpenseVouchers
-                .Include(v => v.Details)
-                .FirstOrDefaultAsync(v => v.Id == id && !v.IsDelete);
-            
-            if (expense == null) return NotFound("Expense not found");
-            return Ok(expense);
         }
 
         [HttpPut("expense/{id}")]

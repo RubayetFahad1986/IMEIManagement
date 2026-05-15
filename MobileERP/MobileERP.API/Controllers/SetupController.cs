@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileERP.Application.Services;
@@ -116,6 +117,55 @@ namespace MobileERP.API.Controllers
             return Ok(brands);
         }
 
+        [HttpPost("purge-reseller/{resellerId}")]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> PurgeResellerData(int resellerId)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var reseller = await _context.Users.FindAsync(resellerId);
+                if (reseller == null || reseller.Role != "Reseller") return NotFound("Reseller not found.");
+
+                // 1. Get all Companies managed by this Reseller
+                var companyIds = await _context.Companies
+                    .Where(c => c.ResellerId == resellerId)
+                    .Select(c => c.Id)
+                    .ToListAsync();
+
+                // 2. Remove all related User accounts for these companies
+                var users = await _context.Users.Where(u => u.ComId.HasValue && companyIds.Contains(u.ComId.Value)).ToListAsync();
+                _context.Users.RemoveRange(users);
+
+                // 3. Remove Inventory/Transactions/Invoices for these companies
+                var inventory = await _context.Inventory.Where(i => i.ComId.HasValue && companyIds.Contains(i.ComId.Value)).ToListAsync();
+                _context.Inventory.RemoveRange(inventory);
+
+                var salesInvoices = await _context.SalesInvoices.Where(s => s.ComId.HasValue && companyIds.Contains(s.ComId.Value)).ToListAsync();
+                _context.SalesInvoices.RemoveRange(salesInvoices);
+
+                var purchaseInvoices = await _context.PurchaseInvoices.Where(p => p.ComId.HasValue && companyIds.Contains(p.ComId.Value)).ToListAsync();
+                _context.PurchaseInvoices.RemoveRange(purchaseInvoices);
+
+                // 4. Remove Companies
+                var companies = await _context.Companies.Where(c => companyIds.Contains(c.Id)).ToListAsync();
+                _context.Companies.RemoveRange(companies);
+
+                // 5. Remove Reseller Transactions
+                var resellerTxs = await _context.ResellerTransactions.Where(t => t.ResellerId == resellerId).ToListAsync();
+                _context.ResellerTransactions.RemoveRange(resellerTxs);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return Ok(new { Message = $"Purged all data associated with reseller {reseller.FullName}." });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost("import-from-global")]
         public async Task<IActionResult> ImportFromGlobal([FromBody] List<int> globalIds)
         {

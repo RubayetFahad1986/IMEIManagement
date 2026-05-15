@@ -200,6 +200,16 @@ namespace MobileERP.Infrastructure.Services
 
             var branch = new Branch { Name = "Main Branch", Address = "Head Office, Dhaka", Phone = "+8801700000000", IsMainBranch = true, ComId = company.Id };
             _context.Branches.Add(branch);
+            
+            var warehouse = new Warehouse 
+            { 
+                Name = "Default Warehouse", 
+                IsDefault = true, 
+                ComId = company.Id, 
+                CreateDate = DateTime.UtcNow 
+            };
+            _context.Warehouses.Add(warehouse);
+
             await _context.SaveChangesAsync();
         }
 
