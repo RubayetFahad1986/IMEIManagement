@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Calendar } from "lucide-react";
+import { Search, Calendar, Trash2 } from "lucide-react";
 import { toast } from "@/lib/toast";
 import { format } from "date-fns";
 import { ServerPagination } from "@/components/ui/server-pagination";
@@ -41,6 +41,17 @@ export default function LedgersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState(format(new Date(), "yyyy-MM-01")); // First day of current month
   const [endDate, setEndDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to void this voucher?")) return;
+    try {
+      await apiFetch(`/accounting/vouchers/${id}`, { method: "DELETE" });
+      toast.success("Voucher voided successfully.");
+      fetchVouchers(data.pageNumber, searchTerm, startDate, endDate);
+    } catch (error: any) {
+      toast.error("Failed to delete voucher: " + error.message);
+    }
+  };
+
 
   const fetchVouchers = useCallback(async (page: number, search: string, start: string, end: string) => {
     setLoading(true);
@@ -150,6 +161,9 @@ export default function LedgersPage() {
                         Ref: {v.referenceNo || v.ReferenceNo}
                       </span>
                     </div>
+                    <Button variant="ghost" size="sm" className="h-8 text-destructive hover:text-destructive hover:bg-rose-50" onClick={() => handleDelete(v.id)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                   <Table>
                     <TableBody>
