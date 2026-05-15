@@ -1,0 +1,366 @@
+
+> mobile-erp-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.68.102:3000
+✓ Ready in 413ms
+
+ GET /dashboard 200 in 640ms (next.js: 178ms, application-code: 462ms)
+[browser] Dashboard load failed TypeError: Failed to fetch
+    at apiFetch (src/lib/api.ts:14:26)
+    at DashboardPage.useCallback[fetchDashboardData] (src/app/(protected)/dashboard/page.tsx:70:33)
+    at DashboardPage.useEffect (src/app/(protected)/dashboard/page.tsx:93:5)
+  12 |   };
+  13 |
+> 14 |   const response = await fetch(`${BASE_URL}${endpoint}`, {
+     |                          ^
+  15 |     ...options,
+  16 |     headers,
+  17 |   }); (src/app/(protected)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /dashboard 200 in 93ms (next.js: 5ms, application-code: 88ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /sales 200 in 54ms (next.js: 28ms, application-code: 26ms)
+ GET /sounds/click.mp3 404 in 66ms (next.js: 26ms, application-code: 40ms)
+ GET /sounds/menu-click.mp3 404 in 36ms (next.js: 3ms, application-code: 33ms)
+ GET /dashboard 200 in 71ms (next.js: 11ms, application-code: 61ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /pos 200 in 93ms (next.js: 26ms, application-code: 67ms)
+ GET /sounds/menu-click.mp3 404 in 58ms (next.js: 4ms, application-code: 54ms)
+ GET /sounds/menu-click.mp3 404 in 71ms (next.js: 3ms, application-code: 67ms)
+ GET /settings/products 200 in 76ms (next.js: 38ms, application-code: 38ms)
+ GET /sounds/menu-click.mp3 404 in 73ms (next.js: 3ms, application-code: 70ms)
+ GET /inventory 200 in 80ms (next.js: 44ms, application-code: 36ms)
+ GET /sounds/menu-click.mp3 404 in 86ms (next.js: 46ms, application-code: 39ms)
+ GET /inventory/transfers 200 in 96ms (next.js: 30ms, application-code: 66ms)
+ GET /sounds/menu-click.mp3 404 in 34ms (next.js: 3ms, application-code: 32ms)
+ GET /sales 200 in 60ms (next.js: 4ms, application-code: 56ms)
+ GET /sounds/menu-click.mp3 404 in 74ms (next.js: 3ms, application-code: 71ms)
+ GET /sales/returns 200 in 81ms (next.js: 39ms, application-code: 41ms)
+ GET /contacts 200 in 83ms (next.js: 23ms, application-code: 60ms)
+ GET /sounds/menu-click.mp3 404 in 46ms (next.js: 6ms, application-code: 40ms)
+ GET /sounds/menu-click.mp3 404 in 72ms (next.js: 3ms, application-code: 69ms)
+ GET /staff 200 in 78ms (next.js: 40ms, application-code: 38ms)
+ GET /sounds/menu-click.mp3 404 in 41ms (next.js: 4ms, application-code: 37ms)
+ GET /settings/users 200 in 96ms (next.js: 22ms, application-code: 74ms)
+ GET /sounds/menu-click.mp3 404 in 66ms (next.js: 3ms, application-code: 63ms)
+ GET /stolen-check 200 in 72ms (next.js: 39ms, application-code: 33ms)
+ GET /sounds/menu-click.mp3 404 in 75ms (next.js: 3ms, application-code: 72ms)
+ GET /settings/company 200 in 82ms (next.js: 42ms, application-code: 39ms)
+ GET /sounds/menu-click.mp3 404 in 70ms (next.js: 3ms, application-code: 67ms)
+ GET /reseller 200 in 75ms (next.js: 41ms, application-code: 35ms)
+ GET /sounds/error.mp3 404 in 54ms (next.js: 2ms, application-code: 52ms)
+ GET /sounds/error.mp3 404 in 66ms (next.js: 5ms, application-code: 60ms)
+ GET /sounds/error.mp3 404 in 47ms (next.js: 3ms, application-code: 44ms)
+ GET /sounds/error.mp3 404 in 50ms (next.js: 6ms, application-code: 44ms)
+ GET /reseller 200 in 55ms (next.js: 3ms, application-code: 52ms)
+ GET /sounds/menu-click.mp3 404 in 34ms (next.js: 2ms, application-code: 32ms)
+ GET /sounds/menu-click.mp3 404 in 72ms (next.js: 3ms, application-code: 69ms)
+ GET /reports 200 in 80ms (next.js: 42ms, application-code: 38ms)
+ GET /sounds/menu-click.mp3 404 in 71ms (next.js: 3ms, application-code: 68ms)
+ GET /settings/subscriptions 200 in 88ms (next.js: 37ms, application-code: 51ms)
+ GET /sounds/menu-click.mp3 404 in 38ms (next.js: 3ms, application-code: 34ms)
+ GET /settings/resellers 200 in 85ms (next.js: 26ms, application-code: 59ms)
+ GET /sounds/menu-click.mp3 404 in 77ms (next.js: 3ms, application-code: 74ms)
+ GET /settings/sample-data 200 in 94ms (next.js: 41ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 44ms (next.js: 3ms, application-code: 41ms)
+ GET /settings/sequences 200 in 816ms (next.js: 796ms, application-code: 20ms)
+ GET /sounds/menu-click.mp3 404 in 35ms (next.js: 3ms, application-code: 33ms)
+ GET /settings/company 200 in 58ms (next.js: 2ms, application-code: 55ms)
+ GET /sounds/menu-click.mp3 404 in 30ms (next.js: 2ms, application-code: 28ms)
+ GET /dashboard 200 in 52ms (next.js: 2ms, application-code: 49ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /pos 200 in 73ms (next.js: 2ms, application-code: 71ms)
+ GET /sounds/menu-click.mp3 404 in 45ms (next.js: 3ms, application-code: 42ms)
+ GET /settings/products 200 in 69ms (next.js: 2ms, application-code: 66ms)
+ GET /sounds/menu-click.mp3 404 in 48ms (next.js: 3ms, application-code: 45ms)
+ GET /sounds/menu-click.mp3 404 in 35ms (next.js: 3ms, application-code: 32ms)
+ GET /inventory 200 in 59ms (next.js: 3ms, application-code: 57ms)
+ GET /sales 200 in 63ms (next.js: 3ms, application-code: 60ms)
+ GET /sounds/menu-click.mp3 404 in 36ms (next.js: 2ms, application-code: 34ms)
+ GET /sounds/click.mp3 404 in 35ms (next.js: 3ms, application-code: 32ms)
+ GET /sounds/click.mp3 404 in 35ms (next.js: 3ms, application-code: 32ms)
+ GET /sounds/menu-click.mp3 404 in 33ms (next.js: 3ms, application-code: 30ms)
+ GET /dashboard 200 in 60ms (next.js: 2ms, application-code: 57ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /sales 200 in 59ms (next.js: 2ms, application-code: 57ms)
+ GET /sounds/menu-click.mp3 404 in 38ms (next.js: 4ms, application-code: 34ms)
+ GET /sales/returns 200 in 55ms (next.js: 3ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 34ms (next.js: 2ms, application-code: 31ms)
+ GET /sounds/click.mp3 404 in 33ms (next.js: 3ms, application-code: 30ms)
+ GET /sounds/click.mp3 404 in 38ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/menu-click.mp3 404 in 32ms (next.js: 2ms, application-code: 30ms)
+ GET /dashboard 200 in 55ms (next.js: 2ms, application-code: 53ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /sales 200 in 31ms (next.js: 2ms, application-code: 29ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /purchases 200 in 56ms (next.js: 30ms, application-code: 25ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /reports 200 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET /sounds/click.mp3 404 in 37ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/click.mp3 404 in 38ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/menu-click.mp3 404 in 33ms (next.js: 2ms, application-code: 30ms)
+ GET /dashboard 200 in 53ms (next.js: 2ms, application-code: 50ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /accounting/expenses 200 in 66ms (next.js: 35ms, application-code: 31ms)
+ GET /sounds/click.mp3 404 in 34ms (next.js: 4ms, application-code: 30ms)
+ GET /sounds/click.mp3 404 in 37ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/menu-click.mp3 404 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET /inventory/transfers 200 in 56ms (next.js: 2ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 29ms (next.js: 2ms, application-code: 27ms)
+ GET /inventory 200 in 48ms (next.js: 2ms, application-code: 46ms)
+ GET /sounds/click.mp3 404 in 36ms (next.js: 5ms, application-code: 32ms)
+ GET /inventory/audit 200 in 688ms (next.js: 660ms, application-code: 27ms)
+ GET /sounds/click.mp3 404 in 42ms (next.js: 3ms, application-code: 38ms)
+ GET /accounting/daily 404 in 28ms (next.js: 3ms, application-code: 25ms)
+ GET /sounds/menu-click.mp3 404 in 36ms (next.js: 4ms, application-code: 32ms)
+ GET /accounting/daily 404 in 35ms (next.js: 3ms, application-code: 32ms)
