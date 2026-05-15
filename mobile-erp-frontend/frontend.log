@@ -921,3 +921,7 @@ Parsing ecmascript source code failed
  GET /sounds/click.mp3 404 in 34ms (next.js: 4ms, application-code: 30ms)
  GET /settings/company 200 in 58ms (next.js: 2ms, application-code: 56ms)
  GET /sounds/menu-click.mp3 404 in 38ms (next.js: 2ms, application-code: 36ms)
+✓ Compiled in 68ms
+✓ Compiled in 67ms
+ GET /sounds/click.mp3 404 in 43ms (next.js: 4ms, application-code: 40ms)
+ GET /sounds/click.mp3 404 in 51ms (next.js: 5ms, application-code: 46ms)

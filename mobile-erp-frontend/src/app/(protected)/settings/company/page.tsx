@@ -147,6 +147,33 @@ export default function CompanySettingsPage() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'header') => {
+    if (!e.target.files || e.target.files.length === 0 || !company) return;
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const endpoint = type === 'logo' ? `/company/${company.id}/upload-logo` : `/company/${company.id}/upload-header`;
+      const response = await fetch(`http://localhost:5237/api${endpoint}`, {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token") || ""}` },
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Upload failed");
+      const result = await response.json();
+      
+      setCompany(prev => prev ? { 
+        ...prev, 
+        [type === 'logo' ? 'logoPath' : 'headerImagePath']: result.path 
+      } : null);
+      toast.success(`${type} uploaded successfully`);
+    } catch (error: any) {
+      toast.error(`Failed to upload ${type}: ${error.message}`);
+    }
+  };
+
   if (loading) return <div className="p-6">Loading settings...</div>;
 
   return (
@@ -208,28 +235,26 @@ export default function CompanySettingsPage() {
                     <ImageIcon className="mr-2 h-4 w-4" /> Branding Assets
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Company Logo (URL)</Label>
-                      <Input 
-                        placeholder="https://example.com/logo.png"
-                        value={company?.logoPath || ""}
-                        onChange={e => setCompany({...company!, logoPath: e.target.value})}
-                      />
-                      <div className="h-20 w-20 bg-slate-100 rounded border flex items-center justify-center overflow-hidden">
-                         {company?.logoPath ? <img src={company.logoPath} alt="Logo" className="max-h-full object-contain" /> : <ImageIcon className="text-slate-300 h-8 w-8" />}
+                      <Label>Company Logo</Label>
+                      <div className="flex gap-2">
+                        <Input type="file" onChange={(e) => handleFileUpload(e, 'logo')} accept="image/*" />
+                      </div>
+                      <div className="h-20 w-20 bg-muted rounded-xl border flex items-center justify-center overflow-hidden">
+                         {company?.logoPath ? <img src={`http://localhost:5237${company.logoPath}`} alt="Logo" className="max-h-full object-contain" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label>Header Image (URL)</Label>
-                      <Input 
-                        placeholder="https://example.com/header.png"
-                        value={company?.headerImagePath || ""}
-                        onChange={e => setCompany({...company!, headerImagePath: e.target.value})}
-                      />
-                      <div className="h-20 w-full bg-slate-100 rounded border flex items-center justify-center overflow-hidden">
-                         {company?.headerImagePath ? <img src={company.headerImagePath} alt="Header" className="w-full h-full object-cover" /> : <ImageIcon className="text-slate-300 h-8 w-8" />}
+                      <Label>Header Image</Label>
+                      <div className="flex gap-2">
+                        <Input type="file" onChange={(e) => handleFileUpload(e, 'header')} accept="image/*" />
+                      </div>
+                      <div className="h-20 w-full bg-muted rounded-xl border flex items-center justify-center overflow-hidden">
+                         {company?.headerImagePath ? <img src={`http://localhost:5237${company.headerImagePath}`} alt="Header" className="w-full h-full object-cover" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
                       </div>
                     </div>
+                  </div>
                   </div>
                 </div>
 
