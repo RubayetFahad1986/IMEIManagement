@@ -121,13 +121,33 @@ namespace MobileERP.API.Controllers
             var mobileDevices = await _context.MobileDevices.Where(m => m.ComId == id).ToListAsync();
             var inventory = await _context.Inventory.Where(i => i.ComId == id).ToListAsync();
             var imeiItems = await _context.ImeiItems.Where(i => i.ComId == id).ToListAsync();
+            var sales = await _context.SalesInvoices.Where(s => s.ComId == id).ToListAsync();
+            var salesDetails = await _context.SalesDetails.Where(s => s.ComId == id).ToListAsync();
+            var purchases = await _context.PurchaseInvoices.Where(p => p.ComId == id).ToListAsync();
+            var purchaseDetails = await _context.PurchaseDetails.Where(p => p.ComId == id).ToListAsync();
+            var expenses = await _context.ExpenseVouchers.Where(e => e.ComId == id).ToListAsync();
+            var accountHeads = await _context.AccountHeads.Where(a => a.ComId == id).ToListAsync();
+            var branches = await _context.Branches.Where(b => b.ComId == id).ToListAsync();
+            var employees = await _context.Employees.Where(e => e.ComId == id).ToListAsync();
+            var warehouses = await _context.Warehouses.Where(w => w.ComId == id).ToListAsync();
+            var brands = await _context.Brands.Where(b => b.ComId == id).ToListAsync();
 
             return Ok(new {
                 Contacts = contacts,
                 Products = products,
                 MobileDevices = mobileDevices,
                 Inventory = inventory,
-                ImeiItems = imeiItems
+                ImeiItems = imeiItems,
+                Sales = sales,
+                SalesDetails = salesDetails,
+                Purchases = purchases,
+                PurchaseDetails = purchaseDetails,
+                Expenses = expenses,
+                AccountHeads = accountHeads,
+                Branches = branches,
+                Employees = employees,
+                Warehouses = warehouses,
+                Brands = brands
             });
         }
 
@@ -138,6 +158,9 @@ namespace MobileERP.API.Controllers
             public List<MobileDevice> MobileDevices { get; set; } = new List<MobileDevice>();
             public List<InventoryItem> Inventory { get; set; } = new List<InventoryItem>();
             public List<ImeiItem> ImeiItems { get; set; } = new List<ImeiItem>();
+            public List<SalesInvoice> Sales { get; set; } = new List<SalesInvoice>();
+            public List<PurchaseInvoice> Purchases { get; set; } = new List<PurchaseInvoice>();
+            public List<ExpenseVoucher> Expenses { get; set; } = new List<ExpenseVoucher>();
         }
 
         [HttpPost("{id}/import-data")]

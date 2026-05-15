@@ -71,31 +71,46 @@ export default function CompanySettingsPage() {
     setExporting(true);
     try {
       const data = await apiFetch("/company/1/export-data");
-      // The API returns an object with arrays. Normalize keys to handle camelCase from .NET
-      const contacts = data.contacts || data.Contacts || [];
-      const products = data.products || data.Products || [];
-      const mobileDevices = data.mobileDevices || data.MobileDevices || [];
-      const inventory = data.inventory || data.Inventory || [];
-      const imeiItems = data.imeiItems || data.ImeiItems || [];
+      
+      const wb = XLSX.utils.book_new();
 
-      const allData = [
-          ...contacts,
-          ...products,
-          ...mobileDevices,
-          ...inventory,
-          ...imeiItems
+      const categories = [
+        { key: 'contacts', label: 'Contacts' },
+        { key: 'products', label: 'Products' },
+        { key: 'mobileDevices', label: 'MobileDevices' },
+        { key: 'inventory', label: 'Inventory' },
+        { key: 'imeiItems', label: 'IMEI_Records' },
+        { key: 'sales', label: 'Sales' },
+        { key: 'salesDetails', label: 'Sales_Details' },
+        { key: 'purchases', label: 'Purchases' },
+        { key: 'purchaseDetails', label: 'Purchase_Details' },
+        { key: 'expenses', label: 'Expenses' },
+        { key: 'accountHeads', label: 'Chart_Of_Accounts' },
+        { key: 'branches', label: 'Branches' },
+        { key: 'employees', label: 'Employees' },
+        { key: 'warehouses', label: 'Warehouses' },
+        { key: 'brands', label: 'Brands' }
       ];
 
-      if (allData.length === 0) {
+      let hasData = false;
+
+      categories.forEach(cat => {
+        // Handle both camelCase and PascalCase from API
+        const sheetData = data[cat.key] || data[cat.key.charAt(0).toUpperCase() + cat.key.slice(1)] || [];
+        if (sheetData.length > 0) {
+          const ws = XLSX.utils.json_to_sheet(sheetData);
+          XLSX.utils.book_append_sheet(wb, ws, cat.label);
+          hasData = true;
+        }
+      });
+
+      if (!hasData) {
         toast.info("No data found to export.");
         return;
       }
 
-      const ws = XLSX.utils.json_to_sheet(allData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "MasterData");
-      XLSX.writeFile(wb, "MasterDataBackup.xlsx");
-      toast.success("Data exported successfully!");
+      XLSX.writeFile(wb, `BusinessDataBackup_${new Date().toISOString().split('T')[0]}.xlsx`);
+      toast.success("Comprehensive business data exported successfully!");
     } catch (error: any) {
       toast.error("Export failed: " + error.message);
     } finally {
