@@ -30,9 +30,36 @@ namespace MobileERP.API.Controllers
         {
             var resellers = await _context.Users
                 .Where(u => u.Role == "Reseller")
-                .Select(u => new { u.Id, u.FullName, u.Email, u.PromoCode, u.AvailableCopies })
+                .Select(u => new 
+                { 
+                    u.Id, 
+                    u.FullName, 
+                    u.Email, 
+                    u.PromoCode, 
+                    u.AvailableCopies,
+                    TotalAllocated = _context.ResellerTransactions.Where(t => t.ResellerId == u.Id).Sum(t => t.Quantity),
+                    ActivatedCount = _context.Companies.Count(c => c.ResellerId == u.Id && c.IsActive),
+                    PendingCount = _context.Companies.Count(c => c.ResellerId == u.Id && !c.IsActive),
+                    TotalUsers = _context.Users.Count(user => _context.Companies.Any(c => c.ResellerId == u.Id && c.Id == user.ComId))
+                })
                 .ToListAsync();
             return Ok(resellers);
+        }
+
+        [HttpGet("stats/summary")]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> GetGlobalResellerStats()
+        {
+            var totalResellers = await _context.Users.CountAsync(u => u.Role == "Reseller");
+            var totalAllocated = await _context.ResellerTransactions.SumAsync(t => t.Quantity);
+            var totalActivated = await _context.Companies.CountAsync(c => c.ResellerId != null && c.IsActive);
+            
+            return Ok(new {
+                ResellerCount = totalResellers,
+                AllocatedPermissions = totalAllocated,
+                ActiveDeployments = totalActivated,
+                AvailablePermissions = await _context.Users.Where(u => u.Role == "Reseller").SumAsync(u => u.AvailableCopies)
+            });
         }
 
         [HttpPost("add-copies")]
@@ -103,11 +130,17 @@ namespace MobileERP.API.Controllers
         [Authorize(Roles = "Reseller")]
         public async Task<IActionResult> GetMyPanel()
         {
-            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var userIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                          ?? User.FindFirst("nameid")?.Value 
+                          ?? User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(userIdStr)) return Unauthorized("User ID claim not found.");
+            
+            var userId = int.Parse(userIdStr);
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return Unauthorized();
 
-            var customers = await _context.Companies
+            var companies = await _context.Companies
                 .Where(c => c.ResellerId == userId)
                 .Select(c => new {
                     c.Id,
@@ -117,10 +150,18 @@ namespace MobileERP.API.Controllers
                     c.IsActive,
                     c.IsVerified,
                     c.SubscriptionExpiryDate,
-                    c.CreateDate
+                    c.CreateDate,
+                    UserCount = _context.Users.Count(u => u.ComId == c.Id)
                 })
                 .OrderByDescending(c => c.CreateDate)
                 .ToListAsync();
+
+            var stats = new {
+                TotalAllocated = await _context.ResellerTransactions.Where(t => t.ResellerId == userId).SumAsync(t => t.Quantity),
+                ActivatedCount = companies.Count(c => c.IsActive),
+                RemainingBalance = user.AvailableCopies,
+                TotalEndUsers = companies.Sum(c => c.UserCount)
+            };
 
             var transactions = await _context.ResellerTransactions
                 .Where(t => t.ResellerId == userId)
@@ -128,9 +169,11 @@ namespace MobileERP.API.Controllers
                 .ToListAsync();
 
             return Ok(new {
+                user.FullName,
+                user.Email,
                 PromoCode = user.PromoCode,
-                AvailableCopies = user.AvailableCopies,
-                Customers = customers,
+                Stats = stats,
+                Customers = companies,
                 Transactions = transactions
             });
         }

@@ -60,6 +60,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IDocumentSequenceService, DocumentSequenceService>();
 builder.Services.AddScoped<DataSeeder>();
 builder.Services.AddScoped(typeof(MobileERP.Infrastructure.Repositories.IRepository<>), typeof(MobileERP.Infrastructure.Repositories.GenericRepository<>));
 

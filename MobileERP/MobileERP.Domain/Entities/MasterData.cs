@@ -29,4 +29,18 @@ namespace MobileERP.Domain.Entities
     {
         public string Name { get; set; } = string.Empty;
     }
+
+    public class DocumentSequence : TenantBaseEntity
+    {
+        public string DocumentType { get; set; } = string.Empty; // e.g. "Sale", "Purchase"
+        public string Prefix { get; set; } = string.Empty; // e.g. "SAL-", "PRD-"
+        public long NextNumber { get; set; } = 10000;
+    }
+
+    public class Warehouse : TenantBaseEntity
+    {
+        public string Name { get; set; } = string.Empty;
+        public string? Address { get; set; }
+        public bool IsDefault { get; set; }
+    }
 }

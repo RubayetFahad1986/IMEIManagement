@@ -61,6 +61,8 @@ namespace MobileERP.Infrastructure.Persistence
         public DbSet<BranchTransferDetail> BranchTransferDetails { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<ResellerTransaction> ResellerTransactions { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<DocumentSequence> DocumentSequences { get; set; }
 
         public int? CurrentComId => _currentUserService.ComId;
         public string? CurrentRole => _currentUserService.Role;
@@ -156,23 +158,23 @@ namespace MobileERP.Infrastructure.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreateDate = DateTime.UtcNow;
-                        entry.Entity.LuserId = _currentUserService.UserId;
+                        entry.Entity.LuserId = _currentUserService?.UserId;
                         entry.Entity.IsDelete = false;
                         
                         if (entry.Entity is TenantBaseEntity tenantEntity && !tenantEntity.ComId.HasValue)
                         {
-                            tenantEntity.ComId = _currentUserService.ComId;
+                            tenantEntity.ComId = _currentUserService?.ComId;
                         }
                         break;
                     case EntityState.Modified:
                         entry.Entity.UpdateDate = DateTime.UtcNow;
-                        entry.Entity.LuserIdUpdate = _currentUserService.UserId;
+                        entry.Entity.LuserIdUpdate = _currentUserService?.UserId;
                         break;
                     case EntityState.Deleted:
                         entry.State = EntityState.Modified;
                         entry.Entity.IsDelete = true;
                         entry.Entity.UpdateDate = DateTime.UtcNow;
-                        entry.Entity.LuserIdUpdate = _currentUserService.UserId;
+                        entry.Entity.LuserIdUpdate = _currentUserService?.UserId;
                         break;
                 }
             }

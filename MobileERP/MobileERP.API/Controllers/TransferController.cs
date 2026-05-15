@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MobileERP.Application.Services;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using System;
@@ -13,15 +14,17 @@ namespace MobileERP.API.Controllers
     public class TransferController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDocumentSequenceService _sequenceService;
 
-        public TransferController(ApplicationDbContext context)
+        public TransferController(ApplicationDbContext context, IDocumentSequenceService sequenceService)
         {
             _context = context;
+            _sequenceService = sequenceService;
         }
 
         private async Task LogProductHistory(int itemId, string type, string refNo, string desc, int? fromBranch = null, int? toBranch = null)
         {
-            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch, ComId = 1 });
+            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch });
         }
 
         [HttpGet]
@@ -84,12 +87,12 @@ namespace MobileERP.API.Controllers
 
                     // Move inventory
                     inventoryItem.BranchId = request.ToBranchId;
-                    await LogProductHistory(detail.InventoryItemId, "Transfer", "TRF-" + DateTime.UtcNow.Ticks, $"Transferred from branch {request.FromBranchId} to {request.ToBranchId}", request.FromBranchId, request.ToBranchId);
+                    string transferNo = await _sequenceService.GetNextSequenceAsync("Issue");
+                    await LogProductHistory(detail.InventoryItemId, "Transfer", transferNo, $"Transferred from branch {request.FromBranchId} to {request.ToBranchId}", request.FromBranchId, request.ToBranchId);
 
                     transfer.Details.Add(new BranchTransferDetail
                     {
-                        InventoryItemId = detail.InventoryItemId,
-                        ComId = 1
+                        InventoryItemId = detail.InventoryItemId
                     });
                 }
 

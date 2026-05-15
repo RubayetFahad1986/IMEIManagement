@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileERP.Application.DTOs;
+using MobileERP.Application.Services;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using MobileERP.Infrastructure.Repositories;
@@ -16,21 +17,23 @@ namespace MobileERP.API.Controllers
     public class ErpController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDocumentSequenceService _sequenceService;
 
-        public ErpController(ApplicationDbContext context)
+        public ErpController(ApplicationDbContext context, IDocumentSequenceService sequenceService)
         {
             _context = context;
+            _sequenceService = sequenceService;
         }
 
         private async Task<int> GetOrCreateAccountAsync(string name, string type)
         {
-            var acc = await _context.AccountHeads.FirstOrDefaultAsync(a => a.Name == name && a.ComId == 1);
+            var acc = await _context.AccountHeads.FirstOrDefaultAsync(a => a.Name == name);
             if (acc == null)
             {
                 string categoryName = type switch { "Asset" or "Cash" or "Bank" => "Assets", "Liability" => "Liabilities", "Equity" => "Equity", "Income" => "Income", "Expense" => "Expense", _ => "Assets" };
                 var category = await _context.AccountCategories.FirstOrDefaultAsync(c => c.Name == categoryName);
                 if (category == null) { category = new AccountCategory { Name = categoryName, Code = "000" }; _context.AccountCategories.Add(category); await _context.SaveChangesAsync(); }
-                acc = new AccountHead { Name = name, AccountType = type == "Cash" || type == "Bank" ? type : "General", AccountCategoryId = category.Id, ComId = 1, IsDefault = false };
+                acc = new AccountHead { Name = name, AccountType = type == "Cash" || type == "Bank" ? type : "General", AccountCategoryId = category.Id, IsDefault = false };
                 _context.AccountHeads.Add(acc);
                 await _context.SaveChangesAsync();
             }
@@ -39,7 +42,7 @@ namespace MobileERP.API.Controllers
 
         private async Task LogProductHistory(int itemId, string type, string refNo, string desc, int? fromBranch = null, int? toBranch = null)
         {
-            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch, ComId = 1 });
+            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch });
         }
 
         [HttpPost("purchase")]
@@ -49,8 +52,8 @@ namespace MobileERP.API.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                if (string.IsNullOrWhiteSpace(request.InvoiceNo)) request.InvoiceNo = "PUR-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + (await _context.PurchaseInvoices.CountAsync() + 1).ToString("D4");
-                else if (await _context.PurchaseInvoices.AnyAsync(p => p.InvoiceNo == request.InvoiceNo && p.ComId == 1)) return BadRequest(new { Message = $"Duplicate Purchase Invoice Number: {request.InvoiceNo}" });
+                if (string.IsNullOrWhiteSpace(request.InvoiceNo)) request.InvoiceNo = await _sequenceService.GetNextSequenceAsync("Purchase");
+                else if (await _context.PurchaseInvoices.AnyAsync(p => p.InvoiceNo == request.InvoiceNo)) return BadRequest(new { Message = $"Duplicate Purchase Invoice Number: {request.InvoiceNo}" });
                 
                 var requestImeis = request.Items.SelectMany(i => i.ImeiItems.Select(im => im.IMEI1)).ToList();
                 if (requestImeis.Count != requestImeis.Distinct().Count()) return BadRequest(new { Message = "Duplicate IMEIs found in the same purchase request." });
@@ -200,8 +203,8 @@ namespace MobileERP.API.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                if (string.IsNullOrWhiteSpace(request.InvoiceNo)) request.InvoiceNo = "SAL-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + (await _context.SalesInvoices.CountAsync() + 1).ToString("D4");
-                else if (await _context.SalesInvoices.AnyAsync(s => s.InvoiceNo == request.InvoiceNo && s.ComId == 1)) return BadRequest("Duplicate Sales Invoice Number.");
+                if (string.IsNullOrWhiteSpace(request.InvoiceNo)) request.InvoiceNo = await _sequenceService.GetNextSequenceAsync("Sale");
+                else if (await _context.SalesInvoices.AnyAsync(s => s.InvoiceNo == request.InvoiceNo)) return BadRequest("Duplicate Sales Invoice Number.");
                 var itemIds = request.Items.Select(i => i.InventoryItemId).ToList();
                 var items = await _context.Inventory.Where(i => itemIds.Contains(i.Id) && !i.IsSold).ToListAsync();
                 if (items.Count != request.Items.Count) return BadRequest("Items already sold or not found.");
@@ -221,7 +224,6 @@ namespace MobileERP.API.Controllers
                     ServiceCharge = request.ServiceCharge, 
                     VAT = request.VAT, 
                     PaidAmount = request.PaidAmount, 
-                    ComId = 1,
                     WalkInName = request.WalkInName,
                     WalkInPhone = request.WalkInPhone,
                     WalkInAddress = request.WalkInAddress
@@ -238,8 +240,7 @@ namespace MobileERP.API.Controllers
                         UnitPrice = salePrice, 
                         CostPrice = item.CostPrice, 
                         CommissionAmount = item.CommissionAmount, 
-                        WarrantyMonths = itemReq.WarrantyMonths, 
-                        ComId = 1 
+                        WarrantyMonths = itemReq.WarrantyMonths
                     });
                     await LogProductHistory(item.Id, "Sale", invoice.InvoiceNo, $"Sold to contact ID {request.CustomerId}", item.BranchId, null);
                 }

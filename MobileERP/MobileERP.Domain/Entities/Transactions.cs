@@ -109,6 +109,8 @@ namespace MobileERP.Domain.Entities
         public int? PurchaseInvoiceId { get; set; }
         public PurchaseInvoice? PurchaseInvoice { get; set; }
         public int? SalesInvoiceId { get; set; }
+        public int? WarehouseId { get; set; }
+        public Warehouse? Warehouse { get; set; }
         public int? BranchId { get; set; }
         public string Condition { get; set; } = "New"; // Deprecated
         public string BoxStatus { get; set; } = "Intact"; // Deprecated

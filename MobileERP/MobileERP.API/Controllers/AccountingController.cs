@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileERP.Application.DTOs;
+using MobileERP.Application.Services;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using System;
@@ -14,10 +15,12 @@ namespace MobileERP.API.Controllers
     public class AccountingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDocumentSequenceService _sequenceService;
 
-        public AccountingController(ApplicationDbContext context)
+        public AccountingController(ApplicationDbContext context, IDocumentSequenceService sequenceService)
         {
             _context = context;
+            _sequenceService = sequenceService;
         }
 
         [HttpGet("vouchers")]
@@ -71,9 +74,9 @@ namespace MobileERP.API.Controllers
             {
                 if (string.IsNullOrWhiteSpace(request.VoucherNo))
                 {
-                    request.VoucherNo = "EXP-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-" + (await _context.ExpenseVouchers.CountAsync() + 1).ToString("D4");
+                    request.VoucherNo = await _sequenceService.GetNextSequenceAsync("Expense");
                 }
-                else if (await _context.ExpenseVouchers.AnyAsync(v => v.VoucherNo == request.VoucherNo && v.ComId == 1))
+                else if (await _context.ExpenseVouchers.AnyAsync(v => v.VoucherNo == request.VoucherNo))
                 {
                     return BadRequest("Duplicate Expense Voucher Number.");
                 }
@@ -84,8 +87,7 @@ namespace MobileERP.API.Controllers
                     ExpenseDate = request.ExpenseDate.ToUniversalTime(),
                     PaymentAccountId = request.PaymentAccountId,
                     TotalAmount = request.Details.Sum(d => d.Amount),
-                    Remarks = request.Remarks,
-                    ComId = 1
+                    Remarks = request.Remarks
                 };
 
                 foreach (var detail in request.Details)
@@ -94,8 +96,7 @@ namespace MobileERP.API.Controllers
                     {
                         ExpenseAccountId = detail.ExpenseAccountId,
                         Amount = detail.Amount,
-                        Note = detail.Note,
-                        ComId = 1
+                        Note = detail.Note
                     });
                 }
 
@@ -105,21 +106,20 @@ namespace MobileERP.API.Controllers
                 // Create Accounting Journal Voucher
                 var jv = new JournalVoucher
                 {
-                    VoucherNo = "JV-" + voucher.VoucherNo,
+                    VoucherNo = await _sequenceService.GetNextSequenceAsync("Journal"),
                     VoucherDate = request.ExpenseDate.ToUniversalTime(),
                     ReferenceType = "Expense",
                     ReferenceNo = voucher.VoucherNo,
-                    Remarks = request.Remarks,
-                    ComId = 1
+                    Remarks = request.Remarks
                 };
 
                 // Credit the payment account (Cash/Bank)
-                jv.Entries.Add(new JournalEntry { AccountHeadId = request.PaymentAccountId, Debit = 0, Credit = voucher.TotalAmount, ComId = 1 });
+                jv.Entries.Add(new JournalEntry { AccountHeadId = request.PaymentAccountId, Debit = 0, Credit = voucher.TotalAmount });
 
                 // Debit each expense account
                 foreach (var detail in request.Details)
                 {
-                    jv.Entries.Add(new JournalEntry { AccountHeadId = detail.ExpenseAccountId, Debit = detail.Amount, Credit = 0, ComId = 1 });
+                    jv.Entries.Add(new JournalEntry { AccountHeadId = detail.ExpenseAccountId, Debit = detail.Amount, Credit = 0 });
                 }
 
                 _context.JournalVouchers.Add(jv);

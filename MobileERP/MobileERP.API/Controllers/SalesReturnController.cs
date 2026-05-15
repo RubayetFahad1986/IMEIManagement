@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileERP.Application.DTOs;
+using MobileERP.Application.Services;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using System;
@@ -15,10 +16,12 @@ namespace MobileERP.API.Controllers
     public class SalesReturnController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDocumentSequenceService _sequenceService;
 
-        public SalesReturnController(ApplicationDbContext context)
+        public SalesReturnController(ApplicationDbContext context, IDocumentSequenceService sequenceService)
         {
             _context = context;
+            _sequenceService = sequenceService;
         }
 
         private async Task<int> GetOrCreateAccountAsync(string name, string type)
@@ -38,7 +41,7 @@ namespace MobileERP.API.Controllers
 
         private async Task LogProductHistory(int itemId, string type, string refNo, string desc, int? fromBranch = null, int? toBranch = null)
         {
-            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch, ComId = 1 });
+            _context.ProductHistories.Add(new ProductHistory { InventoryItemId = itemId, EventDate = DateTime.UtcNow, EventType = type, ReferenceNo = refNo, Description = desc, FromBranchId = fromBranch, ToBranchId = toBranch });
         }
 
         [HttpGet]

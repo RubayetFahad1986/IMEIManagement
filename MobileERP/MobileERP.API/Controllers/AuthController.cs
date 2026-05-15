@@ -116,7 +116,6 @@ namespace MobileERP.API.Controllers
                 }
 
                 var otp = request.Email.EndsWith("@test.com") ? "111111" : new Random().Next(100000, 999999).ToString();
-                
                 var company = new Company
                 {
                     Name = request.CompanyName,
@@ -138,9 +137,19 @@ namespace MobileERP.API.Controllers
                     CreateDate = DateTime.UtcNow
                 };
 
-                Console.WriteLine($"[DEBUG] Adding company: {company.Name}");
+                company.Branches.Add(new Branch { Name = "Main Branch", IsMainBranch = true, CreateDate = DateTime.UtcNow });
                 _context.Companies.Add(company);
                 await _context.SaveChangesAsync();
+
+                _context.Warehouses.Add(new Warehouse 
+                { 
+                    Name = "Default Warehouse", 
+                    IsDefault = true, 
+                    ComId = company.Id, 
+                    CreateDate = DateTime.UtcNow 
+                });
+                await _context.SaveChangesAsync();
+
                 Console.WriteLine($"[DEBUG] Company saved with ID: {company.Id}");
 
                 var user = new User

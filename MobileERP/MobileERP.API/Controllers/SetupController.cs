@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MobileERP.Application.Services;
 using MobileERP.Domain.Entities;
 using MobileERP.Infrastructure.Persistence;
 using MobileERP.Infrastructure.Repositories;
@@ -25,6 +26,7 @@ namespace MobileERP.API.Controllers
         private readonly IRepository<ProductCategory> _categoryRepo;
         private readonly IRepository<Employee> _employeeRepo;
         private readonly DataSeeder _dataSeeder;
+        private readonly IDocumentSequenceService _sequenceService;
 
         public SetupController(
             ApplicationDbContext context,
@@ -36,7 +38,8 @@ namespace MobileERP.API.Controllers
             IRepository<Product> productRepo,
             IRepository<ProductCategory> categoryRepo,
             IRepository<Employee> employeeRepo,
-            DataSeeder dataSeeder)
+            DataSeeder dataSeeder,
+            IDocumentSequenceService sequenceService)
         {
             _context = context;
             _brandRepo = brandRepo;
@@ -48,6 +51,7 @@ namespace MobileERP.API.Controllers
             _categoryRepo = categoryRepo;
             _employeeRepo = employeeRepo;
             _dataSeeder = dataSeeder;
+            _sequenceService = sequenceService;
         }
 
         [HttpPost("seed-custom")]
@@ -175,7 +179,6 @@ namespace MobileERP.API.Controllers
             // Check for duplicates
             var exists = await _context.Products.AnyAsync(p => 
                 !p.IsDelete && 
-                p.ComId == (product.ComId ?? _context.CurrentComId) && 
                 p.Name.ToLower() == product.Name.ToLower());
 
             if (exists)
@@ -183,8 +186,14 @@ namespace MobileERP.API.Controllers
                 return BadRequest(new { message = "A product with the same name already exists." });
             }
 
-            await _productRepo.AddAsync(product); 
-            return Ok(product); 
+            if (string.IsNullOrWhiteSpace(product.SKU))
+            {
+                product.SKU = await _sequenceService.GetNextSequenceAsync("Product");
+            }
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return Ok(product);
         }
         [HttpPut("products")] public async Task<IActionResult> UpdateProduct(Product product) { _productRepo.Update(product); return Ok(product); }
         [HttpDelete("products/{id}")] public async Task<IActionResult> DeleteProduct(int id) { var p = await _productRepo.GetByIdAsync(id); if (p != null) _productRepo.Delete(p); return Ok(); }
