@@ -515,3 +515,12 @@
  GET /accounting/ledger 404 in 42ms (next.js: 5ms, application-code: 37ms)
  GET /accounting/ledger 404 in 196ms (next.js: 6ms, application-code: 191ms)
  GET /accounting/ledger 404 in 207ms (next.js: 31ms, application-code: 176ms)
+ GET /accounting/ledgers 200 in 387ms (next.js: 46ms, application-code: 341ms)
+ GET /sounds/click.mp3 404 in 49ms (next.js: 4ms, application-code: 45ms)
+ GET /sounds/menu-click.mp3 404 in 50ms (next.js: 6ms, application-code: 44ms)
+ GET /accounting/smart-transaction 200 in 105ms (next.js: 20ms, application-code: 85ms)
+ GET /sounds/menu-click.mp3 404 in 77ms (next.js: 28ms, application-code: 48ms)
+ GET /accounting/ledger 404 in 123ms (next.js: 7ms, application-code: 115ms)
+ GET /accounting/ledger 404 in 51ms (next.js: 4ms, application-code: 47ms)
+ GET /accounting/ledgers 200 in 106ms (next.js: 3ms, application-code: 103ms)
+✓ Compiled in 162ms
