@@ -630,3 +630,264 @@
  GET /accounting/contact-ledger 200 in 136ms (next.js: 38ms, application-code: 98ms)
  GET / 200 in 54ms (next.js: 7ms, application-code: 47ms)
  GET /signup 200 in 546ms (next.js: 7ms, application-code: 539ms)
+ GET /signup 200 in 77ms (next.js: 3ms, application-code: 73ms)
+ GET / 200 in 40ms (next.js: 7ms, application-code: 33ms)
+ GET /sounds/click.mp3 404 in 52ms (next.js: 14ms, application-code: 38ms)
+ GET /sounds/click.mp3 404 in 41ms (next.js: 3ms, application-code: 38ms)
+ GET /login 200 in 73ms (next.js: 16ms, application-code: 58ms)
+ GET /sounds/click.mp3 404 in 41ms (next.js: 4ms, application-code: 37ms)
+[browser] [GSI_LOGGER]: google.accounts.id.initialize() is called multiple times. This could cause unexpected behavior and only the last initialized instance will be used. (https://accounts.google.com/gsi/client:85:460)
+ GET /sounds/click.mp3 404 in 40ms (next.js: 3ms, application-code: 37ms)
+ GET /signup 200 in 66ms (next.js: 2ms, application-code: 63ms)
+✓ Compiled in 372ms
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+ GET / 500 in 2.4s (next.js: 2.1s, application-code: 278ms)
+ GET /accounting/contact-ledger 500 in 2.4s (next.js: 2.3s, application-code: 49ms)
+ GET /signup 500 in 2.4s (next.js: 2.4s, application-code: 34ms)
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 99ms (next.js: 38ms, application-code: 61ms)
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+ GET /accounting/contact-ledger 500 in 153ms (next.js: 101ms, application-code: 53ms)
+ GET /signup 500 in 154ms (next.js: 120ms, application-code: 34ms)
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+ GET /signup 500 in 154ms (next.js: 89ms, application-code: 65ms)
+ GET /accounting/contact-ledger 500 in 153ms (next.js: 105ms, application-code: 48ms)
+ GET / 500 in 159ms (next.js: 126ms, application-code: 32ms)
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+ GET /accounting/contact-ledger 500 in 96ms
+ GET / 500 in 160ms (next.js: 113ms, application-code: 47ms)
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+⨯ ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  [90m256 |[0m   );
+  [90m257 |[0m
+[31m[1m>[0m [90m258 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mSignupPage[0m() {
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m259 |[0m   [36mreturn[0m (
+  [90m260 |[0m     <[33mSuspense[0m fallback={<div className=[32m"flex items-center justify-center min-h-screen fon...[0m
+  [90m261 |[0m       <[33mSignupContent[0m />
+
+Parsing ecmascript source code failed
+
+
+[browser] Uncaught Error: ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/signup/page.tsx:258:1)
+    at <unknown> (Error: (./src/app/signup/page.tsx:258:1)
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+[browser] Uncaught Error: ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/signup/page.tsx:258:1)
+    at <unknown> (Error: (./src/app/signup/page.tsx:258:1)
+[browser] Uncaught Error: ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/signup/page.tsx:258:1)
+    at <unknown> (Error: (./src/app/signup/page.tsx:258:1)
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/signup/page.tsx:258:1
+'import', and 'export' cannot be used outside of module code
+  256 |   );
+  257 |
+> 258 | export default function SignupPage() {
+      | ^^^^^^
+  259 |   return (
+  260 |     <Suspense fallback={<div className="flex items-center justify-center min-h-screen fon...
+  261 |       <SignupContent />
+
+Parsing ecmascript source code failed 
+ GET /signup 200 in 577ms (next.js: 81ms, application-code: 496ms)
+ GET / 200 in 878ms (next.js: 457ms, application-code: 421ms)
+ GET /accounting/contact-ledger 200 in 506ms (next.js: 213ms, application-code: 293ms)
+ GET /signup 200 in 106ms (next.js: 16ms, application-code: 90ms)
+ GET / 200 in 51ms (next.js: 5ms, application-code: 46ms)
+ GET /login 200 in 71ms (next.js: 24ms, application-code: 47ms)
+[browser] [GSI_LOGGER]: google.accounts.id.initialize() is called multiple times. This could cause unexpected behavior and only the last initialized instance will be used. (https://accounts.google.com/gsi/client:85:460)

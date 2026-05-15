@@ -67,14 +67,14 @@ function SignupContent() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f8fafc] p-4 md:p-8 relative overflow-hidden font-sans">
+    <div className="flex items-center justify-center min-h-screen bg-background p-4 md:p-8 relative overflow-hidden font-sans">
       {/* Dynamic Background Elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 rounded-full blur-[120px] animate-pulse"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-400/10 rounded-full blur-[120px] animate-pulse delay-700"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse delay-700"></div>
       
       {/* Decorative Grid Pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+           style={{ backgroundImage: 'radial-gradient(var(--foreground) 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
 
       <motion.div 
         initial="hidden"
@@ -82,28 +82,28 @@ function SignupContent() {
         variants={containerVariants}
         className="w-full max-w-5xl z-10"
       >
-        <Card className="shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] border-none rounded-[2.5rem] overflow-hidden bg-white/80 backdrop-blur-xl">
+        <Card className="shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] border-none rounded-[2.5rem] overflow-hidden bg-card/80 backdrop-blur-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[700px]">
               
               {/* Left: Branding & Features (40%) */}
-              <div className="lg:col-span-5 bg-slate-950 p-8 md:p-12 text-white flex flex-col justify-between relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-indigo-600/20"></div>
+              <div className="lg:col-span-5 bg-card-foreground p-8 md:p-12 text-background flex flex-col justify-between relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/20"></div>
                   
                   <div className="relative z-10">
                       <motion.div variants={itemVariants} className="flex items-center gap-3 mb-12">
-                          <div className="bg-blue-600 p-2.5 rounded-2xl shadow-lg shadow-blue-600/20">
-                              <Smartphone className="h-6 w-6 text-white" />
+                          <div className="bg-primary p-2.5 rounded-2xl shadow-lg shadow-primary/20">
+                              <Smartphone className="h-6 w-6 text-primary-foreground" />
                           </div>
-                          <span className="text-xl font-black tracking-tighter uppercase italic">Mobile<span className="text-blue-500">ERP</span></span>
+                          <span className="text-xl font-black tracking-tighter uppercase italic">Mobile<span className="text-primary">ERP</span></span>
                       </motion.div>
 
                       <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-black uppercase italic leading-[1.1] mb-8 tracking-tighter">
                           Scale your <br /> 
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Inventory</span> <br /> 
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Inventory</span> <br /> 
                           faster.
                       </motion.h2>
                       
-                      <motion.p variants={itemVariants} className="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-12 max-w-xs">
+                      <motion.p variants={itemVariants} className="text-muted text-xs font-bold uppercase tracking-[0.2em] mb-12 max-w-xs">
                           The all-in-one distribution platform for mobile retailers.
                       </motion.p>
                       
@@ -115,56 +115,56 @@ function SignupContent() {
                               { icon: Lock, title: "SECURE AUDIT", desc: "Full history of every transaction" }
                           ].map((item, i) => (
                               <motion.div key={i} variants={itemVariants} className="flex items-start gap-4 group">
-                                  <div className="mt-1 bg-white/5 p-2 rounded-xl group-hover:bg-blue-600/20 transition-colors">
-                                      <item.icon className="h-4 w-4 text-blue-400" />
+                                  <div className="mt-1 bg-background/10 p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
+                                      <item.icon className="h-4 w-4 text-primary" />
                                   </div>
                                   <div>
-                                      <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">{item.title}</h4>
-                                      <p className="text-[11px] font-medium text-slate-500">{item.desc}</p>
+                                      <h4 className="text-[10px] font-black uppercase tracking-widest text-background mb-1">{item.title}</h4>
+                                      <p className="text-[11px] font-medium text-muted">{item.desc}</p>
                                   </div>
                               </motion.div>
                           ))}
                       </div>
                   </div>
 
-                  <motion.div variants={itemVariants} className="relative z-10 mt-12 pt-8 border-t border-white/5">
+                  <motion.div variants={itemVariants} className="relative z-10 mt-12 pt-8 border-t border-background/10">
                       <div className="flex justify-between items-end">
                           <div>
-                            <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Configuration:</p>
-                            <p className="text-lg font-black text-blue-400 uppercase italic leading-none">{formData.planType} Professional</p>
+                            <p className="text-[9px] font-bold text-muted uppercase tracking-[0.2em] mb-1">Configuration:</p>
+                            <p className="text-lg font-black text-primary uppercase italic leading-none">{formData.planType} Professional</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-[24px] font-black leading-none italic">14<span className="text-xs ml-1 text-slate-500 not-italic uppercase tracking-widest">Days Free</span></p>
+                            <p className="text-[24px] font-black leading-none italic text-background">14<span className="text-xs ml-1 text-muted not-italic uppercase tracking-widest">Days Free</span></p>
                           </div>
                       </div>
                   </motion.div>
               </div>
 
               {/* Right: Form Section (60%) */}
-              <div className="lg:col-span-7 p-8 md:p-16 bg-white flex flex-col justify-center">
+              <div className="lg:col-span-7 p-8 md:p-16 bg-background flex flex-col justify-center">
                   <motion.div variants={itemVariants} className="mb-10">
-                      <h3 className="text-3xl font-black uppercase italic tracking-tighter text-slate-900 mb-2">Initialize Account</h3>
-                      <div className="h-1.5 w-12 bg-blue-600 rounded-full"></div>
+                      <h3 className="text-3xl font-black uppercase italic tracking-tighter text-foreground mb-2">Initialize Account</h3>
+                      <div className="h-1.5 w-12 bg-primary rounded-full"></div>
                   </motion.div>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <motion.div variants={itemVariants} className="space-y-2">
-                              <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Business Identity</Label>
+                              <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Business Identity</Label>
                               <Input 
                                 required 
                                 placeholder="Elite Mobile Ltd." 
-                                className="h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-slate-900" 
+                                className="h-14 rounded-2xl border-border bg-muted/30 focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-bold text-foreground" 
                                 value={formData.companyName} 
                                 onChange={e => setFormData({...formData, companyName: e.target.value})} 
                               />
                           </motion.div>
                           <motion.div variants={itemVariants} className="space-y-2">
-                              <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Global Phone</Label>
+                              <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Global Phone</Label>
                               <Input 
                                 required 
                                 placeholder="+880..." 
-                                className="h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-slate-900" 
+                                className="h-14 rounded-2xl border-border bg-muted/30 focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-bold text-foreground" 
                                 value={formData.phone} 
                                 onChange={e => setFormData({...formData, phone: e.target.value})} 
                               />
@@ -172,12 +172,12 @@ function SignupContent() {
                       </div>
 
                       <motion.div variants={itemVariants} className="space-y-2">
-                          <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Admin Official Email</Label>
+                          <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Admin Official Email</Label>
                           <Input 
                             required 
                             type="email" 
                             placeholder="admin@company.com" 
-                            className="h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-slate-900" 
+                            className="h-14 rounded-2xl border-border bg-muted/30 focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-bold text-foreground" 
                             value={formData.email} 
                             onChange={e => setFormData({...formData, email: e.target.value})} 
                           />
@@ -185,36 +185,36 @@ function SignupContent() {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <motion.div variants={itemVariants} className="space-y-2">
-                              <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Admin Full Name</Label>
+                              <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Admin Full Name</Label>
                               <Input 
                                 required 
                                 placeholder="MD. Rashid Ali" 
-                                className="h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-slate-900" 
+                                className="h-14 rounded-2xl border-border bg-muted/30 focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-bold text-foreground" 
                                 value={formData.adminFullName} 
                                 onChange={e => setFormData({...formData, adminFullName: e.target.value})} 
                               />
                           </motion.div>
                           <motion.div variants={itemVariants} className="space-y-2">
-                              <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Secure Password</Label>
+                              <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Secure Password</Label>
                               <Input 
                                 required 
                                 type="password" 
                                 placeholder="••••••••" 
-                                className="h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-slate-900" 
+                                className="h-14 rounded-2xl border-border bg-muted/30 focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-bold text-foreground" 
                                 value={formData.password} 
                                 onChange={e => setFormData({...formData, password: e.target.value})} 
                               />
                           </motion.div>
                       </div>
 
-                      <motion.div variants={itemVariants} className="space-y-2 p-6 rounded-2xl bg-blue-50/30 border border-blue-100/50">
-                          <Label className="text-[10px] font-black uppercase text-blue-500 tracking-widest ml-1 flex justify-between items-center">
+                      <motion.div variants={itemVariants} className="space-y-2 p-6 rounded-2xl bg-primary/5 border border-primary/10">
+                          <Label className="text-[10px] font-black uppercase text-primary tracking-widest ml-1 flex justify-between items-center">
                             <span>Reseller / Referral (Optional)</span>
-                            <span className="bg-blue-100 text-[8px] px-1.5 py-0.5 rounded text-blue-600">VALIDATED ON SIGNUP</span>
+                            <span className="bg-primary/20 text-[8px] px-1.5 py-0.5 rounded text-primary">VALIDATED ON SIGNUP</span>
                           </Label>
                           <Input 
                             placeholder="E.G. PARTNER2026" 
-                            className="h-12 rounded-xl border-blue-100 bg-white/50 focus:bg-white font-black text-blue-700 uppercase tracking-widest placeholder:text-blue-300" 
+                            className="h-12 rounded-xl border-primary/20 bg-background/50 focus:bg-background font-black text-primary uppercase tracking-widest placeholder:text-primary/30" 
                             value={formData.promoCode} 
                             onChange={e => setFormData({...formData, promoCode: e.target.value})} 
                           />
@@ -224,18 +224,18 @@ function SignupContent() {
                         <Button 
                             type="submit" 
                             disabled={isLoading} 
-                            className="w-full h-16 bg-slate-900 hover:bg-slate-800 text-white font-black uppercase italic tracking-widest rounded-2xl shadow-2xl shadow-slate-200 transition-all active:scale-[0.98] group overflow-hidden relative"
+                            className="w-full h-16 bg-foreground hover:bg-foreground/90 text-background font-black uppercase italic tracking-widest rounded-2xl shadow-2xl transition-all active:scale-[0.98] group overflow-hidden relative"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                                 {isLoading ? "Deploying ERP Infrastructure..." : "Launch Network"} 
                                 {!isLoading && <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
                             </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-600 opacity-0 group-hover:opacity-10 transition-opacity"></div>
                         </Button>
                       </motion.div>
                       
-                      <motion.p variants={itemVariants} className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest mt-8">
-                          Already have an instance? <Link href="/login" className="text-blue-600 hover:text-blue-700 transition-colors border-b border-blue-100">Access Login</Link>
+                      <motion.p variants={itemVariants} className="text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-8">
+                          Already have an instance? <Link href="/login" className="text-primary hover:text-primary/80 transition-colors border-b border-primary/20">Access Login</Link>
                       </motion.p>
                   </form>
               </div>
