@@ -118,36 +118,80 @@ namespace MobileERP.API.Controllers
         {
             var contacts = await _context.Contacts.Where(c => c.ComId == id).ToListAsync();
             var products = await _context.Products.Where(p => p.ComId == id).ToListAsync();
+            var productCategories = await _context.ProductCategories.Where(p => p.ComId == id).ToListAsync();
             var mobileDevices = await _context.MobileDevices.Where(m => m.ComId == id).ToListAsync();
             var inventory = await _context.Inventory.Where(i => i.ComId == id).ToListAsync();
             var imeiItems = await _context.ImeiItems.Where(i => i.ComId == id).ToListAsync();
             var sales = await _context.SalesInvoices.Where(s => s.ComId == id).ToListAsync();
             var salesDetails = await _context.SalesDetails.Where(s => s.ComId == id).ToListAsync();
+            var salesPayments = await _context.SalesPayments.Where(s => s.ComId == id).ToListAsync();
             var purchases = await _context.PurchaseInvoices.Where(p => p.ComId == id).ToListAsync();
             var purchaseDetails = await _context.PurchaseDetails.Where(p => p.ComId == id).ToListAsync();
+            var salesReturns = await _context.SalesReturns.Where(s => s.ComId == id).ToListAsync();
+            var salesReturnDetails = await _context.SalesReturnDetails.Where(s => s.ComId == id).ToListAsync();
+            var purchaseReturns = await _context.PurchaseReturns.Where(p => p.ComId == id).ToListAsync();
+            var purchaseReturnDetails = await _context.PurchaseReturnDetails.Where(p => p.ComId == id).ToListAsync();
             var expenses = await _context.ExpenseVouchers.Where(e => e.ComId == id).ToListAsync();
+            var expenseDetails = await _context.ExpenseDetails.Where(e => e.ComId == id).ToListAsync();
             var accountHeads = await _context.AccountHeads.Where(a => a.ComId == id).ToListAsync();
+            var accountCategories = await _context.AccountCategories.Where(a => a.ComId == id).ToListAsync();
+            var journalVouchers = await _context.JournalVouchers.Where(j => j.ComId == id).ToListAsync();
+            var journalEntries = await _context.JournalEntries.Where(j => j.ComId == id).ToListAsync();
+            var contactLedgers = await _context.ContactLedgers.Where(c => c.ComId == id).ToListAsync();
             var branches = await _context.Branches.Where(b => b.ComId == id).ToListAsync();
             var employees = await _context.Employees.Where(e => e.ComId == id).ToListAsync();
             var warehouses = await _context.Warehouses.Where(w => w.ComId == id).ToListAsync();
             var brands = await _context.Brands.Where(b => b.ComId == id).ToListAsync();
+            var warrantyClaims = await _context.WarrantyClaims.Where(w => w.ComId == id).ToListAsync();
+            var productHistories = await _context.ProductHistories.Where(p => p.ComId == id).ToListAsync();
+            var branchTransfers = await _context.BranchTransfers.Where(b => b.ComId == id).ToListAsync();
+            var branchTransferDetails = await _context.BranchTransferDetails.Where(b => b.ComId == id).ToListAsync();
+            var documentSequences = await _context.DocumentSequences.Where(d => d.ComId == id).ToListAsync();
+
+            // Master Data (Tenant Specific)
+            var warrantyTypes = await _context.WarrantyTypes.Where(w => w.ComId == id).ToListAsync();
+            var warrantyDurations = await _context.WarrantyDurations.Where(w => w.ComId == id).ToListAsync();
+            var warrantyCoverages = await _context.WarrantyCoverages.Where(w => w.ComId == id).ToListAsync();
+            var productConditions = await _context.ProductConditions.Where(p => p.ComId == id).ToListAsync();
+            var marketTypes = await _context.MarketTypes.Where(m => m.ComId == id).ToListAsync();
 
             return Ok(new {
                 Contacts = contacts,
                 Products = products,
+                ProductCategories = productCategories,
                 MobileDevices = mobileDevices,
                 Inventory = inventory,
                 ImeiItems = imeiItems,
                 Sales = sales,
                 SalesDetails = salesDetails,
+                SalesPayments = salesPayments,
                 Purchases = purchases,
                 PurchaseDetails = purchaseDetails,
+                SalesReturns = salesReturns,
+                SalesReturnDetails = salesReturnDetails,
+                PurchaseReturns = purchaseReturns,
+                PurchaseReturnDetails = purchaseReturnDetails,
                 Expenses = expenses,
+                ExpenseDetails = expenseDetails,
                 AccountHeads = accountHeads,
+                AccountCategories = accountCategories,
+                JournalVouchers = journalVouchers,
+                JournalEntries = journalEntries,
+                ContactLedgers = contactLedgers,
                 Branches = branches,
                 Employees = employees,
                 Warehouses = warehouses,
-                Brands = brands
+                Brands = brands,
+                WarrantyClaims = warrantyClaims,
+                ProductHistories = productHistories,
+                BranchTransfers = branchTransfers,
+                BranchTransferDetails = branchTransferDetails,
+                DocumentSequences = documentSequences,
+                WarrantyTypes = warrantyTypes,
+                WarrantyDurations = warrantyDurations,
+                WarrantyCoverages = warrantyCoverages,
+                ProductConditions = productConditions,
+                MarketTypes = marketTypes
             });
         }
 
