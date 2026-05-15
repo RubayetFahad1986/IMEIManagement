@@ -3,94 +3,108 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, Smartphone, ShieldCheck, Zap, BarChart3, Users, Star } from "lucide-react";
+import { Smartphone, Star, ShieldCheck, Zap, BarChart3, Users, Mail, MapPin, Phone, Check, Palette } from "lucide-react";
 import Link from "next/link";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { useTheme } from "@/context/ThemeContext";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuGroup, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
+const pricingPlans = [
+    { name: "Starter", price: "25,000", features: ["1 Branch", "Inventory", "Basic Reports", "1 Year Support"] },
+    { name: "Business", price: "50,000", features: ["5 Branches", "Full ERP", "Advanced BI", "5 Years Support"], popular: true },
+    { name: "Enterprise", price: "Custom", features: ["Unlimited Branches", "Custom Dev", "Dedicated Support", "API Access"] }
+];
 
 export default function HomePage() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 }
-  };
+  const { setTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden selection:bg-blue-500">
-      {/* Animated Mesh Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[150px] animate-pulse"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/20 rounded-full blur-[150px] animate-pulse delay-700"></div>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 selection:bg-primary/20">
+      {/* Background Effect */}
+      <div className="fixed inset-0 z-0 opacity-20">
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[150px] animate-pulse"></div>
       </div>
 
       <nav className="relative z-10 container mx-auto px-6 py-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-            <Smartphone className="h-8 w-8 text-blue-500" />
-            <span className="text-2xl font-black italic tracking-tighter">Mobile<span className="text-blue-500">ERP</span></span>
+            <Smartphone className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-black italic tracking-tighter">Mobile<span className="text-primary">ERP</span></span>
         </div>
-        <div className="flex gap-4">
-            <Link href="/login"><Button variant="ghost" className="font-bold uppercase tracking-widest text-xs">Login</Button></Link>
-            <Link href="/signup"><Button className="bg-blue-600 hover:bg-blue-700 font-black uppercase tracking-widest text-xs rounded-full px-6">Get Started</Button></Link>
+        <div className="flex gap-4 items-center">
+            <LanguageSwitcher />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl bg-muted border border-border hover:bg-muted/80 transition-all">
+                      <Palette className="h-5 w-5" />
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-2xl p-2 border-border/50 bg-card">
+                  <DropdownMenuGroup>
+                      <DropdownMenuLabel className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50 px-2 py-1.5">Switch Theme</DropdownMenuLabel>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  {['default', 'light', 'dark', 'ocean', 'forest', 'sunset', 'midnight'].map(theme => (
+                      <DropdownMenuItem key={theme} onClick={() => setTheme(theme)} className="capitalize rounded-lg font-bold gap-2 focus:bg-primary focus:text-primary-foreground">
+                          <div className={cn("h-2 w-2 rounded-full", `bg-${theme}-500`)} />
+                          {theme}
+                      </DropdownMenuItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Link href="/login"><Button variant="ghost" className="font-bold uppercase text-xs">Login</Button></Link>
+            <Link href="/signup"><Button className="bg-primary hover:bg-primary/90 font-black rounded-full px-6">Get Started</Button></Link>
         </div>
       </nav>
 
-      <main className="relative z-10 container mx-auto px-6 pt-20 pb-32">
-        <motion.div initial="hidden" animate="visible" variants={containerVariants} className="text-center max-w-4xl mx-auto">
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-8">
-            <Star className="h-4 w-4 text-blue-400 fill-blue-400" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 italic">#1 Mobile Shop Management System</span>
-          </motion.div>
-          
-          <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-black uppercase italic leading-[0.9] tracking-tighter mb-8">
-            Dominate your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Mobile Business</span>
-          </motion.h1>
-
-          <motion.p variants={itemVariants} className="text-xl text-slate-400 font-bold max-w-2xl mx-auto mb-12">
-            Complete ERP, IMEI tracking, and financial intelligence built specifically for mobile shop owners. One-time investment, lifetime growth.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="flex gap-4 justify-center">
-            <Link href="/signup"><Button size="lg" className="h-16 px-12 rounded-full bg-blue-600 hover:bg-blue-700 text-lg font-black uppercase italic tracking-widest shadow-2xl shadow-blue-500/20">Launch Now</Button></Link>
-            <Button variant="outline" size="lg" className="h-16 px-12 rounded-full border-slate-800 bg-transparent text-lg font-black uppercase italic tracking-widest hover:bg-slate-900">View Demo</Button>
-          </motion.div>
+      {/* Hero Section */}
+      <main className="relative z-10 container mx-auto px-6 pt-20">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-4xl mx-auto mb-32">
+          <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter mb-8">
+            Manage your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Inventory</span> like a Pro
+          </h1>
+          <p className="text-xl text-muted-foreground mb-12">The world's most trusted mobile shop ERP. Built for profit, reliability, and growth.</p>
+          <Link href="/signup"><Button size="lg" className="h-16 px-12 rounded-full bg-primary hover:bg-primary/90 text-lg font-black uppercase shadow-2xl shadow-primary/20">Launch Your ERP Now</Button></Link>
         </motion.div>
 
-        {/* Pricing & Features Section */}
-        <section className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} className="space-y-6">
-                <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800">
-                    <h3 className="text-sm font-black uppercase italic text-slate-400 tracking-widest mb-4">One-Time Lifetime Investment</h3>
-                    <div className="flex items-baseline gap-4 mb-2">
-                        <span className="text-6xl font-black italic tracking-tighter">৳50,000</span>
-                        <span className="text-xl font-bold text-slate-500 line-through">৳62,500</span>
-                    </div>
-                    <div className="bg-blue-600 text-[10px] font-black uppercase tracking-widest py-1 px-3 rounded-full w-fit">Save 20% Today</div>
-                    <p className="text-slate-400 text-sm font-medium mt-6">Secure your business with 5 years of full support. No monthly subscriptions, no hidden fees. Just pure efficiency.</p>
-                </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} className="grid grid-cols-2 gap-6">
-                {[
-                    { icon: ShieldCheck, label: "IMEI Security" },
-                    { icon: Zap, label: "Realtime Stock" },
-                    { icon: BarChart3, label: "Financial BI" },
-                    { icon: Users, label: "Reseller Network" }
-                ].map((feat, i) => (
-                    <div key={i} className="bg-slate-900/50 p-6 rounded-3xl border border-slate-800 text-center">
-                        <feat.icon className="h-8 w-8 text-blue-500 mx-auto mb-4" />
-                        <p className="font-black uppercase italic text-xs tracking-widest">{feat.label}</p>
+        {/* Pricing Section */}
+        <section className="mb-32">
+            <h2 className="text-4xl font-black text-center mb-16 uppercase italic">Simple Transparent Pricing</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+                {pricingPlans.map((plan, i) => (
+                    <div key={i} className={`p-8 rounded-[2rem] border ${plan.popular ? 'bg-card border-primary shadow-2xl' : 'bg-muted/30 border-border'}`}>
+                        <h4 className="text-xl font-black mb-4">{plan.name}</h4>
+                        <div className="text-4xl font-black mb-6">{plan.price !== "Custom" ? `৳${plan.price}` : "Custom"}</div>
+                        <ul className="space-y-4 mb-8">
+                            {plan.features.map(f => <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground"><Check className="h-4 w-4 text-primary" /> {f}</li>)}
+                        </ul>
+                        <Link href="/signup"><Button className="w-full rounded-full bg-primary">Select Plan</Button></Link>
                     </div>
                 ))}
-            </motion.div>
+            </div>
+        </section>
+
+        {/* Contact & Location */}
+        <section className="mb-32 bg-card p-12 rounded-[2rem] border border-border shadow-lg">
+            <div className="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 className="text-3xl font-black mb-6 italic">Get In Touch</h2>
+                    <div className="space-y-4 text-muted-foreground">
+                        <p className="flex items-center gap-3"><Mail className="text-primary" /> info@hisabplus.com</p>
+                        <p className="flex items-center gap-3"><Phone className="text-primary" /> +880 1700-000000</p>
+                        <p className="flex items-center gap-3"><MapPin className="text-primary" /> 123 Tech Park, Dhaka, Bangladesh</p>
+                    </div>
+                </div>
+                <div>
+                     <h2 className="text-3xl font-black mb-6 italic">Our Office</h2>
+                     <div className="w-full h-48 bg-muted rounded-2xl flex items-center justify-center text-muted-foreground font-black uppercase italic">Map Integration Placeholder</div>
+                </div>
+            </div>
         </section>
       </main>
 
-      {/* Modern Footer */}
-      <footer className="relative z-10 container mx-auto px-6 py-12 border-t border-slate-900 text-center">
-        <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">&copy; 2026 MobileERP System. Built for Profit.</p>
+      <footer className="py-12 border-t border-border text-center text-muted-foreground text-sm">
+        &copy; 2026 MobileERP System. All rights reserved.
       </footer>
     </div>
   );
