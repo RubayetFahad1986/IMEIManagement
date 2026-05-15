@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/lib/toast";
 import { Smartphone, ShieldCheck, ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
+import { BASE_URL } from "@/lib/api";
 
 import { useAuthStore } from "@/store/useAuthStore";
 
@@ -32,7 +33,7 @@ function VerifyOtpContent() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5237/api/auth/verify-otp", {
+      const response = await fetch(`${BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp: otpToVerify }),

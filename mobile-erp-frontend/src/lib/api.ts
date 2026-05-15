@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/useAuthStore";
 
-const BASE_URL = "http://localhost:5237/api";
+export const BASE_URL = "http://localhost:5237/api";
 
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   const token = useAuthStore.getState().token;

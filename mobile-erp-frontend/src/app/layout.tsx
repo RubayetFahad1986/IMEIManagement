@@ -9,8 +9,53 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Mobile ERP - IMEI Management",
-  description: "Advanced SaaS ERP for Mobile IMEI Tracking",
+  title: "Mobile ERP - IMEI & Warranty Management Shop Software",
+  description: "Worldwide mobile management shop software. Advanced IMEI management for mobile, warranty management, IMEI warranty claims, IMEI-wise profit, stock tracking, and reselling features. Serving Bangladesh (Dhaka, Chittagong), Dubai, Oman, Saudi Arabia, and globally.",
+  keywords: [
+    "mobile management shop",
+    "imei management for mobile",
+    "warranty management",
+    "imei warranty claim",
+    "imei wise profit",
+    "stock management",
+    "reselling feature",
+    "mobile shop software",
+    "mobile erp",
+    "Bangladesh",
+    "Dhaka",
+    "Chittagong",
+    "Dubai",
+    "Oman",
+    "Saudi Arabia",
+    "Worldwide"
+  ].join(", "),
+  authors: [{ name: "MobileERP" }],
+  creator: "MobileERP",
+  openGraph: {
+    title: "Mobile ERP - IMEI Management & Mobile Shop Software",
+    description: "Ultimate software for mobile management shops. Features include IMEI management, warranty management, IMEI warranty claims, IMEI-wise profit tracking, stock control, and reselling.",
+    url: "https://www.mobileerp.com",
+    siteName: "MobileERP",
+    images: [
+      {
+        url: "/globe.svg",
+        width: 800,
+        height: 600,
+        alt: "Mobile ERP Global Management",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mobile ERP - IMEI & Warranty Management",
+    description: "Worldwide mobile management shop software. Advanced IMEI management for mobile, warranty claims, stock, and reselling.",
+    images: ["/globe.svg"],
+  },
+  alternates: {
+    canonical: "https://www.mobileerp.com",
+  },
 };
 
 import { ThemeProvider } from "@/context/ThemeContext";

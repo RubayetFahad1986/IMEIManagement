@@ -81,9 +81,21 @@ test.describe('Mobile ERP Full Lifecycle Autonomous Verification', () => {
     await page.fill('input[placeholder="Search..."]', testContact);
     await page.locator(`.bg-popover div:text-is("${testContact}")`).click();
     
-    await page.click('button:has-text("Add New Row")');
-    await page.click('button:has-text("Search Device...")');
-    await page.fill('input[placeholder="Search..."]', testProduct);
+    await page.click('button:has-text("Add Mobile Row")');
+    
+    // Give UI a moment to update
+    await page.waitForTimeout(1000);
+    
+    // Use a broader locator to find the combobox in the newly created row
+    await page.locator('div:has-text("Select Mobile...")').first().click();
+    
+    // Pause to inspect the DOM
+    await page.pause();
+    
+    // Wait for the search input inside the popover to appear
+    const searchInput = page.locator('input[placeholder="Search..."]').last();
+    await searchInput.waitFor({ state: 'visible' });
+    await searchInput.fill(testProduct);
     await page.locator(`.bg-popover div:has-text("${testProduct}")`).first().click();
     
     await page.fill('textarea[placeholder*="IMEIs"]', testImei);

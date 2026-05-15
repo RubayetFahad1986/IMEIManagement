@@ -10,6 +10,7 @@ import { toast } from "@/lib/toast";
 import { Smartphone, CheckCircle2, ArrowRight, ShieldCheck, Zap, Globe, Lock } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BASE_URL } from "@/lib/api";
 
 function SignupContent() {
   const router = useRouter();
@@ -32,7 +33,7 @@ function SignupContent() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5237/api/auth/signup", {
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

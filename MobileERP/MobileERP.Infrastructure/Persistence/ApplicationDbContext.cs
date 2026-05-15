@@ -15,6 +15,31 @@ namespace MobileERP.Infrastructure.Persistence
             _currentUserService = currentUserService;
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var dbConfig = DbConfigManager.GetConfig();
+                if (dbConfig.IsConfigured)
+                {
+                    if (dbConfig.Provider.Equals("PostgreSQL", StringComparison.OrdinalIgnoreCase))
+                        optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
+                    else if (dbConfig.Provider.Equals("SQLServer", StringComparison.OrdinalIgnoreCase))
+                        optionsBuilder.UseSqlServer(dbConfig.ConnectionString);
+                    else if (dbConfig.Provider.Equals("MySQL", StringComparison.OrdinalIgnoreCase))
+                        optionsBuilder.UseMySql(dbConfig.ConnectionString, ServerVersion.AutoDetect(dbConfig.ConnectionString));
+                    else if (dbConfig.Provider.Equals("SQLite", StringComparison.OrdinalIgnoreCase) || dbConfig.Provider.Equals("Embedded", StringComparison.OrdinalIgnoreCase))
+                        optionsBuilder.UseSqlite(dbConfig.ConnectionString);
+                }
+                else
+                {
+                    // Fallback to SQLite in-memory so the app can start and allow the Setup API to be called
+                    optionsBuilder.UseSqlite("DataSource=file::memory:?cache=shared");
+                }
+            }
+            base.OnConfiguring(optionsBuilder);
+        }
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Brand> Brands { get; set; }

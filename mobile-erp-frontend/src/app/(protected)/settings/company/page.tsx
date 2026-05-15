@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, BASE_URL } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2, Image as ImageIcon, FileText, Percent, ShieldCheck, Settings2, Database, RotateCcw, AlertTriangle } from "lucide-react";
+import { Building2, Save, MapPin, Phone, Mail, Plus, MapPinned, Trash2, Image as ImageIcon, FileText, Percent, ShieldCheck, Settings2, Database, RotateCcw, AlertTriangle, DownloadCloud, UploadCloud } from "lucide-react";
 import { toast } from "@/lib/toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Cropper from "react-easy-crop";
 import imageCompression from 'browser-image-compression';
+import * as XLSX from "xlsx";
 
 interface Branch {
   id: number;
@@ -47,6 +48,8 @@ export default function CompanySettingsPage() {
   const [isAddBranchOpen, setIsAddBranchOpen] = useState(false);
   const [newBranch, setNewBranch] = useState({ name: "", address: "", phone: "" });
 
+  const DOMAIN_URL = BASE_URL.replace("/api", "");
+
   // Reset State
   const [isResetModalOpen, setIsResetOpen] = useState(false);
   const [resetting, setResetting] = useState(false);
@@ -58,6 +61,63 @@ export default function CompanySettingsPage() {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | null>(null);
+
+  // Backup/Restore State
+  const [exporting, setExporting] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleExportExcel = async () => {
+    setExporting(true);
+    try {
+      const data = await apiFetch("/company/1/export-data");
+      // The API returns an object with arrays, we need to flatten it for the Excel sheet
+      // or export multiple sheets. For now, let's export all data into one structure.
+      const allData = [
+          ...data.Contacts,
+          ...data.Products,
+          ...data.MobileDevices,
+          ...data.Inventory,
+          ...data.ImeiItems
+      ];
+      const ws = XLSX.utils.json_to_sheet(allData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "MasterData");
+      XLSX.writeFile(wb, "MasterDataBackup.xlsx");
+      toast.success("Data exported successfully!");
+    } catch (error: any) {
+      toast.error("Export failed: " + error.message);
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleImportExcel = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    setImporting(true);
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+        try {
+            const bstr = evt.target?.result;
+            const wb = XLSX.read(bstr, { type: 'binary' });
+            const wsname = wb.SheetNames[0];
+            const ws = wb.Sheets[wsname];
+            const data = XLSX.utils.sheet_to_json(ws);
+            
+            await apiFetch("/company/import-master-data", {
+                method: "POST",
+                body: JSON.stringify(data),
+            });
+            toast.success("Data imported successfully!");
+        } catch (err: any) {
+            toast.error("Import failed: " + err.message);
+        } finally {
+            setImporting(false);
+        }
+    };
+    reader.readAsBinaryString(file);
+  };
 
   const modules = [
     { id: "Sales", label: "Sales & Invoices", desc: "All sales, return invoices, and details." },
@@ -182,7 +242,7 @@ export default function CompanySettingsPage() {
 
     const endpoint = fileToCrop.type === 'logo' ? `/company/${company.id}/upload-logo` : `/company/${company.id}/upload-header`;
     try {
-        const response = await fetch(`http://localhost:5237/api${endpoint}`, {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
             method: "POST",
             headers: { "Authorization": `Bearer ${localStorage.getItem("token") || ""}` },
             body: formData
@@ -263,7 +323,7 @@ export default function CompanySettingsPage() {
                       <Label>Company Logo</Label>
                       <Input type="file" onChange={(e) => handleFileSelect(e, 'logo')} accept="image/*" />
                       <div className="h-20 w-20 bg-muted rounded-xl border flex items-center justify-center overflow-hidden group relative">
-                         {company?.logoPath ? <img src={`http://localhost:5237${company.logoPath}`} alt="Logo" className="max-h-full object-contain" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
+                         {company?.logoPath ? <img src={`${DOMAIN_URL}${company.logoPath}`} alt="Logo" className="max-h-full object-contain" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
                          {company?.logoPath && <Button variant="destructive" size="icon" className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100"><Trash2 className="h-3 w-3"/></Button>}
                       </div>
                     </div>
@@ -271,7 +331,7 @@ export default function CompanySettingsPage() {
                       <Label>Header Image</Label>
                       <Input type="file" onChange={(e) => handleFileSelect(e, 'header')} accept="image/*" />
                       <div className="h-20 w-full bg-muted rounded-xl border flex items-center justify-center overflow-hidden group relative">
-                         {company?.headerImagePath ? <img src={`http://localhost:5237${company.headerImagePath}`} alt="Header" className="w-full h-full object-cover" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
+                         {company?.headerImagePath ? <img src={`${DOMAIN_URL}${company.headerImagePath}`} alt="Header" className="w-full h-full object-cover" /> : <ImageIcon className="text-muted-foreground h-8 w-8" />}
                          {company?.headerImagePath && <Button variant="destructive" size="icon" className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100"><Trash2 className="h-3 w-3"/></Button>}
                       </div>
                     </div>
@@ -548,10 +608,52 @@ export default function CompanySettingsPage() {
               </CardContent>
            </Card>
 
+           <Card className="border-t-4 border-t-emerald-500">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center text-emerald-600">
+                  <DownloadCloud className="mr-2 h-4 w-4" /> Data Backup & Restore
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-[10px] text-muted-foreground italic leading-relaxed">
+                  Export all your master data to Excel, or import data from an Excel backup.
+                </p>
+                <div className="flex flex-col gap-3">
+                   <Button 
+                     variant="outline" 
+                     className="w-full h-9 text-xs font-bold uppercase tracking-wider text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+                     onClick={handleExportExcel}
+                     disabled={exporting}
+                   >
+                     <DownloadCloud className="mr-2 h-3.5 w-3.5" /> 
+                     {exporting ? "Exporting..." : "Backup to Excel"}
+                   </Button>
+
+                   <div className="relative">
+                     <input 
+                       type="file" 
+                       accept=".xlsx, .xls" 
+                       className="hidden" 
+                       ref={fileInputRef} 
+                       onChange={handleImportExcel} 
+                     />
+                     <Button 
+                       variant="outline" 
+                       className="w-full h-9 text-xs font-bold uppercase tracking-wider text-blue-600 border-blue-200 hover:bg-blue-50"
+                       onClick={() => fileInputRef.current?.click()}
+                       disabled={importing}
+                     >
+                       <UploadCloud className="mr-2 h-3.5 w-3.5" /> 
+                       {importing ? "Importing..." : "Restore from Excel"}
+                     </Button>
+                   </div>
+                </div>
+              </CardContent>
+           </Card>
+
            <Card className="bg-blue-50 border-blue-100 text-blue-900 overflow-hidden relative">
              <div className="absolute top-0 right-0 p-4 opacity-10"><Building2 className="h-24 w-24" /></div>
-             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-blue-500">Subscription Status</CardTitle></CardHeader>
-             <CardContent>
+             <CardHeader><CardTitle className="text-xs uppercase tracking-widest text-blue-500">Subscription Status</CardTitle></CardHeader>             <CardContent>
                 <div className="text-xl font-bold">Enterprise Plan</div>
                 <p className="text-xs text-blue-600/60 mt-1 italic font-medium">Unlimited branches & master products active.</p>
              </CardContent>

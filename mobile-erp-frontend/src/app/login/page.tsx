@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/lib/toast";
 import { Smartphone, ArrowLeft, AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { BASE_URL } from "@/lib/api";
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -26,6 +27,17 @@ function LoginContent() {
 
   useEffect(() => {
     setMounted(true);
+    
+    // Check if database is configured
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || BASE_URL}/SetupDatabase/status`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.isConfigured === false) {
+          router.replace("/setup/database");
+        }
+      })
+      .catch(err => console.error("Could not verify DB setup:", err));
+
     if (isAuthenticated) {
       router.replace("/dashboard");
     }
@@ -34,7 +46,7 @@ function LoginContent() {
   const handleGoogleSuccess = async (credentialResponse: any) => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5237/api/auth/google-login", {
+      const response = await fetch(`${BASE_URL}/auth/google-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentialResponse.credential),
@@ -58,7 +70,7 @@ function LoginContent() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5237/api/auth/login", {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

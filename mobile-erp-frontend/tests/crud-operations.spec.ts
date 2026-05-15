@@ -8,7 +8,7 @@ test.describe('Mobile ERP Full CRUD Flow', () => {
 
   test('should complete a full business cycle', async ({ page }) => {
     // 1. Login
-    await page.goto('http://localhost:3000/');
+    await page.goto('http://localhost:3000/login');
     await page.fill('input[id="username"]', 'admin');
     await page.fill('input[id="password"]', 'Admin123');
     await page.click('button[type="submit"]');

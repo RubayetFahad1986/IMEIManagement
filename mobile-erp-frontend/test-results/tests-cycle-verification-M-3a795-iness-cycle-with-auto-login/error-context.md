@@ -23,7 +23,7 @@ Received string:  "http://localhost:3000/verify-otp?email=test.v2.cycle%40test.c
 
 Call log:
   - Expect "toHaveURL" with timeout 45000ms
-    32 × unexpected value "http://localhost:3000/verify-otp?email=test.v2.cycle%40test.com&otp=714124"
+    33 × unexpected value "http://localhost:3000/verify-otp?email=test.v2.cycle%40test.com&otp=714124"
 
 ```
 

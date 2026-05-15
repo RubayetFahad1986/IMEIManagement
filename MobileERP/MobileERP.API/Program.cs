@@ -14,8 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>();
 
 // Email Service Configuration
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -73,17 +72,25 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    var dbConfig = MobileERP.Infrastructure.Persistence.DbConfigManager.GetConfig();
     
-    await seeder.FixSchemaDriftAsync();
-    
-    var csvPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, "Data", "MobileMasterData_MegaBatch.csv");
-    await seeder.SeedMobileDevicesAsync(csvPath);
-    await seeder.SeedAccountHeadsAsync();
-    await seeder.SeedAdminUserAsync();
-    await seeder.SeedCompanyAsync();
-    await seeder.SeedMasterDataAsync();
-    await seeder.SeedContactsAsync();
+    if (dbConfig.IsConfigured)
+    {
+        await seeder.FixSchemaDriftAsync();
+        
+        var csvPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, "Data", "MobileMasterData_MegaBatch.csv");
+        await seeder.SeedMobileDevicesAsync(csvPath);
+        await seeder.SeedAccountHeadsAsync();
+        await seeder.SeedAdminUserAsync();
+        await seeder.SeedCompanyAsync();
+        await seeder.SeedMasterDataAsync();
+        await seeder.SeedContactsAsync();
+    }
 }
+
+// Serve static frontend files (Next.js out directory)
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -106,5 +113,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers(); // REQUIRED FOR CONTROLLERS TO WORK
+
+// Fallback to index.html for SPA routing
+app.MapFallbackToFile("index.html");
+
+// Auto-Launch Browser
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    try
+    {
+        var url = app.Urls.FirstOrDefault() ?? "http://localhost:5000";
+        var psi = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true
+        };
+        System.Diagnostics.Process.Start(psi);
+    }
+    catch { /* Ignore if browser launch fails */ }
+});
 
 app.Run();

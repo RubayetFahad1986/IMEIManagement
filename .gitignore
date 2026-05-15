@@ -35,3 +35,7 @@ Thumbs.db
 # Other
 .sixth/
 .gemini/
+*.log
+api_log.txt
+*.lscache
+database-config.json
