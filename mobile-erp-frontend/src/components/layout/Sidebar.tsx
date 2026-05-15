@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { MENU_ITEMS } from "@/lib/menu-config";
+import { getMenuItems } from "@/lib/menu-config";
 import { Smartphone, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ export default function Sidebar({ isCollapsed, onToggle, isMobileOpen, onCloseMo
   const { logout, user } = useAuthStore();
   const { dir, t } = useLanguage();
 
-  const filteredMenu = MENU_ITEMS.map(group => ({
+  const filteredMenu = getMenuItems(t).map(group => ({
     ...group,
     items: group.items.filter(item => !item.roles || (user?.role && item.roles.includes(user.role)))
   })).filter(group => group.items.length > 0);
@@ -112,10 +112,10 @@ export default function Sidebar({ isCollapsed, onToggle, isMobileOpen, onCloseMo
                       )}
                     >
                       <Icon className={cn("h-5 w-5 shrink-0", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
-                      {!isCollapsed && <span className="whitespace-nowrap">{displayName}</span>}
+                      {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                       {isCollapsed && (
                         <div className="absolute left-16 bg-slate-950 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-bold uppercase whitespace-nowrap z-50 shadow-xl border border-white/10">
-                            {displayName}
+                            {item.name}
                         </div>
                       )}
                       {isActive && !isCollapsed && (

@@ -23,11 +23,11 @@ test.describe('Mobile ERP Full Lifecycle Autonomous Verification', () => {
     console.log(`Step 1: Signing up with ${email}...`);
     await page.goto('http://localhost:3000/signup');
     await page.fill('input[placeholder="Elite Mobile Ltd."]', companyName);
-    await page.fill('input[placeholder="admin@elite.com"]', email);
+    await page.fill('input[placeholder="admin@company.com"]', email);
     await page.fill('input[placeholder="+880..."]', '01700000000');
     await page.fill('input[placeholder="MD. Rashid Ali"]', 'Demo Admin');
     await page.fill('input[placeholder="••••••••"]', password);
-    await page.click('button:has-text("Launch ERP Network")');
+    await page.click('button:has-text("Launch Network")');
     
     // Wait for redirect to verify-otp
     await expect(page).toHaveURL(/.*verify-otp/, { timeout: 30000 });

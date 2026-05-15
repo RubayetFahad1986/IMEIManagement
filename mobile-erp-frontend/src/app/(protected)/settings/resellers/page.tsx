@@ -132,7 +132,7 @@ export default function ResellerManagement() {
         </CardHeader>
         <CardContent className="p-0">
             <Table>
-                <TableHeader className="bg-slate-50">
+                <TableHeader className="bg-muted/10">
                     <TableRow className="border-none">
                         <TableHead className="pl-8 text-[10px] font-black uppercase tracking-widest">Reseller Name</TableHead>
                         <TableHead className="text-[10px] font-black uppercase tracking-widest">Promo Code</TableHead>
@@ -197,18 +197,18 @@ export default function ResellerManagement() {
 
       {/* Add Copies Dialog */}
       <Dialog open={isAddCopiesOpen} onOpenChange={setIsAddCopiesOpen}>
-        <DialogContent className="max-w-md rounded-[2rem] border-none shadow-2xl">
+        <DialogContent className="max-w-md rounded-[2rem] border-none shadow-2xl bg-card">
             <div className="p-4">
-                <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter">Add License Inventory</DialogTitle>
-                <DialogDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6">Partner: {selectedReseller?.fullName}</DialogDescription>
+                <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter text-foreground">Add License Inventory</DialogTitle>
+                <DialogDescription className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Partner: {selectedReseller?.fullName}</DialogDescription>
                 
                 <div className="space-y-6">
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Quantity of Copies</Label>
-                        <Input type="number" className="h-14 text-2xl font-black rounded-2xl bg-slate-50 border-none" value={quantity} onChange={e => setQuantity(parseInt(e.target.value) || 0)} />
+                        <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Quantity of Copies</Label>
+                        <Input type="number" className="h-14 text-2xl font-black rounded-2xl bg-muted/20 border-none text-foreground" value={quantity} onChange={e => setQuantity(parseInt(e.target.value) || 0)} />
                     </div>
 
-                    <div className="p-6 bg-slate-900 rounded-2xl text-white">
+                    <div className="p-6 bg-slate-950 rounded-2xl text-white">
                         <div className="flex justify-between items-center mb-4 pb-4 border-b border-white/10">
                             <span className="text-[10px] font-bold uppercase text-slate-400">Current Tier Rate</span>
                             <span className="text-xl font-black text-primary">৳{getRate(quantity)} / unit</span>
@@ -220,14 +220,14 @@ export default function ResellerManagement() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Internal Remarks</Label>
-                        <Input placeholder="e.g. Paid via Bank Transfer" className="h-12 rounded-xl bg-slate-50 border-none font-bold" value={remarks} onChange={e => setRemarks(e.target.value)} />
+                        <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Internal Remarks</Label>
+                        <Input placeholder="e.g. Paid via Bank Transfer" className="h-12 rounded-xl bg-muted/20 border-none font-bold text-foreground" value={remarks} onChange={e => setRemarks(e.target.value)} />
                     </div>
                 </div>
 
                 <div className="flex gap-3 mt-8">
-                    <Button variant="ghost" className="flex-1 h-12 rounded-xl font-black uppercase text-xs" onClick={() => setIsAddCopiesOpen(false)}>Cancel</Button>
-                    <Button className="flex-1 h-12 rounded-xl font-black uppercase text-xs italic bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20" onClick={handleAddCopies} disabled={isSaving}>
+                    <Button variant="ghost" className="flex-1 h-12 rounded-xl font-black uppercase text-xs text-foreground" onClick={() => setIsAddCopiesOpen(false)}>Cancel</Button>
+                    <Button className="flex-1 h-12 rounded-xl font-black uppercase text-xs italic bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20" onClick={handleAddCopies} disabled={isSaving}>
                         {isSaving ? <Loader2 className="animate-spin" /> : "Confirm & Deposit"}
                     </Button>
                 </div>
@@ -237,21 +237,21 @@ export default function ResellerManagement() {
 
       {/* Promo Code Dialog */}
       <Dialog open={isPromoOpen} onOpenChange={setIsPromoOpen}>
-        <DialogContent className="max-w-sm rounded-[2rem] border-none shadow-2xl">
+        <DialogContent className="max-w-sm rounded-[2rem] border-none shadow-2xl bg-card">
             <div className="p-4">
-                <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter">Assign Promo Code</DialogTitle>
-                <DialogDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6">Reseller Identity Mapping</DialogDescription>
+                <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter text-foreground">Assign Promo Code</DialogTitle>
+                <DialogDescription className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-6">Reseller Identity Mapping</DialogDescription>
                 
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Unique Promo Code</Label>
-                        <Input placeholder="e.g. DHAKA2026" className="h-14 text-xl font-black rounded-2xl bg-slate-50 border-none text-center uppercase tracking-widest" value={promoCode} onChange={e => setPromoCode(e.target.value.toUpperCase())} />
+                        <Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Unique Promo Code</Label>
+                        <Input placeholder="e.g. DHAKA2026" className="h-14 text-xl font-black rounded-2xl bg-muted/20 border-none text-center uppercase tracking-widest text-foreground" value={promoCode} onChange={e => setPromoCode(e.target.value.toUpperCase())} />
                     </div>
                 </div>
 
                 <div className="flex gap-3 mt-8">
-                    <Button variant="ghost" className="flex-1 h-12 rounded-xl font-black uppercase text-xs" onClick={() => setIsPromoOpen(false)}>Cancel</Button>
-                    <Button className="flex-1 h-12 rounded-xl font-black uppercase text-xs italic bg-primary hover:bg-primary/90" onClick={handleSetPromo} disabled={isSaving}>
+                    <Button variant="ghost" className="flex-1 h-12 rounded-xl font-black uppercase text-xs text-foreground" onClick={() => setIsPromoOpen(false)}>Cancel</Button>
+                    <Button className="flex-1 h-12 rounded-xl font-black uppercase text-xs italic bg-primary hover:bg-primary/90 text-white" onClick={handleSetPromo} disabled={isSaving}>
                         {isSaving ? <Loader2 className="animate-spin" /> : "Update Code"}
                     </Button>
                 </div>

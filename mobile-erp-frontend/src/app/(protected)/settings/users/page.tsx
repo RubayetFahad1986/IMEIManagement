@@ -162,6 +162,10 @@ export default function UserManagementPage() {
                  <Input value={newUser.fullName} onChange={e => setNewUser({...newUser, fullName: e.target.value})} placeholder="e.g. John Doe" />
                </div>
                <div className="space-y-2">
+                 <Label>Email Address</Label>
+                 <Input type="email" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder="e.g. john@company.com" />
+               </div>
+               <div className="space-y-2">
                  <Label>Role</Label>
                  <select className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm" value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}>
                     <option value="User">User / Staff</option>
@@ -223,7 +227,7 @@ export default function UserManagementPage() {
                   <TableRow key={u.id} className="hover:bg-slate-50/50">
                     <TableCell>
                        <div className="font-medium">{u.fullName}</div>
-                       <div className="text-xs text-muted-foreground">@{u.username}</div>
+                       <div className="text-xs text-muted-foreground">@{u.username} | {u.email}</div>
                     </TableCell>
                     <TableCell>
                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{u.role}</Badge>

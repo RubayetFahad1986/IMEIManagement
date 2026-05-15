@@ -15,7 +15,7 @@ test.describe('Mobile ERP Business Lifecycle', () => {
     console.log(`Starting registration for ${email}...`);
     await page.goto('http://localhost:3000/signup');
     await page.fill('input[placeholder="Elite Mobile Ltd."]', companyName);
-    await page.fill('input[placeholder="admin@elite.com"]', email);
+    await page.fill('input[placeholder="admin@company.com"]', email);
     await page.fill('input[placeholder="+880..."]', '01700000000');
     await page.fill('input[placeholder="MD. Rashid Ali"]', 'Test Admin');
     await page.fill('input[placeholder="••••••••"]', password);
@@ -23,7 +23,7 @@ test.describe('Mobile ERP Business Lifecycle', () => {
     // Listen for console messages from the browser
     page.on('console', msg => console.log('BROWSER LOG:', msg.text()));
 
-    await page.click('button:has-text("Launch ERP Network")');
+    await page.click('button:has-text("Launch Network")');
     
     // Should navigate to verify-otp
     await expect(page).toHaveURL(/.*verify-otp/, { timeout: 30000 });

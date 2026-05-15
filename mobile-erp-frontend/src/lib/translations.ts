@@ -37,6 +37,9 @@ export const translations: Translations = {
   stolen_registry: { en: 'Stolen Registry', bn: 'চুরি রেজিস্ট্রি', ar: 'سجل المسروقات', hi: 'চोरी কী রেজিস্ট্রি' },
   subscription_management: { en: 'Subscription Management', bn: 'সাবস্ক্রিপশন ম্যানেজমেন্ট', ar: 'إدارة الاشتراكات', hi: 'সদস্যতা প্রবন্ধন' },
   reports: { en: 'Reports', bn: 'রিপোর্ট', ar: 'التقارير', hi: 'রিপোর্ট' },
+  settings: { en: 'Settings', bn: 'সেটিংস', ar: 'الإعدادات', hi: 'सेटिंग्स' },
+  reseller_management: { en: 'Reseller Management', bn: 'রিসেলার ম্যানেজমেন্ট', ar: 'إدارة الموزعين', hi: 'रीसेलर प्रबंधन' },
+  document_sequences: { en: 'Document Sequences', bn: 'ডকুমেন্ট সিকোয়েন্স', ar: 'تسلسلات المستندات', hi: 'डॉक्यूमेंट अनुक्रम' },
   sample_data_seeder: { en: 'Sample Data Seeder', bn: 'স্যাম্পল ডাটা সিডার', ar: 'مغذي بيانات العينة', hi: 'নমুনা ডেটा ফীডার' },
   company_settings: { en: 'Company Settings', bn: 'কোম্পানি সেটিংস', ar: 'إعدادات الشركة', hi: 'কংপনী সেটিংগস' },
 
@@ -241,10 +244,6 @@ export const translations: Translations = {
   prev: { en: 'Prev', bn: 'পূর্ববর্তী', ar: 'السابق', hi: 'পিছলা' },
   finish: { en: 'Finish', bn: 'শেষ', ar: 'إنهاء', hi: 'সংাপ্ত' },
   loading: { en: 'Loading...', bn: 'লোড হচ্ছে...', ar: 'جارٍ التحميل...', hi: 'লোড হো রহা হ্যায়...' },
-  settings: { en: 'Settings', bn: 'সেটিংস', ar: 'الإعدادات', hi: 'সেটিংগস' },
-  superadmin: { en: 'Super Admin', bn: 'সুপার এডমিন', ar: 'مدير عام', hi: 'সুপার এডমিন' },
-  companyadmin: { en: 'Company Admin', bn: 'কোম্পানি এডমিন', ar: 'مدير الشركة', hi: 'কংপনী এডমিন' },
-  admin: { en: 'Admin', bn: 'এডমিন', ar: 'مدير', hi: 'এডমিন' },
   staff_role: { en: 'Staff', bn: 'স্টাফ', ar: 'موظف', hi: 'কর্মচারী' },
   };
 

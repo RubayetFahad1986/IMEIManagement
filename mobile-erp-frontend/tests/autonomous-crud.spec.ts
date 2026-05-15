@@ -19,7 +19,7 @@ test.describe('Mobile ERP Product Master CRUD', () => {
     console.log(`Step 1: Signing up with ${email}...`);
     await page.goto('http://localhost:3000/signup');
     await page.fill('input[placeholder="Elite Mobile Ltd."]', companyName);
-    await page.fill('input[placeholder="admin@elite.com"]', email);
+    await page.fill('input[placeholder="admin@company.com"]', email);
     await page.fill('input[placeholder="+880..."]', '01700000000');
     await page.fill('input[placeholder="MD. Rashid Ali"]', 'CRUD Admin');
     await page.fill('input[placeholder="••••••••"]', password);
