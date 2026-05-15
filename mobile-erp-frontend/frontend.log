@@ -364,3 +364,5 @@
  GET /accounting/daily 404 in 28ms (next.js: 3ms, application-code: 25ms)
  GET /sounds/menu-click.mp3 404 in 36ms (next.js: 4ms, application-code: 32ms)
  GET /accounting/daily 404 in 35ms (next.js: 3ms, application-code: 32ms)
+ GET /accounting/daily 404 in 40ms (next.js: 3ms, application-code: 37ms)
+✓ Compiled in 712ms

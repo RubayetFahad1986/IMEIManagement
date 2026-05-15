@@ -27,7 +27,7 @@ export const getMenuItems = (t: (key: string) => string): MenuGroup[] => [
     { name: t("purchase_returns"), href: "/purchases/returns", icon: Undo2 },
   ]},
   { group: t("accounting"), items: [
-    { name: t("daily_transactions"), href: "/accounting/daily", icon: Wallet, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
+    { name: t("daily_transactions"), href: "/accounting/smart-transaction", icon: Wallet, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
     { name: t("general_ledger"), href: "/accounting/ledger", icon: BarChart3, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
     { name: t("contact_ledger"), href: "/accounting/contact-ledger", icon: Contact, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
     { name: t("due_management"), href: "/accounting/due-management", icon: Wallet, roles: ["SuperAdmin", "CompanyAdmin", "Admin"] },
