@@ -366,3 +366,148 @@
  GET /accounting/daily 404 in 35ms (next.js: 3ms, application-code: 32ms)
  GET /accounting/daily 404 in 40ms (next.js: 3ms, application-code: 37ms)
 ✓ Compiled in 712ms
+ GET /inventory/audit 200 in 103ms (next.js: 6ms, application-code: 96ms)
+ GET /sounds/click.mp3 404 in 39ms (next.js: 3ms, application-code: 36ms)
+ GET /sounds/menu-click.mp3 404 in 43ms (next.js: 5ms, application-code: 38ms)
+ GET /dashboard 200 in 71ms (next.js: 5ms, application-code: 66ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /sounds/click.mp3 404 in 34ms (next.js: 3ms, application-code: 31ms)
+ GET /sounds/click.mp3 404 in 38ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/click.mp3 404 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET /sounds/click.mp3 404 in 40ms (next.js: 3ms, application-code: 37ms)
+ GET /sounds/click.mp3 404 in 36ms (next.js: 3ms, application-code: 33ms)
+ GET /sounds/click.mp3 404 in 42ms (next.js: 12ms, application-code: 31ms)
+ GET /sounds/menu-click.mp3 404 in 39ms (next.js: 4ms, application-code: 35ms)
+ GET /settings/products 200 in 69ms (next.js: 5ms, application-code: 64ms)
+ GET /sounds/click.mp3 404 in 33ms (next.js: 2ms, application-code: 31ms)
+ GET /sales 200 in 58ms (next.js: 5ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 40ms (next.js: 3ms, application-code: 37ms)
+ GET /inventory/transfers 200 in 73ms (next.js: 7ms, application-code: 66ms)
+ GET /sounds/menu-click.mp3 404 in 41ms (next.js: 3ms, application-code: 38ms)
+ GET /inventory 200 in 26ms (next.js: 5ms, application-code: 20ms)
+ GET /sounds/menu-click.mp3 404 in 41ms (next.js: 3ms, application-code: 37ms)
+ GET /dashboard 200 in 56ms (next.js: 2ms, application-code: 54ms)
+ GET /sounds/menu-click.mp3 404 in 35ms (next.js: 3ms, application-code: 32ms)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /sounds/menu-click.mp3 404 in 42ms (next.js: 3ms, application-code: 39ms)
+ GET /pos 200 in 71ms (next.js: 5ms, application-code: 66ms)
+ GET /settings/products 200 in 54ms (next.js: 1837µs, application-code: 52ms)
+ GET /sounds/menu-click.mp3 404 in 35ms (next.js: 2ms, application-code: 33ms)
+ GET /sounds/menu-click.mp3 404 in 37ms (next.js: 3ms, application-code: 34ms)
+ GET /inventory 200 in 58ms (next.js: 2ms, application-code: 56ms)
+ GET /sounds/menu-click.mp3 404 in 33ms (next.js: 3ms, application-code: 30ms)
+ GET /inventory/transfers 200 in 57ms (next.js: 2ms, application-code: 55ms)
+ GET /sounds/menu-click.mp3 404 in 36ms (next.js: 2ms, application-code: 33ms)
+ GET /sales 200 in 56ms (next.js: 3ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 31ms (next.js: 2ms, application-code: 29ms)
+ GET /sales/returns 200 in 58ms (next.js: 5ms, application-code: 53ms)
+ GET /sounds/menu-click.mp3 404 in 38ms (next.js: 3ms, application-code: 35ms)
+ GET /purchases 200 in 62ms (next.js: 4ms, application-code: 58ms)
+ GET /sounds/menu-click.mp3 404 in 87ms (next.js: 2ms, application-code: 84ms)
+ GET /purchases/returns 200 in 92ms (next.js: 56ms, application-code: 36ms)
+ GET /sounds/menu-click.mp3 404 in 58ms (next.js: 21ms, application-code: 37ms)
+ GET /accounting/daily 404 in 92ms (next.js: 5ms, application-code: 87ms)
+ GET /accounting/daily 404 in 37ms (next.js: 2ms, application-code: 34ms)
+ GET /purchases/returns 200 in 132ms (next.js: 2ms, application-code: 130ms)
+ GET /sounds/click.mp3 404 in 33ms (next.js: 3ms, application-code: 30ms)
+ GET /sounds/menu-click.mp3 404 in 65ms (next.js: 2ms, application-code: 63ms)
+ GET /accounting/smart-transaction 200 in 72ms (next.js: 35ms, application-code: 37ms)
+ GET /sounds/menu-click.mp3 404 in 60ms (next.js: 25ms, application-code: 35ms)
+ GET /accounting/ledger 404 in 67ms (next.js: 6ms, application-code: 61ms)
+ GET /accounting/ledger 404 in 37ms (next.js: 4ms, application-code: 34ms)
+ GET /accounting/smart-transaction 200 in 95ms (next.js: 2ms, application-code: 93ms)
+ GET /accounting/smart-transaction 200 in 94ms (next.js: 2ms, application-code: 92ms)
+ GET /sounds/click.mp3 404 in 38ms (next.js: 3ms, application-code: 36ms)
+ GET /sounds/menu-click.mp3 404 in 75ms (next.js: 40ms, application-code: 35ms)
+ GET /accounting/contact-ledger 200 in 85ms (next.js: 25ms, application-code: 60ms)
+ GET /sounds/menu-click.mp3 404 in 56ms (next.js: 11ms, application-code: 44ms)
+ GET /accounting/ledger 404 in 88ms (next.js: 29ms, application-code: 59ms)
+ GET /accounting/ledger 404 in 67ms (next.js: 3ms, application-code: 65ms)
+ GET /accounting/contact-ledger 200 in 99ms (next.js: 2ms, application-code: 97ms)
+ GET /sounds/menu-click.mp3 404 in 85ms (next.js: 48ms, application-code: 37ms)
+ GET /accounting/due-management 200 in 89ms (next.js: 28ms, application-code: 61ms)
+ GET /sounds/menu-click.mp3 404 in 37ms (next.js: 3ms, application-code: 34ms)
+ GET /accounting/expenses 200 in 63ms (next.js: 5ms, application-code: 58ms)
+ GET /sounds/menu-click.mp3 404 in 72ms (next.js: 7ms, application-code: 65ms)
+ GET /settings/accounts 200 in 79ms (next.js: 40ms, application-code: 39ms)
+ GET /sounds/menu-click.mp3 404 in 54ms (next.js: 3ms, application-code: 51ms)
+ GET /contacts 200 in 59ms (next.js: 27ms, application-code: 32ms)
+ GET /sounds/menu-click.mp3 404 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET /staff 200 in 53ms (next.js: 4ms, application-code: 48ms)
+ GET /sounds/menu-click.mp3 404 in 39ms (next.js: 4ms, application-code: 35ms)
+ GET /settings/users 200 in 73ms (next.js: 6ms, application-code: 68ms)
+ GET /sounds/menu-click.mp3 404 in 32ms (next.js: 2ms, application-code: 30ms)
+ GET /staff 200 in 58ms (next.js: 3ms, application-code: 55ms)
+ GET /sounds/menu-click.mp3 404 in 33ms (next.js: 3ms, application-code: 31ms)
+ GET /reseller 200 in 57ms (next.js: 5ms, application-code: 52ms)
+ GET /sounds/error.mp3 404 in 37ms (next.js: 3ms, application-code: 35ms)
+ GET /sounds/error.mp3 404 in 54ms (next.js: 3ms, application-code: 51ms)
+ GET /sounds/error.mp3 404 in 46ms (next.js: 3ms, application-code: 43ms)
+ GET /sounds/error.mp3 404 in 53ms (next.js: 4ms, application-code: 50ms)
+ GET /sounds/menu-click.mp3 404 in 38ms (next.js: 3ms, application-code: 35ms)
+ GET /accounting/smart-transaction 200 in 64ms (next.js: 2ms, application-code: 62ms)
+ GET /sounds/menu-click.mp3 404 in 54ms (next.js: 21ms, application-code: 33ms)
+ GET /accounting/ledger 404 in 59ms (next.js: 5ms, application-code: 54ms)
+ GET /accounting/ledger 404 in 38ms (next.js: 3ms, application-code: 35ms)
