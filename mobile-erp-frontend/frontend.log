@@ -560,3 +560,5 @@
  GET /sounds/click.mp3 404 in 54ms (next.js: 4ms, application-code: 50ms)
  GET /sounds/click.mp3 404 in 58ms (next.js: 4ms, application-code: 54ms)
  GET /sounds/click.mp3 404 in 48ms (next.js: 4ms, application-code: 44ms)
+ GET /settings/company 200 in 97ms (next.js: 21ms, application-code: 76ms)
+ GET /sounds/menu-click.mp3 404 in 51ms (next.js: 6ms, application-code: 46ms)
