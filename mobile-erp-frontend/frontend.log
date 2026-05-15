@@ -524,3 +524,10 @@
  GET /accounting/ledger 404 in 51ms (next.js: 4ms, application-code: 47ms)
  GET /accounting/ledgers 200 in 106ms (next.js: 3ms, application-code: 103ms)
 ✓ Compiled in 162ms
+ GET /sounds/click.mp3 404 in 51ms (next.js: 4ms, application-code: 47ms)
+ GET /accounting/ledgers 200 in 15ms (next.js: 5ms, application-code: 9ms)
+ GET /sounds/menu-click.mp3 404 in 70ms (next.js: 6ms, application-code: 65ms)
+ GET /accounting/ledgers 200 in 31ms (next.js: 3ms, application-code: 28ms)
+ GET /sounds/menu-click.mp3 404 in 50ms (next.js: 4ms, application-code: 46ms)
+ GET /accounting/contact-ledger 200 in 97ms (next.js: 19ms, application-code: 78ms)
+ GET /sounds/click.mp3 404 in 54ms (next.js: 4ms, application-code: 50ms)
