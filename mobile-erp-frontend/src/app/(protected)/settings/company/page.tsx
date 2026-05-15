@@ -71,15 +71,26 @@ export default function CompanySettingsPage() {
     setExporting(true);
     try {
       const data = await apiFetch("/company/1/export-data");
-      // The API returns an object with arrays, we need to flatten it for the Excel sheet
-      // or export multiple sheets. For now, let's export all data into one structure.
+      // The API returns an object with arrays. Normalize keys to handle camelCase from .NET
+      const contacts = data.contacts || data.Contacts || [];
+      const products = data.products || data.Products || [];
+      const mobileDevices = data.mobileDevices || data.MobileDevices || [];
+      const inventory = data.inventory || data.Inventory || [];
+      const imeiItems = data.imeiItems || data.ImeiItems || [];
+
       const allData = [
-          ...data.Contacts,
-          ...data.Products,
-          ...data.MobileDevices,
-          ...data.Inventory,
-          ...data.ImeiItems
+          ...contacts,
+          ...products,
+          ...mobileDevices,
+          ...inventory,
+          ...imeiItems
       ];
+
+      if (allData.length === 0) {
+        toast.info("No data found to export.");
+        return;
+      }
+
       const ws = XLSX.utils.json_to_sheet(allData);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "MasterData");
