@@ -925,3 +925,2025 @@ Parsing ecmascript source code failed
 ✓ Compiled in 67ms
  GET /sounds/click.mp3 404 in 43ms (next.js: 4ms, application-code: 40ms)
  GET /sounds/click.mp3 404 in 51ms (next.js: 5ms, application-code: 46ms)
+ GET /sounds/click.mp3 404 in 45ms (next.js: 4ms, application-code: 41ms)
+ GET /sounds/click.mp3 404 in 71ms (next.js: 6ms, application-code: 65ms)
+✓ Compiled in 78ms
+⨯ ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  [90m148 |[0m   };
+  [90m149 |[0m
+[31m[1m>[0m [90m150 |[0m [36mimport[0m { useState, useCallback, useRef } [36mfrom[0m [32m"react"[0m;
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m151 |[0m [36mimport[0m [33mCropper[0m [36mfrom[0m [32m"react-easy-crop"[0m;
+  [90m152 |[0m [36mimport[0m imageCompression [36mfrom[0m [32m'browser-image-compression'[0m;
+  [90m153 |[0m [36mimport[0m { [33mDialog[0m, [33mDialogContent[0m, [33mDialogHeader[0m, [33mDialogTitle[0m, [33mDialogFooter[0m } [36mfrom[0m [32m"@/compone...[0m
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+ GET / 500 in 45ms (next.js: 8ms, application-code: 37ms)
+ GET /settings/company 500 in 46ms (next.js: 31ms, application-code: 15ms)
+⨯ ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  [90m148 |[0m   };
+  [90m149 |[0m
+[31m[1m>[0m [90m150 |[0m [36mimport[0m { useState, useCallback, useRef } [36mfrom[0m [32m"react"[0m;
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m151 |[0m [36mimport[0m [33mCropper[0m [36mfrom[0m [32m"react-easy-crop"[0m;
+  [90m152 |[0m [36mimport[0m imageCompression [36mfrom[0m [32m'browser-image-compression'[0m;
+  [90m153 |[0m [36mimport[0m { [33mDialog[0m, [33mDialogContent[0m, [33mDialogHeader[0m, [33mDialogTitle[0m, [33mDialogFooter[0m } [36mfrom[0m [32m"@/compone...[0m
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+ GET / 500 in 44ms (next.js: 19ms, application-code: 25ms)
+⨯ ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  [90m148 |[0m   };
+  [90m149 |[0m
+[31m[1m>[0m [90m150 |[0m [36mimport[0m { useState, useCallback, useRef } [36mfrom[0m [32m"react"[0m;
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m151 |[0m [36mimport[0m [33mCropper[0m [36mfrom[0m [32m"react-easy-crop"[0m;
+  [90m152 |[0m [36mimport[0m imageCompression [36mfrom[0m [32m'browser-image-compression'[0m;
+  [90m153 |[0m [36mimport[0m { [33mDialog[0m, [33mDialogContent[0m, [33mDialogHeader[0m, [33mDialogTitle[0m, [33mDialogFooter[0m } [36mfrom[0m [32m"@/compone...[0m
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+ GET /settings/company 500 in 50ms (next.js: 30ms, application-code: 20ms)
+ GET /settings/company 500 in 55ms (next.js: 32ms, application-code: 23ms)
+ GET / 500 in 55ms (next.js: 42ms, application-code: 12ms)
+ GET / 500 in 59ms (next.js: 33ms, application-code: 26ms)
+ GET / 500 in 53ms (next.js: 35ms, application-code: 18ms)
+ GET / 500 in 51ms (next.js: 25ms, application-code: 26ms)
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:150:1)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:150:1)
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:150:1)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:150:1)
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:150:1)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:150:1)
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:150:1
+'import', and 'export' cannot be used outside of module code
+  148 |   };
+  149 |
+> 150 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  151 | import Cropper from "react-easy-crop";
+  152 | import imageCompression from 'browser-image-compression';
+  153 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:1
+'import', and 'export' cannot be used outside of module code
+  157 |   };
+  158 |
+> 159 | import { useState, useCallback, useRef } from "react";
+      | ^^^^^^
+  160 | import Cropper from "react-easy-crop";
+  161 | import imageCompression from 'browser-image-compression';
+  162 | import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/compone...
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+⨯ ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  [90m158 |[0m
+  [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+[31m[1m>[0m [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m    |[0m          [31m[1m^^^^[0m
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+[31m[1m>[0m [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^[0m
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m164 |[0m
+  [90m165 |[0m   [36mconst[0m onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+[31m[1m>[0m [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m    |[0m          [31m[1m^^^^^^^^^^[0m
+  [90m164 |[0m
+  [90m165 |[0m   [36mconst[0m onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  [90m166 |[0m     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  [90m157 |[0m   };
+  [90m158 |[0m
+[31m[1m>[0m [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+  [90m    |[0m          [31m[1m^^^^^^^^^^[0m
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  [90m158 |[0m
+  [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+[31m[1m>[0m [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m    |[0m                [31m[1m^^^^^^^[0m
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+[31m[1m>[0m [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m    |[0m                             [31m[1m^^^^^^^^^^^^^^^^^^^^[0m
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m164 |[0m
+  [90m165 |[0m   [36mconst[0m onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+[31m[1m>[0m [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m    |[0m                      [31m[1m^^^^^^^^^^^^^[0m
+  [90m164 |[0m
+  [90m165 |[0m   [36mconst[0m onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  [90m166 |[0m     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  [90m157 |[0m   };
+  [90m158 |[0m
+[31m[1m>[0m [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+  [90m    |[0m                      [31m[1m^^^^^^^^^^^^^[0m
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+  [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+[31m[1m>[0m [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m    |[0m                [31m[1m^^^^^^^[0m
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m164 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+
+./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  [90m159 |[0m   [36mconst[0m [isCropOpen, setIsCropOpen] = useState([36mfalse[0m);
+  [90m160 |[0m   [36mconst[0m [crop, setCrop] = useState({ x: [35m0[0m, y: [35m0[0m });
+[31m[1m>[0m [90m161 |[0m   [36mconst[0m [zoom, setZoom] = useState([35m1[0m);
+  [90m    |[0m          [31m[1m^^^^[0m
+  [90m162 |[0m   [36mconst[0m [croppedAreaPixels, setCroppedAreaPixels] = useState([36mnull[0m);
+  [90m163 |[0m   [36mconst[0m [fileToCrop, setFileToCrop] = useState<{file: [33mFile[0m, [36mtype[0m: [32m'logo'[0m | [32m'header'[0m} | [36mnu..[0m.
+  [90m164 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+ GET / 500 in 33ms (next.js: 9ms, application-code: 24ms)
+ GET /settings/company 500 in 50ms (next.js: 32ms, application-code: 18ms)
+ GET / 500 in 43ms (next.js: 17ms, application-code: 26ms)
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:160:10)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:160:10)
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:160:10)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:160:10)
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] Uncaught Error: ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(protected)/settings/company/page.tsx:160:10)
+    at <unknown> (Error: (./src/app/(protected)/settings/company/page.tsx:160:10)
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:10
+the name `crop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |          ^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:10
+the name `croppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |          ^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:10
+the name `fileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |          ^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:10
+the name `isCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |          ^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:160:16
+the name `setCrop` is defined multiple times
+  158 |
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+> 160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+      |                ^^^^^^^
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:162:29
+the name `setCroppedAreaPixels` is defined multiple times
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+> 162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+      |                             ^^^^^^^^^^^^^^^^^^^^
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:163:22
+the name `setFileToCrop` is defined multiple times
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+> 163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+      |                      ^^^^^^^^^^^^^
+  164 |
+  165 |   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  166 |     setCroppedAreaPixels(croppedAreaPixels);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:159:22
+the name `setIsCropOpen` is defined multiple times
+  157 |   };
+  158 |
+> 159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+      |                      ^^^^^^^^^^^^^
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  161 |   const [zoom, setZoom] = useState(1);
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:16
+the name `setZoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |                ^^^^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+[browser] ./src/app/(protected)/settings/company/page.tsx:161:10
+the name `zoom` is defined multiple times
+  159 |   const [isCropOpen, setIsCropOpen] = useState(false);
+  160 |   const [crop, setCrop] = useState({ x: 0, y: 0 });
+> 161 |   const [zoom, setZoom] = useState(1);
+      |          ^^^^
+  162 |   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  163 |   const [fileToCrop, setFileToCrop] = useState<{file: File, type: 'logo' | 'header'} | nu...
+  164 |
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component Browser]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(protected)/settings/company/page.tsx [Client Component SSR]
+    ./src/app/(protected)/settings/company/page.tsx [Server Component] 
+✓ Compiled in 65ms
+ GET / 200 in 672ms (next.js: 443ms, application-code: 230ms)
+ GET /settings/company 200 in 683ms (next.js: 95ms, application-code: 588ms)
+ GET / 200 in 203ms (next.js: 5ms, application-code: 198ms)
+ GET /dashboard 200 in 146ms (next.js: 33ms, application-code: 113ms)
+ GET /dashboard 200 in 76ms (next.js: 8ms, application-code: 67ms)
+✓ Compiled in 60ms
+✓ Compiled in 61ms
