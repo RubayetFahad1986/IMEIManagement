@@ -28,7 +28,7 @@ test.describe('Mobile ERP Extended Modules', () => {
     await page.fill('input[placeholder="Optional notes..."]', expenseTitle);
     
     // Select an account from the searchable select
-    await page.click('button:has-text("Search placeholder")');
+    await page.click('button:has-text("Select option...")');
     await page.locator('.bg-popover div').first().click();
     
     await page.fill('input[type="number"]', '1500');
