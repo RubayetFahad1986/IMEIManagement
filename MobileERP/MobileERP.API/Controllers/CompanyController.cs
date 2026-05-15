@@ -20,12 +20,50 @@ namespace MobileERP.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCompanies() => Ok(await _context.Companies.ToListAsync());
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCompany(int id)
+        [HttpPost("{id}/upload-logo")]
+        public async Task<IActionResult> UploadLogo(int id, IFormFile file)
         {
-            var company = await _context.Companies.Include(c => c.Branches).FirstOrDefaultAsync(c => c.Id == id);
+            if (file == null || file.Length == 0) return BadRequest("No file uploaded.");
+            var company = await _context.Companies.FindAsync(id);
             if (company == null) return NotFound();
-            return Ok(company);
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            
+            var fileName = $"{id}_logo{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+            
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            
+            company.LogoPath = $"/uploads/{fileName}";
+            await _context.SaveChangesAsync();
+            return Ok(new { Path = company.LogoPath });
+        }
+
+        [HttpPost("{id}/upload-header")]
+        public async Task<IActionResult> UploadHeader(int id, IFormFile file)
+        {
+            if (file == null || file.Length == 0) return BadRequest("No file uploaded.");
+            var company = await _context.Companies.FindAsync(id);
+            if (company == null) return NotFound();
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            
+            var fileName = $"{id}_header{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+            
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            
+            company.HeaderImagePath = $"/uploads/{fileName}";
+            await _context.SaveChangesAsync();
+            return Ok(new { Path = company.HeaderImagePath });
         }
 
         [HttpPost]
